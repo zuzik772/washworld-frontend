@@ -18,6 +18,7 @@ import PostWashScreen from "./screens/map/PostWashScreen";
 import AddCarScreen from "./screens/settings/AddCarScreen";
 import ReportDamageScreen from "./screens/settings/ReportDamageScreen";
 import DeleteProfileScreen from "./screens/settings/DeleteProfileScreen";
+import { NativeBaseProvider } from "native-base";
 
 export default function App() {
   const Tab = createBottomTabNavigator();
@@ -87,14 +88,16 @@ export default function App() {
 
   return (
     //add global provider here store={store}
-    <NavigationContainer>
-      <Tab.Navigator screenOptions={{ headerShown: false }}>
-        <Tab.Screen name="Map" component={MapNavigator} />
-        <Tab.Screen name="Favourites" component={FavouritesNavigator} />
-        <Tab.Screen name="Info" component={InfoNavigator} />
-        <Tab.Screen name="Settings" component={SettingsNavigator} />
-      </Tab.Navigator>
-    </NavigationContainer>
+    <NativeBaseProvider>
+      <NavigationContainer>
+        <Tab.Navigator screenOptions={{ headerShown: false }}>
+          <Tab.Screen name="Map" component={MapNavigator} />
+          <Tab.Screen name="Favourites" component={FavouritesNavigator} />
+          <Tab.Screen name="Info" component={InfoNavigator} />
+          <Tab.Screen name="Settings" component={SettingsNavigator} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </NativeBaseProvider>
   );
 }
 
