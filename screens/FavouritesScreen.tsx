@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import Layout from "../components/Layout";
 
 const FavouritesScreen = () => {
   return (
-    <View>
+    <Layout>
       <Text>FavouritesScreen</Text>
-    </View>
+    </Layout>
   );
 };
 

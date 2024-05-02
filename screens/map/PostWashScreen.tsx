@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import Layout from "../../components/Layout";
 
 const PostWashScreen = () => {
   return (
-    <View>
+    <Layout>
       <Text>PostWashScreen</Text>
-    </View>
+    </Layout>
   );
 };
 

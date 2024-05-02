@@ -1,11 +1,12 @@
 import { StyleSheet, Text, View } from "react-native";
 import React from "react";
+import Layout from "../../components/Layout";
 
 const LocationScreen = () => {
   return (
-    <View>
+    <Layout>
       <Text>LocationScreen</Text>
-    </View>
+    </Layout>
   );
 };
 
