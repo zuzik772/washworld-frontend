@@ -1,4 +1,3 @@
-import { StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -21,6 +20,8 @@ import DeleteProfileScreen from "./screens/settings/DeleteProfileScreen";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "./washworld-gluestack-ui.config";
 import "./global.css";
+
+import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 
 export default function App() {
   const Tab = createBottomTabNavigator();
@@ -91,7 +92,35 @@ export default function App() {
   return (
     <GluestackUIProvider config={config}>
       <NavigationContainer>
-        <Tab.Navigator screenOptions={{ headerShown: false }}>
+        <Tab.Navigator
+          screenOptions={({ route }) => ({
+            headerShown: false,
+            tabBarStyle: {
+              backgroundColor: "#1a1a1a", // Maybe look into how to use variables here?
+              borderBlockColor: "#34b566",
+              borderTopWidth: 3,
+              height: 90,
+            },
+            tabBarActiveTintColor: "#34b566",
+            tabBarInactiveTintColor: "#ffffff",
+
+            tabBarLabelStyle: {
+              fontWeight: "bold",
+            },
+
+            tabBarIcon: ({ focused, color, size }) => {
+              return route.name === "Map" ? (
+                <MaterialIcons name="location-pin" size={size} color={color} />
+              ) : route.name === "Favourites" ? (
+                <AntDesign name="heart" size={size} color={color} />
+              ) : route.name === "Info" ? (
+                <MaterialIcons name="info" size={size} color={color} />
+              ) : route.name === "Settings" ? (
+                <MaterialIcons name="settings" size={size} color={color} />
+              ) : null;
+            },
+          })}
+        >
           <Tab.Screen name="Map" component={MapNavigator} />
           <Tab.Screen name="Favourites" component={FavouritesNavigator} />
           <Tab.Screen name="Info" component={InfoNavigator} />
@@ -101,12 +130,3 @@ export default function App() {
     </GluestackUIProvider>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

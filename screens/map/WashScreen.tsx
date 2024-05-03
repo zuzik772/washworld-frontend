@@ -1,15 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text } from "react-native";
 import React from "react";
 import Layout from "../../components/Layout";
 
 const WashScreen = () => {
   return (
     <Layout>
-      <Text>WashScreen</Text>
+      <Text className="text-white">WashScreen</Text>
     </Layout>
   );
 };
 
 export default WashScreen;
-
-const styles = StyleSheet.create({});
