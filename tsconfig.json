@@ -2,5 +2,13 @@
   "extends": "expo/tsconfig.base",
   "compilerOptions": {
     "strict": true
-  }
+  },
+  "include": [
+    "*.tsx",
+    "components/**/*",
+    "navigation/**/*",
+    "screens/**/*",
+    "store/**/*",
+    "types/**/*"
+  ]
 }
