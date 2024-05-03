@@ -8,14 +8,12 @@ type LayoutProps = {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <View className="flex-1 items-center justify-center bg-green-500">
+    <View className="flex-1 items-center justify-center bg-primaryGreen">
       <Text>Testing</Text>
       <Box>
         <Pressable
           onPress={() => console.log("Clicked")}
-          p="$5"
-          bg="$primary500"
-          $hover-bg="$primary400"
+          backgroundColor="$primaryGreen"
         >
           <Text className="text-white">Press me</Text>
         </Pressable>
@@ -24,5 +22,4 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
     </View>
   );
 };
-
 export default Layout;
