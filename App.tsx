@@ -20,6 +20,7 @@ import ReportDamageScreen from "./screens/settings/ReportDamageScreen";
 import DeleteProfileScreen from "./screens/settings/DeleteProfileScreen";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "./washworld-gluestack-ui.config"; // Optional if you want to use default theme - we should change this!
+import "./global.css";
 
 export default function App() {
 	const Tab = createBottomTabNavigator();

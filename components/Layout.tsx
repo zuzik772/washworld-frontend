@@ -8,7 +8,7 @@ type LayoutProps = {
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
 	return (
-		<View className="flex-1 items-center justify-center bg-primaryBlack">
+		<View className="flex-1 items-center justify-center bg-primaryGreen">
 			<Text>Testing</Text>
 			<Box>
 				<Pressable
