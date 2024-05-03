@@ -19,93 +19,93 @@ import AddCarScreen from "./screens/settings/AddCarScreen";
 import ReportDamageScreen from "./screens/settings/ReportDamageScreen";
 import DeleteProfileScreen from "./screens/settings/DeleteProfileScreen";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
-import { config } from "@gluestack-ui/config"; // Optional if you want to use default theme - we should change this!
+import { config } from "./washworld-gluestack-ui.config"; // Optional if you want to use default theme - we should change this!
 
 export default function App() {
-  const Tab = createBottomTabNavigator();
-  const MapStack = createNativeStackNavigator<MapStackParamList>();
-  const FavouritesStack =
-    createNativeStackNavigator<FavouritesStackParamList>();
-  const InfoStack = createNativeStackNavigator<InfoStackParamList>();
-  const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
+	const Tab = createBottomTabNavigator();
+	const MapStack = createNativeStackNavigator<MapStackParamList>();
+	const FavouritesStack =
+		createNativeStackNavigator<FavouritesStackParamList>();
+	const InfoStack = createNativeStackNavigator<InfoStackParamList>();
+	const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
 
-  const MapNavigator = () => {
-    return (
-      <MapStack.Navigator
-        initialRouteName="MapScreen"
-        screenOptions={{ headerShown: false }}
-      >
-        <MapStack.Screen name="MapScreen" component={MapScreen} />
-        <MapStack.Screen name="Location" component={LocationScreen} />
-        <MapStack.Screen name="Package" component={PackageScreen} />
-        <MapStack.Screen name="PreWash" component={PreWashScreen} />
-        <MapStack.Screen name="Wash" component={WashScreen} />
-        <MapStack.Screen name="PostWash" component={PostWashScreen} />
-      </MapStack.Navigator>
-    );
-  };
+	const MapNavigator = () => {
+		return (
+			<MapStack.Navigator
+				initialRouteName="MapScreen"
+				screenOptions={{ headerShown: false }}
+			>
+				<MapStack.Screen name="MapScreen" component={MapScreen} />
+				<MapStack.Screen name="Location" component={LocationScreen} />
+				<MapStack.Screen name="Package" component={PackageScreen} />
+				<MapStack.Screen name="PreWash" component={PreWashScreen} />
+				<MapStack.Screen name="Wash" component={WashScreen} />
+				<MapStack.Screen name="PostWash" component={PostWashScreen} />
+			</MapStack.Navigator>
+		);
+	};
 
-  const FavouritesNavigator = () => {
-    return (
-      <FavouritesStack.Navigator screenOptions={{ headerShown: false }}>
-        <FavouritesStack.Screen
-          name="FavouritesScreen"
-          component={FavouritesScreen}
-        />
-      </FavouritesStack.Navigator>
-    );
-  };
+	const FavouritesNavigator = () => {
+		return (
+			<FavouritesStack.Navigator screenOptions={{ headerShown: false }}>
+				<FavouritesStack.Screen
+					name="FavouritesScreen"
+					component={FavouritesScreen}
+				/>
+			</FavouritesStack.Navigator>
+		);
+	};
 
-  const InfoNavigator = () => {
-    return (
-      <InfoStack.Navigator screenOptions={{ headerShown: false }}>
-        <InfoStack.Screen name="InfoScreen" component={InfoScreen} />
-      </InfoStack.Navigator>
-    );
-  };
+	const InfoNavigator = () => {
+		return (
+			<InfoStack.Navigator screenOptions={{ headerShown: false }}>
+				<InfoStack.Screen name="InfoScreen" component={InfoScreen} />
+			</InfoStack.Navigator>
+		);
+	};
 
-  const SettingsNavigator = () => {
-    return (
-      <SettingsStack.Navigator
-        initialRouteName="SettingsScreen"
-        screenOptions={{ headerShown: false }}
-      >
-        <SettingsStack.Screen
-          name="SettingsScreen"
-          component={SettingsScreen}
-        />
-        <SettingsStack.Screen name="AddCar" component={AddCarScreen} />
-        <SettingsStack.Screen
-          name="ReportDamage"
-          component={ReportDamageScreen}
-        />
-        <SettingsStack.Screen
-          name="DeleteProfile"
-          component={DeleteProfileScreen}
-        />
-      </SettingsStack.Navigator>
-    );
-  };
+	const SettingsNavigator = () => {
+		return (
+			<SettingsStack.Navigator
+				initialRouteName="SettingsScreen"
+				screenOptions={{ headerShown: false }}
+			>
+				<SettingsStack.Screen
+					name="SettingsScreen"
+					component={SettingsScreen}
+				/>
+				<SettingsStack.Screen name="AddCar" component={AddCarScreen} />
+				<SettingsStack.Screen
+					name="ReportDamage"
+					component={ReportDamageScreen}
+				/>
+				<SettingsStack.Screen
+					name="DeleteProfile"
+					component={DeleteProfileScreen}
+				/>
+			</SettingsStack.Navigator>
+		);
+	};
 
-  return (
-    <GluestackUIProvider config={config}>
-      <NavigationContainer>
-        <Tab.Navigator screenOptions={{ headerShown: false }}>
-          <Tab.Screen name="Map" component={MapNavigator} />
-          <Tab.Screen name="Favourites" component={FavouritesNavigator} />
-          <Tab.Screen name="Info" component={InfoNavigator} />
-          <Tab.Screen name="Settings" component={SettingsNavigator} />
-        </Tab.Navigator>
-      </NavigationContainer>
-    </GluestackUIProvider>
-  );
+	return (
+		<GluestackUIProvider config={config}>
+			<NavigationContainer>
+				<Tab.Navigator screenOptions={{ headerShown: false }}>
+					<Tab.Screen name="Map" component={MapNavigator} />
+					<Tab.Screen name="Favourites" component={FavouritesNavigator} />
+					<Tab.Screen name="Info" component={InfoNavigator} />
+					<Tab.Screen name="Settings" component={SettingsNavigator} />
+				</Tab.Navigator>
+			</NavigationContainer>
+		</GluestackUIProvider>
+	);
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
+	container: {
+		flex: 1,
+		backgroundColor: "#fff",
+		alignItems: "center",
+		justifyContent: "center",
+	},
 });
