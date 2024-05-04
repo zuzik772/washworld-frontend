@@ -4,7 +4,6 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MapStackParamList } from "./navigation/MapStackParamList";
 import MapScreen from "./screens/MapScreen";
-import LocationScreen from "./screens/FavouritesScreen";
 import InfoScreen from "./screens/InfoScreen";
 import SettingsScreen from "./screens/SettingsScreen";
 import FavouritesScreen from "./screens/FavouritesScreen";
@@ -21,6 +20,7 @@ import DeleteProfileScreen from "./screens/settings/DeleteProfileScreen";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "./washworld-gluestack-ui.config";
 import "./global.css";
+import LocationScreen from "./screens/map/LocationScreen";
 
 export default function App() {
   const Tab = createBottomTabNavigator();
@@ -33,7 +33,7 @@ export default function App() {
   const MapNavigator = () => {
     return (
       <MapStack.Navigator
-        initialRouteName="MapScreen"
+        initialRouteName="Location"
         screenOptions={{ headerShown: false }}
       >
         <MapStack.Screen name="MapScreen" component={MapScreen} />

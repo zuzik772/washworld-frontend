@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
+import locationSlice from "./locationSlice";
 
 // ...
 
 export const store = configureStore({
-  reducer: {},
+  reducer: {
+    location: locationSlice,
+  },
 });
-
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>;
 // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
