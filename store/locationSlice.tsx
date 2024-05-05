@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-interface LocationState {
+export interface LocationState {
   name: string;
   status: "Ready" | "Busy" | "Unavailable";
   openingTime: string;
@@ -12,7 +12,7 @@ const initialState: LocationState = {
   name: "Søborg - Dynamovej",
   status: "Ready",
   openingTime: "7-22",
-  distance: null,
+  distance: 1.6,
   badges: [
     "5 washing halls",
     "Environmentally friendly",

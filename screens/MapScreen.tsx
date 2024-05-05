@@ -1,24 +1,20 @@
-import { Text, Box } from "@gluestack-ui/themed";
+import { Text } from "react-native";
+import { Pressable } from "@gluestack-ui/themed";
 
-import { StyleSheet, View } from "react-native";
 import React from "react";
 import Layout from "../components/Layout";
 const MapScreen = () => {
   return (
     <Layout>
-      <Text>MapScreen</Text>
-      <Box
-        backgroundColor="$primaryGreen"
-        padding={10}
-        justifyContent="center"
-        alignItems="center"
+      <Text className="text-white">MapScreen</Text>
+      <Pressable
+        onPress={() => console.log("Clicked")}
+        padding={20}
+        className="bg-primaryGreen"
       >
-        <Text color="$secondaryOrange" fontWeight="$bold">
-          BOX
-        </Text>
-      </Box>
+        <Text className="text-white text-center">Test Button</Text>
+      </Pressable>
     </Layout>
   );
 };
 export default MapScreen;
-const styles = StyleSheet.create({});

@@ -1,20 +1,27 @@
-import { Box, Pressable, Image } from "@gluestack-ui/themed";
 import React from "react";
-import { Text, View } from "react-native";
-import logo from "../assets/app/washworld-logo.svg";
-import Svg from "react-native-svg";
+import { StyleProp, View, ViewStyle } from "react-native";
+
+import WashworldLogo from "../assets/app/washworld-logo.svg";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type LayoutProps = {
   children: React.ReactNode;
+  style?: StyleProp<ViewStyle>;
 };
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const insets = useSafeAreaInsets();
   return (
     <View className="bg-secondaryGray90 flex-1">
-      <View className="bg-secondaryGray90 h-1/6 flex flex-col relative items-center w-full border-b-2 border-b-primaryGreen">
-        <Svg>{/* Logo here */}</Svg>
+      <View
+        className="bg-secondaryGray90 flex-1"
+        style={[{ paddingTop: Math.max(insets.top, 16) }]}
+      >
+        <View className="h-20 flex items-center justify-center w-full border-b-[3px] border-b-primaryGreen">
+          <WashworldLogo height={40} />
+        </View>
+        <View>{children}</View>
       </View>
-      <View>{children}</View>
     </View>
   );
 };
