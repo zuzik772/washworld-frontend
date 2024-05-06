@@ -1,15 +1,13 @@
-import { StyleSheet, Text, View } from "react-native";
+import { Text } from "react-native";
 import React from "react";
 import Layout from "../../components/Layout";
 
 const PostWashScreen = () => {
   return (
     <Layout>
-      <Text>PostWashScreen</Text>
+      <Text className="text-white">PostWashScreen</Text>
     </Layout>
   );
 };
 
 export default PostWashScreen;
-
-const styles = StyleSheet.create({});

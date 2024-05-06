@@ -1,24 +1,26 @@
-import { Box, Pressable } from "@gluestack-ui/themed";
 import React from "react";
-import { Text, View } from "react-native";
+import { View } from "react-native";
+
+import WashworldLogo from "../assets/app/washworld-logo.svg";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type LayoutProps = {
   children: React.ReactNode;
 };
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
+  const insets = useSafeAreaInsets();
   return (
-    <View className="flex-1 items-center justify-center bg-primaryGreen">
-      <Text>Testing</Text>
-      <Box>
-        <Pressable
-          onPress={() => console.log("Clicked")}
-          backgroundColor="$primaryGreen"
-        >
-          <Text className="text-white">Press me</Text>
-        </Pressable>
-      </Box>
-      {children}
+    <View className="bg-secondaryGray90 flex-1">
+      <View
+        className="bg-secondaryGray90 flex-1"
+        style={[{ paddingTop: Math.max(insets.top, 16) }]}
+      >
+        <View className="h-20 flex items-center justify-center w-full border-b-[3px] border-b-primaryGreen">
+          <WashworldLogo height={40} />
+        </View>
+        <View>{children}</View>
+      </View>
     </View>
   );
 };
