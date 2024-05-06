@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export interface LocationState {
   name: string;
-  status: "Ready" | "Busy" | "Unavailable";
+  status: "Ready" | "Busy" | "Closed";
   openingTime: string;
   distance: number | null;
   badges: string[];
@@ -27,7 +27,7 @@ export const locationSlice = createSlice({
   reducers: {
     updateStatus: (
       state,
-      action: PayloadAction<"Ready" | "Busy" | "Unavailable">
+      action: PayloadAction<"Ready" | "Busy" | "Closed">
     ) => {
       state.status = action.payload;
     },

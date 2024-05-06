@@ -11,16 +11,34 @@ import {
   GlobeIcon,
   Box,
   Button,
+  ScrollView,
 } from "@gluestack-ui/themed";
 import BadgesList from "../../components/BadgesList";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { MapStackParamList } from "../../navigation/MapStackParamList";
 
-const FavouritesScreen = () => {
+type LocationScreenProps = NativeStackScreenProps<MapStackParamList>;
+
+const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
   const [readyBoxHeight, setReadyBoxHeight] = useState(10);
   const location = useSelector((state: RootState) => state.location);
 
+  function getStatusColor(status: string) {
+    switch (status) {
+      case "Ready":
+        return "color-primaryWhite";
+      case "Busy":
+        return "color-secondaryOrange";
+      case "Closed":
+        return "color-tertiaryAlert";
+      default:
+        return "color-primaryWhite";
+    }
+  }
+
   return (
     <Layout>
-      <View className="h-6/6 ">
+      <View>
         <View className="h-2/6 w-full relative">
           <Image
             style={styles.fullWidthImage}
@@ -36,7 +54,11 @@ const FavouritesScreen = () => {
             className="absolute bottom-0 right-0 bg-primaryGreen py-1 z-10"
           >
             <View className="z-20 px-2">
-              <Text className="-ml-2 text-lg color-primaryWhite font-bold">
+              <Text
+                className={`-ml-2 text-lg font-bold ${getStatusColor(
+                  location.status
+                )}`}
+              >
                 {location.status}
               </Text>
             </View>
@@ -44,7 +66,7 @@ const FavouritesScreen = () => {
               className={`absolute w-full right-3 bg-primaryGreen z-0 `}
               style={{
                 height: readyBoxHeight,
-                transform: [{ skewX: "-20deg" }],
+                transform: [{ skewX: "-34deg" }],
               }}
             />
           </View>
@@ -55,7 +77,7 @@ const FavouritesScreen = () => {
             transform: [{ skewX: "-20deg" }],
           }}
         ></View>
-        <View className="ml-5 h-4/6">
+        <View className="h-4/6 ml-5 mr-5">
           <Heading fontSize={40} color="$primaryWhite">
             {location.name}
           </Heading>
@@ -103,7 +125,11 @@ const FavouritesScreen = () => {
           </View> */}
           <BadgesList location={location}></BadgesList>
           <View className="flex justify-center items-center">
-            <Button padding={10} backgroundColor="$primaryGreen">
+            <Button
+              onPress={() => navigation.navigate("Package")}
+              padding={10}
+              backgroundColor="$primaryGreen"
+            >
               <Text
                 textTransform="uppercase"
                 fontSize={25}
