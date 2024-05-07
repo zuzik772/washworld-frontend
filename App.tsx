@@ -19,11 +19,17 @@ import ReportDamageScreen from "./screens/settings/ReportDamageScreen";
 import DeleteProfileScreen from "./screens/settings/DeleteProfileScreen";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "./washworld-gluestack-ui.config";
+import { useFonts } from "expo-font";
 import "./global.css";
 
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 
 export default function App() {
+  const [fontsLoaded] = useFonts({
+    "Gilroy-Medium": require("./fonts/Gilroy-Medium.otf"),
+    "Gilroy-ExtraBold": require("./fonts/Gilroy-ExtraBold.otf"),
+  });
+
   const Tab = createBottomTabNavigator();
   const MapStack = createNativeStackNavigator<MapStackParamList>();
   const FavouritesStack =

@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { ScrollView, View } from "react-native";
 
 import WashworldLogo from "../assets/app/washworld-logo.svg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -25,7 +25,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <WashworldLogo height={40} />
           </View>
         </View>
-        <View>{children}</View>
+        <ScrollView>{children}</ScrollView>
       </View>
     </View>
   );
