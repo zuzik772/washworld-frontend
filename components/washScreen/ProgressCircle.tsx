@@ -1,5 +1,5 @@
+import { View, Text } from "@gluestack-ui/themed";
 import { useEffect, useState } from "react";
-import { Text, View } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 
 type ProgressCircleProps = {
@@ -46,35 +46,13 @@ const ProgressCircle = ({ totalTime }: ProgressCircleProps) => {
               fontFamily: "Gilroy-ExtraBold",
             }}
           >
-            {
-              // Make the seconds into the mm:ss format
-              `${minutesLeft < 10 ? `0${minutesLeft}` : minutesLeft}:${
-                secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft
-              }`
-            }
+            {`${minutesLeft < 10 ? `0${minutesLeft}` : minutesLeft}:${
+              secondsLeft < 10 ? `0${secondsLeft}` : secondsLeft
+            }`}
           </Text>
         )}
       </AnimatedCircularProgress>
     </View>
-
-    // <View className="flex items-center justify-center">
-    //   <Text
-    //     className="text-white text-center text-3xl"
-    //     style={{
-    //       fontFamily: "Gilroy-ExtraBold",
-    //     }}
-    //   >
-    //     {secondsLeft}
-    //   </Text>
-    //   <Text
-    //     className="text-white text-center text-xl"
-    //     style={{
-    //       fontFamily: "Gilroy-Medium",
-    //     }}
-    //   >
-    //     {totalTime}
-    //   </Text>
-    // </View>
   );
 };
 

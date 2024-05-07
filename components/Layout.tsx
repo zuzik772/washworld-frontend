@@ -1,9 +1,9 @@
 import React from "react";
-import { ScrollView, View } from "react-native";
 
 import WashworldLogo from "../assets/app/washworld-logo.svg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GoBackButton from "./GoBackButton";
+import { ScrollView, View } from "@gluestack-ui/themed";
 
 type LayoutProps = {
   children: React.ReactNode;
