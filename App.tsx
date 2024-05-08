@@ -9,6 +9,7 @@ import FavouritesScreen from "./screens/FavouritesScreen";
 import { FavouritesStackParamList } from "./navigation/FavouritesStackParamList";
 import { InfoStackParamList } from "./navigation/InfoStackParamList";
 import { SettingsStackParamList } from "./navigation/SettingsStackParamList";
+import LocationScreen from "./screens/map/LocationScreen";
 import PackageScreen from "./screens/map/PackageScreen";
 import PreWashScreen from "./screens/map/PreWashScreen";
 import WashScreen from "./screens/map/WashScreen";
@@ -19,9 +20,8 @@ import DeleteProfileScreen from "./screens/settings/DeleteProfileScreen";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "./washworld-gluestack-ui.config";
 import "./global.css";
-import LocationScreen from "./screens/map/LocationScreen";
-import { Provider } from "react-redux"; // Step 1: Import Provider
-import { store } from "./store/store"; // Step 2: Import your Redux store
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 
@@ -36,7 +36,7 @@ export default function App() {
   const MapNavigator = () => {
     return (
       <MapStack.Navigator
-        initialRouteName="Location"
+        initialRouteName="MapScreen"
         screenOptions={{ headerShown: false }}
       >
         <MapStack.Screen name="MapScreen" component={MapScreen} />

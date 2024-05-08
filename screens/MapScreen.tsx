@@ -1,19 +1,21 @@
 import { Text } from "react-native";
-import { Pressable } from "@gluestack-ui/themed";
+import { Button, ButtonText, Pressable } from "@gluestack-ui/themed";
 
 import React from "react";
 import Layout from "../components/Layout";
-const MapScreen = () => {
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { MapStackParamList } from "../navigation/MapStackParamList";
+import NavButton from "../components/NavButton";
+
+type Props = NativeStackScreenProps<MapStackParamList, "MapScreen">;
+const MapScreen = ({ navigation }: Props) => {
   return (
     <Layout>
       <Text className="text-white">MapScreen</Text>
-      <Pressable
-        onPress={() => console.log("Clicked")}
-        padding={20}
-        className="bg-primaryGreen"
-      >
-        <Text className="text-white text-center">Test Button</Text>
-      </Pressable>
+      <NavButton
+        title="Select"
+        onPress={() => navigation.navigate("Location")}
+      />
     </Layout>
   );
 };

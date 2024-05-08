@@ -1,27 +1,33 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Image } from "react-native"; // Import ScrollView
 import Layout from "../../components/Layout";
 import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
 import {
   Text,
+  Image,
   Heading,
   Icon,
   ClockIcon,
   GlobeIcon,
-  Box,
   Button,
-  ScrollView,
+  View,
+  Center,
 } from "@gluestack-ui/themed";
 import BadgesList from "../../components/BadgesList";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
+import NavButton from "../../components/NavButton";
 
 type LocationScreenProps = NativeStackScreenProps<MapStackParamList>;
 
 const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
-  const [readyBoxHeight, setReadyBoxHeight] = useState(10);
   const location = useSelector((state: RootState) => state.location);
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+  const onLayout = (event: any) => {
+    const { width, height } = event.nativeEvent.layout;
+    setDimensions({ width, height });
+  };
 
   function getStatusColor(status: string) {
     switch (status) {
@@ -39,49 +45,45 @@ const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
   return (
     <Layout>
       <View>
-        <View className="h-2/6 w-full relative">
+        <View className="h-60 w-full relative">
           <Image
-            style={styles.fullWidthImage}
+            className="h-full"
+            alt="An image of the selected selfwash location"
             source={{
               uri: "https://washworld.dk/_next/image?url=https%3A%2F%2Fwashworld-wordpress-production.storage.googleapis.com%2Fwp-content%2Fuploads%2F2021%2F03%2F28140259%2FWashWorld_lokation-e1618300360483.jpg&w=828&q=65",
             }}
           />
           <View
-            onLayout={(event) => {
-              const { height } = event.nativeEvent.layout;
-              setReadyBoxHeight(height);
-            }}
-            className="absolute bottom-0 right-0 bg-primaryGreen py-1 z-10"
+            onLayout={onLayout}
+            className="bg-primaryGreen absolute right-0 bottom-0 z-10"
           >
-            <View className="z-20 px-2">
-              <Text
-                className={`-ml-2 text-lg font-bold ${getStatusColor(
-                  location.status
-                )}`}
-              >
-                {location.status}
-              </Text>
-            </View>
-            <View
-              className={`absolute w-full right-3 bg-primaryGreen z-0 `}
-              style={{
-                height: readyBoxHeight,
-                transform: [{ skewX: "-34deg" }],
-              }}
-            />
+            <Text className="text-primaryWhite text-2xl self-end">
+              {location.status}
+            </Text>
           </View>
+          <View
+            style={{
+              width: dimensions.width,
+              height: dimensions.height,
+              transform: [{ skewX: "-40deg" }],
+            }}
+            className="bg-primaryGreen absolute right-4 bottom-0 w-10 h-10"
+          ></View>
         </View>
-        <View
-          className="w-12/12 h-1 bg-primaryGreen"
-          style={{
-            transform: [{ skewX: "-20deg" }],
-          }}
-        ></View>
-        <View className="h-4/6 ml-5 mr-5">
-          <Heading fontSize={40} color="$primaryWhite">
+        <View style={{ flexDirection: "row" }}>
+          <View
+            className="flex-1 h-1 bg-primaryGreen"
+            style={{
+              transform: [{ skewX: "-40deg" }],
+            }}
+          />
+          <View style={{ width: dimensions.width + 27 }} />
+        </View>
+        <View className="ml-5 mr-5">
+          <Heading fontSize={37} color="$primaryWhite">
             {location.name}
           </Heading>
-          <View className="w-5/12 flex flex-row justify-between items-center">
+          <View className=" w-40 flex flex-row justify-between items-center">
             <View className="flex flex-row items-center gap-1">
               <Icon
                 width={16}
@@ -105,34 +107,20 @@ const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
               </Text>
             </View>
           </View>
-          {/* <View className="my-7 gap-3 flex flex-row flex-wrap justify-center items-center ">
-            <View className="gap-3 flex flex-row justify-center items-center ">
-              <Box className="bg-transparent p-2 border-2 rounded border-primaryGreen">
-                <Text color="$primaryGreen">{location.badges[0]}</Text>
-              </Box>
-              <Box className="bg-transparent p-2 border-2 rounded border-primaryGreen">
-                <Text color="$primaryGreen">{location.badges[1]}</Text>
-              </Box>
-            </View>
-            <View className="gap-3 flex flex-row justify-center items-center ">
-              <Box className="bg-transparent p-2 border-2 rounded border-primaryGreen">
-                <Text color="$primaryGreen">{location.badges[3]}</Text>
-              </Box>
-              <Box className="bg-transparent p-2 border-2 rounded-sm border-primaryGreen">
-                <Text color="$primaryGreen">{location.badges[2]}</Text>
-              </Box>
-            </View>
-          </View> */}
           <BadgesList location={location}></BadgesList>
           <View className="flex justify-center items-center">
+            {/* <NavButton
+              title={"Select Wash"}
+              onPress={() => navigation.navigate("Package")}
+            ></NavButton> */}
             <Button
               onPress={() => navigation.navigate("Package")}
-              padding={10}
+              padding={8}
               backgroundColor="$primaryGreen"
             >
               <Text
                 textTransform="uppercase"
-                fontSize={25}
+                fontSize={20}
                 fontWeight="bold"
                 color="$primaryWhite"
               >
@@ -147,11 +135,3 @@ const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
 };
 
 export default FavouritesScreen;
-
-const styles = StyleSheet.create({
-  fullWidthImage: {
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-  },
-});

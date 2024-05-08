@@ -1,12 +1,14 @@
 import { configureStore } from "@reduxjs/toolkit";
 import thunk from "redux-thunk";
 import locationSlice from "./locationSlice";
+import subscriptionSlice from "./subscribtionSlice";
 
 // ...
 
 export const store = configureStore({
   reducer: {
     location: locationSlice,
+    subscriptions: subscriptionSlice,
   },
 });
 // Infer the `RootState` and `AppDispatch` types from the store itself
