@@ -69,7 +69,7 @@ const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
             className="bg-primaryGreen absolute right-4 bottom-0 w-10 h-10"
           ></View>
         </View>
-        <View style={{ flexDirection: "row" }}>
+        <View className="flex-row">
           <View
             className="flex-1 h-1 bg-primaryGreen"
             style={{
@@ -79,29 +79,19 @@ const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
           <View style={{ width: dimensions.width + 28 }} />
         </View>
         <View className="ml-5 mr-5">
-          <Heading fontSize={37} color="$primaryWhite">
+          <Heading fontSize={37} className="text-primaryWhite">
             {location.name}
           </Heading>
-          <View className=" w-40 flex flex-row justify-between items-center">
+          <View className="w-40 flex flex-row justify-between items-center">
             <View className="flex flex-row items-center gap-1">
-              <Icon
-                width={16}
-                height={16}
-                color="$primaryGreen"
-                as={ClockIcon}
-              />
+              <Icon as={ClockIcon} className="w-4 h-4 color-primaryGreen" />
               <Text color="$primaryWhite" fontSize={15}>
                 {location.openingTime}
               </Text>
             </View>
             <View className="flex flex-row items-center gap-1">
-              <Icon
-                width={16}
-                height={16}
-                color="$primaryGreen"
-                as={GlobeIcon}
-              />
-              <Text color="$primaryWhite" fontSize={15}>
+              <Icon className="w-4 h-4 color-primaryGreen" as={GlobeIcon} />
+              <Text className="text-primaryWhite text-base">
                 {location.distance}km
               </Text>
             </View>
@@ -113,16 +103,10 @@ const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
               onPress={() => navigation.navigate("Package")}
             ></NavButton> */}
             <Button
+              className="p-2 bg-primaryGreen"
               onPress={() => navigation.navigate("Package")}
-              padding={8}
-              backgroundColor="$primaryGreen"
             >
-              <Text
-                textTransform="uppercase"
-                fontSize={20}
-                fontWeight="bold"
-                color="$primaryWhite"
-              >
+              <Text className="uppercase text-xl font-bold text-primaryWhite">
                 Select Wash
               </Text>
             </Button>
