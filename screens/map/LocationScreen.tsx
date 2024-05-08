@@ -55,9 +55,9 @@ const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
           />
           <View
             onLayout={onLayout}
-            className="bg-primaryGreen absolute right-0 bottom-0 z-10"
+            className="bg-primaryGreen absolute right-0 bottom-0 pr-3 py-1 z-10"
           >
-            <Text className="text-primaryWhite text-2xl self-end">
+            <Text className="text-primaryWhite text-lg font-bold  self-end">
               {location.status}
             </Text>
           </View>
@@ -77,7 +77,7 @@ const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
               transform: [{ skewX: "-40deg" }],
             }}
           />
-          <View style={{ width: dimensions.width + 27 }} />
+          <View style={{ width: dimensions.width + 28 }} />
         </View>
         <View className="ml-5 mr-5">
           <Heading fontSize={37} color="$primaryWhite">
