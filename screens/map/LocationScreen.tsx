@@ -11,7 +11,6 @@ import {
   GlobeIcon,
   Button,
   View,
-  Center,
 } from "@gluestack-ui/themed";
 import BadgesList from "../../components/BadgesList";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -32,13 +31,13 @@ const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
   function getStatusColor(status: string) {
     switch (status) {
       case "Ready":
-        return "color-primaryWhite";
+        return "color-primaryWhite font-bold text-lg";
       case "Busy":
-        return "color-secondaryOrange";
+        return "color-secondaryOrange font-bold text-lg";
       case "Closed":
-        return "color-tertiaryAlert";
+        return "color-tertiaryAlert font-bold text-lg";
       default:
-        return "color-primaryWhite";
+        return "color-primaryWhite font-bold text-lg";
     }
   }
 
@@ -57,7 +56,7 @@ const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
             onLayout={onLayout}
             className="bg-primaryGreen absolute right-0 bottom-0 pr-3 py-1 z-10"
           >
-            <Text className="text-primaryWhite text-lg font-bold  self-end">
+            <Text className={getStatusColor(location.status)}>
               {location.status}
             </Text>
           </View>
