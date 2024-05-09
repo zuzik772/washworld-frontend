@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MapStackParamList } from "./navigation/MapStackParamList";
 import MapScreen from "./screens/MapScreen";
@@ -89,6 +90,18 @@ export default function App() {
     );
   };
 
+  const getRouteName = (route: any) => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    console.log(routeName);
+    if (
+      routeName === "PreWash" ||
+      routeName === "Wash" ||
+      routeName === "PostWash"
+    )
+      return "-100%";
+    return "0%";
+  };
+
   return (
     <GluestackUIProvider config={config}>
       <NavigationContainer>
@@ -121,7 +134,20 @@ export default function App() {
             },
           })}
         >
-          <Tab.Screen name="Map" component={MapNavigator} />
+          <Tab.Screen
+            name="Map"
+            component={MapNavigator}
+            options={({ route }) => ({
+              tabBarStyle: {
+                position: "absolute",
+                bottom: getRouteName(route),
+                backgroundColor: "#1a1a1a", // Set the color here
+                borderBlockColor: "#34b566",
+                borderTopWidth: 3,
+                height: 90,
+              },
+            })}
+          />
           <Tab.Screen name="Favourites" component={FavouritesNavigator} />
           <Tab.Screen name="Info" component={InfoNavigator} />
           <Tab.Screen name="Settings" component={SettingsNavigator} />
