@@ -14,6 +14,7 @@ const LocationScreen = ({ navigation }: Props) => {
       <NavButton
         title="Select Wash"
         onPress={() => navigation.navigate("Package")}
+        disabled={false}
       />
     </Layout>
   );

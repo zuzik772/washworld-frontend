@@ -13,6 +13,7 @@ const PostWashScreen = ({ navigation }: Props) => {
       <NavButton
         title="Finish"
         onPress={() => navigation.navigate("MapScreen")}
+        disabled={false}
       />
     </Layout>
   );

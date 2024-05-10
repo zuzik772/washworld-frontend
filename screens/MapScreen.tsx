@@ -15,6 +15,7 @@ const MapScreen = ({ navigation }: Props) => {
       <NavButton
         title="Select"
         onPress={() => navigation.navigate("Location")}
+        disabled={false}
       />
     </Layout>
   );

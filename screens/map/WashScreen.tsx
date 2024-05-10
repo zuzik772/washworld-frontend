@@ -13,6 +13,7 @@ const WashScreen = ({ navigation }: Props) => {
       <NavButton
         title="TEST Go to post wash"
         onPress={() => navigation.navigate("PostWash")}
+        disabled={false}
       />
     </Layout>
   );
