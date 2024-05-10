@@ -45,13 +45,16 @@ const WashScreen = ({ navigation }: Props) => {
         </Text>
       </View>
 
-      <ProgressCircle totalTime={60} />
+      <ProgressCircle
+        totalTime={60}
+        onComplete={() => navigation.navigate("PostWash")}
+      />
 
       {/* <NavButton
         title="TEST Go to post wash"
         onPress={() => navigation.navigate("PostWash")}
         disabled={false}
-      />
+      /> */}
     </Layout>
   );
 };

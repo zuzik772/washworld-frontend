@@ -3,10 +3,10 @@ import { useEffect, useState } from "react";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
 
 type ProgressCircleProps = {
-  //   secondsLeft: number;
   totalTime: number;
+  onComplete: () => void;
 };
-const ProgressCircle = ({ totalTime }: ProgressCircleProps) => {
+const ProgressCircle = ({ totalTime, onComplete }: ProgressCircleProps) => {
   const [updatedSecondsLeft, setUpdatedSecondsLeft] = useState(totalTime);
   const [progress, setProgress] = useState(100);
   const [secondsLeft, setSecondsLeft] = useState(updatedSecondsLeft % 60);
@@ -16,7 +16,8 @@ const ProgressCircle = ({ totalTime }: ProgressCircleProps) => {
 
   useEffect(() => {
     setTimeout(() => {
-      if (updatedSecondsLeft > 0) {
+      if (updatedSecondsLeft <= 0) return onComplete();
+      else {
         setUpdatedSecondsLeft((prevSeconds) => prevSeconds - 1);
         setProgress(((updatedSecondsLeft - 1) / totalTime) * 100);
         setSecondsLeft((updatedSecondsLeft - 1) % 60);

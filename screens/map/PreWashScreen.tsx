@@ -41,19 +41,16 @@ const PreWashScreen = ({ navigation }: Props) => {
         </Text>
         <Text className="bg-primaryGreen h-1 w-full my-6"></Text>
 
-        <FlatList
-          data={instructions}
-          renderItem={({ item }) => (
-            <View className="flex-row gap-2 mb-2">
+        <View>
+          {instructions.map((item, index) => (
+            <View key={index} style={{ flexDirection: "row", marginBottom: 2 }}>
               <CircleCheck />
               <Text className="text-primaryWhite text-lg">
                 {item as string}
               </Text>
             </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        />
-        <Text className="bg-primaryGreen h-1 w-full my-6"></Text>
+          ))}
+        </View>
       </View>
       <View className="flex items-center mt-8">
         {isCarInWashHall ? (
