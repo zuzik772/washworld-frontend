@@ -1,0 +1,163 @@
+import { createSlice } from "@reduxjs/toolkit";
+import { Package } from "../types/Subscription";
+
+export interface PackageState {
+  packages: Package[];
+}
+
+const initialState: PackageState = {
+  packages: [
+    {
+      name: "Basic",
+      price: 99,
+      includedFeatures: [
+        "Shampoo",
+        "Let tørring",
+        "Børstevask",
+        "Højtryksskyl",
+      ],
+      allFeatures: [
+        "Shampoo",
+        "Let tørring",
+        "Børstevask",
+        "Højtryksskyl",
+        "Hjulvask",
+        "Skyllevoks",
+        "Undervognsskyl",
+        "Polering",
+        "Ekstra tørring",
+        "Insektsrens",
+        "Foam Splash",
+        "Affedtning",
+        "Oprettelse",
+      ],
+    },
+    {
+      name: "Gold",
+      price: 139,
+      includedFeatures: [
+        "Shampoo",
+        "Tørring",
+        "Børstevask",
+        "Højtryksskyl",
+        "Hjulvask",
+        "Skyllevoks",
+      ],
+      allFeatures: [
+        "Shampoo",
+        "Tørring",
+        "Børstevask",
+        "Højtryksskyl",
+        "Hjulvask",
+        "Skyllevoks",
+        "Undervognsskyl",
+        "Polering",
+        "Insektrens",
+        "Affedtning",
+        "Foam Splash",
+        "Ekstra tørring",
+        "Oprettelse",
+      ],
+    },
+    {
+      name: "Premium",
+      price: 169,
+      includedFeatures: [
+        "Shampoo",
+        "Tørring",
+        "Børstevask",
+        "Højtryksskyl",
+        "Hjulvask",
+        "Undervognsskyl",
+        "Polering",
+      ],
+      allFeatures: [
+        "Shampoo",
+        "Tørring",
+        "Børstevask",
+        "Højtryksskyl",
+        "Hjulvask",
+        "Skyllevoks",
+        "Undervognsskyl",
+        "Polering",
+        "Insektrens",
+        "Affedtning",
+        "Foam Splash",
+        "Ekstra tørring",
+        "Oprettelse",
+      ],
+    },
+    {
+      name: "Premium Plus",
+      price: 179,
+      includedFeatures: [
+        "Shampoo",
+        "Tørring",
+        "Børstevask",
+        "Højtryksskyl",
+        "Hjulvask",
+        "Skyllevoks",
+        "Undervognsskyl",
+        "Polering",
+        "Insektrens",
+      ],
+      allFeatures: [
+        "Shampoo",
+        "Tørring",
+        "Børstevask",
+        "Højtryksskyl",
+        "Hjulvask",
+        "Skyllevoks",
+        "Undervognsskyl",
+        "Polering",
+        "Insektrens",
+        "Affedtning",
+        "Foam Splash",
+        "Ekstra tørring",
+        "Oprettelse",
+      ],
+    },
+    {
+      name: "All Inclusive",
+      price: 229,
+      includedFeatures: [
+        "Shampoo",
+        "Tørring",
+        "Børstevask",
+        "Højtryksskyl",
+        "Hjulvask",
+        "Skyllevoks",
+        "Undervognsskyl",
+        "Polering",
+        "Insektrens",
+        "Affedtning",
+        "Foam Splash",
+        "Ekstra tørring",
+      ],
+      allFeatures: [
+        "Shampoo",
+        "Tørring",
+        "Børstevask",
+        "Højtryksskyl",
+        "Hjulvask",
+        "Skyllevoks",
+        "Undervognsskyl",
+        "Polering",
+        "Insektrens",
+        "Affedtning",
+        "Foam Splash",
+        "Ekstra tørring",
+        "Oprettelse",
+      ],
+    },
+  ],
+};
+
+export const packageSlice = createSlice({
+  name: "packages",
+  initialState,
+  reducers: {},
+});
+
+export const {} = packageSlice.actions;
+export default packageSlice.reducer;

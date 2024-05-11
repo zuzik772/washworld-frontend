@@ -1,9 +1,18 @@
 import React from "react";
 import Layout from "../../components/Layout";
-import { Heading, View } from "@gluestack-ui/themed";
-import SubscriptionCard from "../../components/SubscriptionCard";
+import { Heading, ScrollView, View } from "@gluestack-ui/themed";
+import PackageCard from "../../components/PackageCard";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
+import { Package } from "../../types/Subscription";
 
 const PackageScreen = () => {
+  const renderItem = ({ item, index }: { item: Package; index: number }) => {
+    return <PackageCard key={index} subscription={item} />;
+  };
+  const subscriptions = useSelector(
+    (state: RootState) => state.packages.packages
+  );
   return (
     <Layout>
       <View className="flex items-center  mt-6">
@@ -11,9 +20,22 @@ const PackageScreen = () => {
           Select Wash
         </Heading>
       </View>
-      <View>
-        <SubscriptionCard></SubscriptionCard>
-      </View>
+      {/* <View>
+        <SwiperFlatList
+          data={subscriptions}
+          showPagination
+          renderItem={({ item }) => (
+            <View>
+              <PackageCard subscription={item}></PackageCard>
+            </View>
+          )}
+        />
+      </View> */}
+      {/* <ScrollView className="px-2" horizontal>
+        {subscriptions.map((subscription, index) => (
+          <PackageCard key={index} subscription={subscription} />
+        ))}
+      </ScrollView> */}
     </Layout>
   );
 };
