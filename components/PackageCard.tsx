@@ -10,8 +10,9 @@ import {
 } from "@gluestack-ui/themed";
 
 const PackageCard: React.FC<{ subscription: Package }> = ({ subscription }) => {
+  //using subscription instead of "package", because "package" is a reserved keyword
   return (
-    <View className="border-2 border-primaryGreen p-5 mr-4">
+    <View className="border-2 border-primaryGreen p-5 mr-2 ml-2">
       <View className="flex justify-center items-center mb-3">
         <Icon
           color="$primaryGreen"
