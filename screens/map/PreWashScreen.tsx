@@ -2,10 +2,11 @@ import { Text } from "react-native";
 import React from "react";
 import Layout from "../../components/Layout";
 
-const PreWashScreen = () => {
+const PreWashScreen = ({ route }: any) => {
+  const { packageName } = route.params;
   return (
     <Layout>
-      <Text className="text-white">PreWashScreen</Text>
+      <Text className="text-white">{packageName}</Text>
     </Layout>
   );
 };

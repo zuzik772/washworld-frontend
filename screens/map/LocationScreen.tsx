@@ -19,7 +19,7 @@ import { MapStackParamList } from "../../navigation/MapStackParamList";
 
 type LocationScreenProps = NativeStackScreenProps<MapStackParamList>;
 
-const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
+const LocationScreen = ({ navigation }: LocationScreenProps) => {
   const [readyBoxHeight, setReadyBoxHeight] = useState(10);
   const location = useSelector((state: RootState) => state.location);
 
@@ -146,7 +146,7 @@ const FavouritesScreen = ({ navigation }: LocationScreenProps) => {
   );
 };
 
-export default FavouritesScreen;
+export default LocationScreen;
 
 const styles = StyleSheet.create({
   fullWidthImage: {

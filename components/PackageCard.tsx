@@ -7,9 +7,22 @@ import {
   Text,
   View,
   SlashIcon,
+  Button,
 } from "@gluestack-ui/themed";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { MapStackParamList } from "../navigation/MapStackParamList";
 
-const PackageCard: React.FC<{ subscription: Package }> = ({ subscription }) => {
+type LocationScreenProps = NativeStackScreenProps<MapStackParamList>;
+
+type PackageCardProps = {
+  subscription: Package;
+  navigation: LocationScreenProps["navigation"];
+};
+
+const PackageCard: React.FC<PackageCardProps> = ({
+  subscription,
+  navigation,
+}) => {
   //using subscription instead of "package", because "package" is a reserved keyword
   return (
     <View className="border-2 border-primaryGreen p-5 mr-2 ml-2">
@@ -44,6 +57,25 @@ const PackageCard: React.FC<{ subscription: Package }> = ({ subscription }) => {
           </View>
         </View>
       ))}
+      <Button
+        onPress={() =>
+          navigation.navigate("PreWash", { packageName: subscription.name })
+        }
+        padding={5}
+        marginTop={5}
+        marginBottom={5}
+        backgroundColor="$primaryGreen"
+      >
+        <Text
+          textAlign="center"
+          textTransform="uppercase"
+          fontSize={15}
+          fontWeight="bold"
+          color="$primaryWhite"
+        >
+          Select
+        </Text>
+      </Button>
     </View>
   );
 };
