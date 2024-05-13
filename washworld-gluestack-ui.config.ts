@@ -22,7 +22,9 @@ export const config = createConfig({
     classic: {
       colors: {
         primaryGreen: "$colors$primaryGreen",
-        secondary: "$colors$secondaryOrange",
+        secondaryOrange: "$colors$secondaryOrange",
+        tertiaryAlert: "$colors$tertiaryAlert",
+        primaryWhite: "$colors$primaryWhite",
       },
     },
   },

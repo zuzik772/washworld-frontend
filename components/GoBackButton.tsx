@@ -6,7 +6,7 @@ const GoBackButton = () => {
   return (
     <Pressable onPress={() => navigation.goBack()}>
       <View className="w-10 h-10">
-        <Icon as={ChevronLeftIcon} color="#34b566" />
+        <Icon as={ChevronLeftIcon} color="$colors$primaryGreen" />
       </View>
     </Pressable>
   );
