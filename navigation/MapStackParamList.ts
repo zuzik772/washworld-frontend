@@ -1,6 +1,6 @@
 export type MapStackParamList = {
   MapScreen: undefined;
-  Location: undefined;
+  Location: { locationTitle: string | undefined };
   Package: undefined;
   PreWash: undefined;
   Wash: undefined;

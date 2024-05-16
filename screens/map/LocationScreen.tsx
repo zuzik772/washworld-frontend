@@ -7,10 +7,11 @@ import NavButton from "../../components/NavButton";
 import GoBackButton from "../../components/GoBackButton";
 
 type Props = NativeStackScreenProps<MapStackParamList, "Location">;
-const LocationScreen = ({ navigation }: Props) => {
+const LocationScreen = ({ navigation, route }: Props) => {
+  const { locationTitle } = route.params;
   return (
     <Layout>
-      <Text className="text-white">LocationScreen</Text>
+      <Text className="text-white">{locationTitle}</Text>
       <NavButton
         title="Select Wash"
         onPress={() => navigation.navigate("Package")}

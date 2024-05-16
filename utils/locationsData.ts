@@ -1,3 +1,5 @@
+import { Status, getRandomStatus } from "./Status";
+
 export type location = {
   location_id: number;
   address: string;
@@ -6,6 +8,8 @@ export type location = {
   opening_times: string;
   closing_time: string;
   hall_id: number;
+  status: Status;
+  isFavourite: boolean;
 };
 
 export const locations: location[] = [
@@ -17,6 +21,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 1,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 2,
@@ -26,6 +32,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 2,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 3,
@@ -35,6 +43,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 3,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 4,
@@ -44,6 +54,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 4,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 5,
@@ -53,6 +65,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 5,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 6,
@@ -62,6 +76,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 6,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 7,
@@ -71,6 +87,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 7,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 8,
@@ -80,6 +98,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 8,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 9,
@@ -89,6 +109,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 9,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 10,
@@ -98,6 +120,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 10,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 11,
@@ -107,6 +131,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 11,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 12,
@@ -116,6 +142,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 12,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 13,
@@ -125,6 +153,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 13,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 14,
@@ -134,6 +164,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 14,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 15,
@@ -143,6 +175,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 15,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 16,
@@ -152,6 +186,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 16,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 17,
@@ -161,6 +197,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 17,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 18,
@@ -170,6 +208,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 18,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 19,
@@ -179,6 +219,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 19,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 20,
@@ -188,6 +230,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 20,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 21,
@@ -197,6 +241,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 21,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 22,
@@ -206,6 +252,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 22,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 23,
@@ -215,6 +263,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 23,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 24,
@@ -224,6 +274,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 24,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 25,
@@ -233,6 +285,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 25,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 26,
@@ -242,6 +296,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 26,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 27,
@@ -251,6 +307,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 27,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 28,
@@ -260,6 +318,8 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 28,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 29,
@@ -269,6 +329,8 @@ export const locations: location[] = [
     opening_times: "24/7",
     closing_time: "24/7",
     hall_id: 29,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
   {
     location_id: 30,
@@ -278,5 +340,7 @@ export const locations: location[] = [
     opening_times: "7",
     closing_time: "22",
     hall_id: 30,
+    status: getRandomStatus(),
+    isFavourite: false,
   },
 ];
