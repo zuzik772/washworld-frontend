@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+  .button-with-shape::before {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    content: "";
+    left: -20px;
+    width: 40px;
+    background-color: #34b566; /* Removed quotes around the color value */
+    transform: skewX(-60deg);
+  }
+}

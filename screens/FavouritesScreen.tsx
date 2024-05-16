@@ -9,6 +9,9 @@ const FavouritesScreen = () => {
         Your Favourites
       </Text>
       <FavouriteLocationCard />
+      <FavouriteLocationCard />
+      <FavouriteLocationCard />
+      <FavouriteLocationCard />
     </Layout>
   );
 };
