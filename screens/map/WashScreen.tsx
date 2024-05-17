@@ -14,7 +14,7 @@ const WashScreen = ({ navigation }: Props) => {
 
   return (
     <Layout>
-      <View className="my-8 flex flex-col gap-1">
+      <View className="my-4 flex flex-col gap-1">
         <Text
           className="text-white text-center text-xl"
           style={{
