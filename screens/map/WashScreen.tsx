@@ -1,13 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import NavButton from "../../components/NavButton";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
 import { View, Text } from "@gluestack-ui/themed";
-import ProgressCircle from "../../components/washScreen/ProgressCircle";
+import WashProgress from "../../components/washScreen/WashProgress";
+import StyledButton from "../../components/StyledButton";
 
 type Props = NativeStackScreenProps<MapStackParamList, "Wash">;
 const WashScreen = ({ navigation }: Props) => {
+  const demoSelectedWashtype = "Gold";
+
+  const [currentState, setCurrentState] = useState("");
+
   return (
     <Layout>
       <View className="my-8 flex flex-col gap-1">
@@ -25,7 +29,7 @@ const WashScreen = ({ navigation }: Props) => {
             fontFamily: "Gilroy-ExtraBold",
           }}
         >
-          Gold
+          {demoSelectedWashtype}
         </Text>
         <Text
           className="text-white text-center text-2xl"
@@ -41,20 +45,20 @@ const WashScreen = ({ navigation }: Props) => {
             fontFamily: "Gilroy-ExtraBold",
           }}
         >
-          Cleaning Rims
+          {currentState}
         </Text>
       </View>
 
-      <ProgressCircle
-        totalTime={60}
+      <WashProgress
+        washType={demoSelectedWashtype}
+        onStateChange={(state) => setCurrentState(state)}
         onComplete={() => navigation.navigate("PostWash")}
       />
 
-      {/* <NavButton
-        title="TEST Go to post wash"
-        onPress={() => navigation.navigate("PostWash")}
-        disabled={false}
-      /> */}
+      <View className="flex flex-col items-center mt-8 gap-4 mb-8">
+        <StyledButton title="EMERGENCY STOP" danger width="75%" />
+        <Text className="text-primaryGreen underline">Need help?</Text>
+      </View>
     </Layout>
   );
 };

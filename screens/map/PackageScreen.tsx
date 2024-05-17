@@ -1,7 +1,7 @@
 import { Text } from "react-native";
 import React from "react";
 import Layout from "../../components/Layout";
-import NavButton from "../../components/NavButton";
+import StyledButton from "../../components/StyledButton";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
 
@@ -10,7 +10,7 @@ const PackageScreen = ({ navigation }: Props) => {
   return (
     <Layout>
       <Text className="text-white">PackageScreen</Text>
-      <NavButton
+      <StyledButton
         title="Select"
         onPress={() => navigation.navigate("PreWash")}
         disabled={false}

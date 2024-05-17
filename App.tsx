@@ -20,11 +20,17 @@ import ReportDamageScreen from "./screens/settings/ReportDamageScreen";
 import DeleteProfileScreen from "./screens/settings/DeleteProfileScreen";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "./washworld-gluestack-ui.config";
+import { useFonts } from "expo-font";
 import "./global.css";
 
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 
 export default function App() {
+  useFonts({
+    "Gilroy-Medium": require("./fonts/Gilroy-Medium.otf"),
+    "Gilroy-ExtraBold": require("./fonts/Gilroy-ExtraBold.otf"),
+  });
+
   const Tab = createBottomTabNavigator();
   const MapStack = createNativeStackNavigator<MapStackParamList>();
   const FavouritesStack =
@@ -104,12 +110,6 @@ export default function App() {
         <Tab.Navigator
           screenOptions={({ route }) => ({
             headerShown: false,
-            tabBarStyle: {
-              backgroundColor: "#1a1a1a", // Maybe look into how to use variables here?
-              borderBlockColor: "#34b566",
-              borderTopWidth: 3,
-              height: 90,
-            },
             tabBarActiveTintColor: "#34b566",
             tabBarInactiveTintColor: "#ffffff",
 
@@ -144,9 +144,48 @@ export default function App() {
               },
             })}
           />
-          <Tab.Screen name="Favourites" component={FavouritesNavigator} />
-          <Tab.Screen name="Info" component={InfoNavigator} />
-          <Tab.Screen name="Settings" component={SettingsNavigator} />
+          <Tab.Screen
+            name="Favourites"
+            component={FavouritesNavigator}
+            options={({ route }) => ({
+              tabBarStyle: {
+                position: "absolute",
+                bottom: getRouteName(route),
+                backgroundColor: "#1a1a1a", // Set the color here
+                borderBlockColor: "#34b566",
+                borderTopWidth: 3,
+                height: 90,
+              },
+            })}
+          />
+          <Tab.Screen
+            name="Info"
+            component={InfoNavigator}
+            options={({ route }) => ({
+              tabBarStyle: {
+                position: "absolute",
+                bottom: getRouteName(route),
+                backgroundColor: "#1a1a1a", // Set the color here
+                borderBlockColor: "#34b566",
+                borderTopWidth: 3,
+                height: 90,
+              },
+            })}
+          />
+          <Tab.Screen
+            name="Settings"
+            component={SettingsNavigator}
+            options={({ route }) => ({
+              tabBarStyle: {
+                position: "absolute",
+                bottom: getRouteName(route),
+                backgroundColor: "#1a1a1a", // Set the color here
+                borderBlockColor: "#34b566",
+                borderTopWidth: 3,
+                height: 90,
+              },
+            })}
+          />
         </Tab.Navigator>
       </NavigationContainer>
     </GluestackUIProvider>

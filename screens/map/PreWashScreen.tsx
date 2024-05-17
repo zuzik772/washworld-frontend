@@ -1,10 +1,10 @@
 import Layout from "../../components/Layout";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import NavButton from "../../components/NavButton";
 import { FlatList, Text, View } from "@gluestack-ui/themed";
 import CircleCheck from "../../components/CircleCheck";
 import { useState, useEffect } from "react";
+import StyledButton from "../../components/StyledButton";
 
 type Props = NativeStackScreenProps<MapStackParamList, "PreWash">;
 const instructions = [
@@ -21,7 +21,7 @@ const PreWashScreen = ({ navigation }: Props) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsCarInWashHall(true);
-    }, 5000);
+    }, 1000);
 
     return () => {
       clearTimeout(timer);
@@ -63,7 +63,7 @@ const PreWashScreen = ({ navigation }: Props) => {
           </Text>
         )}
 
-        <NavButton
+        <StyledButton
           title="Start"
           onPress={() => navigation.navigate("Wash")}
           disabled={!isCarInWashHall}

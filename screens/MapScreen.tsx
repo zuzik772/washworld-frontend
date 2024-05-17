@@ -5,7 +5,7 @@ import React from "react";
 import Layout from "../components/Layout";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../navigation/MapStackParamList";
-import NavButton from "../components/NavButton";
+import NavButton from "../components/StyledButton";
 
 type Props = NativeStackScreenProps<MapStackParamList, "MapScreen">;
 const MapScreen = ({ navigation }: Props) => {
