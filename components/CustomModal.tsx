@@ -18,7 +18,6 @@ import { useState, useRef } from "react";
 
 const CustomModal = () => {
   const [showModal, setShowModal] = useState(false);
-  console.log(showModal);
   const ref = useRef(null);
   return (
     <Center className="h-full flex items-center justify-center">

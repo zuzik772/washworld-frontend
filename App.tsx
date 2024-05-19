@@ -23,6 +23,8 @@ import { config } from "./washworld-gluestack-ui.config";
 import "./global.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+import LoginScreen from "./screens/LoginScreen";
+import SignUpScreen from "./screens/SignUpScreen";
 
 const queryClient = new QueryClient();
 
@@ -37,9 +39,14 @@ export default function App() {
   const MapNavigator = () => {
     return (
       <MapStack.Navigator
-        initialRouteName="MapScreen"
+        initialRouteName="Login"
         screenOptions={{ headerShown: false }}
       >
+        {/* to be moved and render based on auth state */}
+        {/* now for simplicity of styling its under map */}
+        <MapStack.Screen name="Login" component={LoginScreen} />
+        <MapStack.Screen name="SignUp" component={SignUpScreen} />
+
         <MapStack.Screen name="MapScreen" component={MapScreen} />
         <MapStack.Screen name="Location" component={LocationScreen} />
         <MapStack.Screen name="Package" component={PackageScreen} />
