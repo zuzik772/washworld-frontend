@@ -7,8 +7,8 @@ export interface Package {
   package_id: number;
   name: string;
   price: number;
-  includedFeatures: Feature[];
-  notIncludedFeatures: Feature[];
+  included_features: Feature[];
+  not_included_features: Feature[];
 }
 
 export interface Membership {

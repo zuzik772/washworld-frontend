@@ -11,6 +11,9 @@ export interface Status {
 export interface Hall {
   hall_id: number;
   status: Status;
+  // width: number;
+  // height: number;
+  // max_rim_size: number;
 }
 
 export interface Location {

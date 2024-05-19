@@ -16,13 +16,13 @@ const initialState: MembershipState = {
           package_id: 1,
           name: "Basic Package",
           price: 99,
-          includedFeatures: [
+          included_features: [
             { feature_id: 1, name: "Shampoo" },
             { feature_id: 2, name: "Air drying" },
             { feature_id: 3, name: "Brush wash" },
             { feature_id: 4, name: "High-pressure rinse" },
           ],
-          notIncludedFeatures: [
+          not_included_features: [
             { feature_id: 5, name: "Wheel wash" },
             { feature_id: 6, name: "Rinse wax" },
             { feature_id: 7, name: "Undercarriage rinse" },
@@ -44,7 +44,7 @@ const initialState: MembershipState = {
           package_id: 1,
           name: "Gold Package",
           price: 139,
-          includedFeatures: [
+          included_features: [
             { feature_id: 1, name: "Shampoo" },
             { feature_id: 2, name: "Drying" },
             { feature_id: 3, name: "Brush wash" },
@@ -52,7 +52,7 @@ const initialState: MembershipState = {
             { feature_id: 5, name: "Wheel wash" },
             { feature_id: 6, name: "Rinse wax" },
           ],
-          notIncludedFeatures: [
+          not_included_features: [
             { feature_id: 7, name: "Undercarriage rinse" },
             { feature_id: 8, name: "Polishing" },
             { feature_id: 9, name: "Extra drying" },
@@ -72,7 +72,7 @@ const initialState: MembershipState = {
           package_id: 1,
           name: "Premium Package",
           price: 179,
-          includedFeatures: [
+          included_features: [
             { feature_id: 1, name: "Shampoo" },
             { feature_id: 2, name: "Drying" },
             { feature_id: 3, name: "Brush wash" },
@@ -81,7 +81,7 @@ const initialState: MembershipState = {
             { feature_id: 7, name: "Undercarriage rinse" },
             { feature_id: 8, name: "Polishing" },
           ],
-          notIncludedFeatures: [
+          not_included_features: [
             { feature_id: 9, name: "Extra drying" },
             { feature_id: 10, name: "Insect cleaning" },
             { feature_id: 11, name: "Foam Splash" },
@@ -99,7 +99,7 @@ const initialState: MembershipState = {
           package_id: 1,
           name: "Premium Plus Package",
           price: 179,
-          includedFeatures: [
+          included_features: [
             { feature_id: 1, name: "Shampoo" },
             { feature_id: 2, name: "Drying" },
             { feature_id: 3, name: "Brush wash" },
@@ -110,7 +110,7 @@ const initialState: MembershipState = {
             { feature_id: 8, name: "Polishing" },
             { feature_id: 10, name: "Insect cleaning" },
           ],
-          notIncludedFeatures: [
+          not_included_features: [
             { feature_id: 9, name: "Extra drying" },
             { feature_id: 11, name: "Foam Splash" },
             { feature_id: 12, name: "Degreasing" },
@@ -127,7 +127,7 @@ const initialState: MembershipState = {
           package_id: 1,
           name: "All Inclusive Package",
           price: 249,
-          includedFeatures: [
+          included_features: [
             { feature_id: 1, name: "Shampoo" },
             { feature_id: 2, name: "Drying" },
             { feature_id: 3, name: "Brush wash" },
@@ -141,7 +141,7 @@ const initialState: MembershipState = {
             { feature_id: 11, name: "Foam Splash" },
             { feature_id: 12, name: "Degreasing" },
           ],
-          notIncludedFeatures: [],
+          not_included_features: [],
         },
       ],
     },

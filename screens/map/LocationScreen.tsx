@@ -22,8 +22,8 @@ const LocationScreen = ({ navigation }: LocationScreenProps) => {
   const [textWidth, setTextWidth] = useState(0);
 
   const location = useSelector(
-    (state: RootState) => state.location.locations[0]
-  ); //
+    (state: RootState) => state.location.locations[0] // 0 will become the clicked location's id
+  );
 
   const locationStatus = (self_wash: SelfWash[], halls: Hall[]) => {
     if (
