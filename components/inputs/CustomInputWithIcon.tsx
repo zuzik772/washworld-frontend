@@ -1,30 +1,40 @@
-import { Input, InputField, InputIcon, InputSlot } from "@gluestack-ui/themed";
+import {
+  Icon,
+  Input,
+  InputField,
+  InputIcon,
+  InputSlot,
+} from "@gluestack-ui/themed";
 
 type Props = {
   placeholderTitle: string;
   icon: any;
+  ariaLabel?: string;
 };
 
-const CustomInputWithIcon = ({ placeholderTitle, icon }: Props) => {
+const CustomInputWithIcon = ({ placeholderTitle, icon, ariaLabel }: Props) => {
   return (
     <Input
       isDisabled={false}
       isInvalid={false}
       isReadOnly={false}
+      isRequired={true}
+      aria-label={ariaLabel || placeholderTitle}
       className="border-primaryGreen border-[1px] border-solid w-[26rem] rounded-lg pl-[0.75rem] flex flex-row justify-between items-center"
     >
       <InputField
         placeholder={placeholderTitle}
-        className="text-xl w-[20.5rem]"
+        type="password"
+        className="text-xl w-[20.5rem] text-white"
       />
       <InputSlot className="bg-primaryGreen p-[0.75rem] rounded-r-md">
-        <InputIcon
+        <Icon
+          as={icon}
           width={24}
           height={24}
-          as={icon}
           color="white"
-          fill="$colors$primaryGreen"
-        ></InputIcon>
+          fill={"$colors$primaryGreen"}
+        />
       </InputSlot>
     </Input>
   );

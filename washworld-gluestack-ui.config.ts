@@ -25,6 +25,7 @@ export const config = createConfig({
         secondaryOrange: "$colors$secondaryOrange",
         tertiaryAlert: "$colors$tertiaryAlert",
         primaryWhite: "$colors$primaryWhite",
+        secondaryGray90: "$colors$secondaryGray90",
       },
     },
   },
