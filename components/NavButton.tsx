@@ -10,7 +10,7 @@ const NavButton = ({ title, onPress, disabled }: NavButtonProps) => {
     <Button
       onPress={onPress}
       disabled={disabled}
-      padding={14}
+      padding={10}
       className={`bg-primaryGreen w-48 ${disabled && "opacity-40"}`}
     >
       <ButtonText
