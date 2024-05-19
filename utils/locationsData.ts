@@ -1,16 +1,5 @@
-import { Status, getRandomStatus } from "./Status";
-
-export type location = {
-  location_id: number;
-  address: string;
-  latitude: number;
-  longitude: number;
-  opening_times: string;
-  closing_time: string;
-  hall_id: number;
-  status: Status;
-  isFavourite: boolean;
-};
+import { getRandomStatus } from "./Status";
+import { location } from "../types/location";
 
 export const locations: location[] = [
   {
@@ -44,7 +33,7 @@ export const locations: location[] = [
     closing_time: "24/7",
     hall_id: 3,
     status: getRandomStatus(),
-    isFavourite: false,
+    isFavourite: true,
   },
   {
     location_id: 4,
@@ -88,7 +77,7 @@ export const locations: location[] = [
     closing_time: "24/7",
     hall_id: 7,
     status: getRandomStatus(),
-    isFavourite: false,
+    isFavourite: true,
   },
   {
     location_id: 8,
@@ -121,7 +110,7 @@ export const locations: location[] = [
     closing_time: "22",
     hall_id: 10,
     status: getRandomStatus(),
-    isFavourite: false,
+    isFavourite: true,
   },
   {
     location_id: 11,
@@ -132,7 +121,7 @@ export const locations: location[] = [
     closing_time: "24/7",
     hall_id: 11,
     status: getRandomStatus(),
-    isFavourite: false,
+    isFavourite: true,
   },
   {
     location_id: 12,
@@ -319,7 +308,7 @@ export const locations: location[] = [
     closing_time: "22",
     hall_id: 28,
     status: getRandomStatus(),
-    isFavourite: false,
+    isFavourite: true,
   },
   {
     location_id: 29,

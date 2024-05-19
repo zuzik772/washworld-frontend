@@ -16,12 +16,14 @@ import {
   ButtonText,
   FavouriteIcon,
 } from "@gluestack-ui/themed";
-import {
-  location,
-  locations as initialLocations,
-} from "../utils/locationsData";
+
 import { getStatusColor } from "../utils/Status";
 import MapIcon from "../components/MapIcon";
+import {
+  useGetLocations,
+  useUpdateLocation,
+} from "../locations/locations.hooks";
+import { location } from "../types/location";
 
 type Props = NativeStackScreenProps<MapStackParamList, "MapScreen">;
 
@@ -35,10 +37,27 @@ const MapScreen = ({ navigation }: Props) => {
   const [selectedLocation, setSelectedLocation] = useState<location | null>(
     null
   );
-  const [isFavouriteLocation, setIsFavouriteLocation] = useState(false);
-  const [locations, setLocations] = useState<location[]>(initialLocations);
+  //const [isFavouriteLocation, setIsFavouriteLocation] = useState(false);
+  // const [locations, setLocations] = useState<location[]>(initialLocations);
 
-  console.log("selected location", selectedLocation);
+  const { data: locations, isPending, isError, error } = useGetLocations();
+  const { mutate: updateLocation } = useUpdateLocation();
+
+  const handleUpdateLocation = () => {
+    if (selectedLocation) {
+      const updatedLocationData = {
+        ...selectedLocation,
+        isFavourite: !selectedLocation.isFavourite,
+      };
+      console.log("current fav is", updatedLocationData.isFavourite);
+      updateLocation(updatedLocationData, {
+        onSuccess: () => {
+          // Update the selectedLocation state to reflect the change
+          setSelectedLocation(updatedLocationData);
+        },
+      });
+    }
+  };
   const userLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -55,9 +74,6 @@ const MapScreen = ({ navigation }: Props) => {
       longitudeDelta: 0.0421,
     });
   };
-  useEffect(() => {
-    userLocation();
-  }, []);
 
   const openGoogleMaps = (latitude: number, longitude: number) => {
     const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&travelmode=driving`;
@@ -71,6 +87,9 @@ const MapScreen = ({ navigation }: Props) => {
       })
       .catch((err) => console.error("An error occurred", err));
   };
+  useEffect(() => {
+    userLocation();
+  }, []);
 
   const locationTitle = selectedLocation?.address.split(" ").pop();
 
@@ -88,13 +107,11 @@ const MapScreen = ({ navigation }: Props) => {
         </View>
         <View className="flex-row items-center gap-2">
           <View className="w-9 h-9">
-            <Pressable
-              onPress={() => setIsFavouriteLocation(!isFavouriteLocation)}
-            >
+            <Pressable onPress={handleUpdateLocation}>
               <Icon
                 as={FavouriteIcon}
                 color={
-                  isFavouriteLocation
+                  location.isFavourite
                     ? "$colors$primaryGreen"
                     : "$colors$primaryWhite"
                 }
@@ -132,13 +149,14 @@ const MapScreen = ({ navigation }: Props) => {
       </View>
     );
   };
-
+  if (isPending) return <Text>Loading...</Text>;
+  if (isError) return <Text>Error: {error.message}</Text>;
   return (
     <Layout>
       <View className="relative">
         <MapView style={styles.map} region={mapRegion}>
           <Marker coordinate={mapRegion} title="Current Location" />
-          {locations.map((location) => (
+          {locations?.map((location) => (
             <Marker
               key={location.location_id}
               coordinate={{
@@ -162,24 +180,6 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     zIndex: 0,
-  },
-  card: {
-    zIndex: 10,
-    position: "absolute",
-    bottom: 20,
-    left: 20,
-    right: 20,
-    backgroundColor: "white",
-    padding: 20,
-    borderRadius: 8,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
   },
 });
 export default MapScreen;
