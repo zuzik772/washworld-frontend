@@ -20,14 +20,14 @@ const initialState: LocationState = {
           status_id: 1,
           status: {
             status_id: 1,
-            status: "Ready",
+            status: "Unavailable",
           },
         },
         {
           status_id: 2,
           status: {
             status_id: 2,
-            status: "Ready",
+            status: "Unavailable",
           },
         },
       ],
@@ -36,14 +36,14 @@ const initialState: LocationState = {
           hall_id: 1,
           status: {
             status_id: 1,
-            status: "Ready",
+            status: "Unavailable",
           },
         },
         {
           hall_id: 2,
           status: {
             status_id: 3,
-            status: "Unavailable",
+            status: "Ready",
           },
         },
       ],

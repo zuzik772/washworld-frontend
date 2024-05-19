@@ -10,7 +10,6 @@ import {
   ClockIcon,
   GlobeIcon,
   Button,
-  ScrollView,
 } from "@gluestack-ui/themed";
 import BadgesList from "../../components/BadgesList";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -20,7 +19,8 @@ import { Hall, SelfWash } from "../../types/Location";
 type LocationScreenProps = NativeStackScreenProps<MapStackParamList>;
 
 const LocationScreen = ({ navigation }: LocationScreenProps) => {
-  const [readyBoxHeight, setReadyBoxHeight] = useState(10);
+  const [textWidth, setTextWidth] = useState(0);
+
   const location = useSelector(
     (state: RootState) => state.location.locations[0]
   ); //
@@ -66,42 +66,65 @@ const LocationScreen = ({ navigation }: LocationScreenProps) => {
               }}
             />
             <View
-              onLayout={(event) => {
-                const { height } = event.nativeEvent.layout;
-                setReadyBoxHeight(height);
+              style={{
+                width: textWidth * 1.2,
+                transform: [{ skewX: "-34deg" }],
               }}
-              className="absolute bottom-0 right-0 bg-primaryGreen py-1 z-10"
-            >
-              <View className="z-20 px-2">
-                <Text
-                  className={`-ml-2 text-lg font-bold ${getStatusColor(
-                    locationStatus(
-                      location.self_wash_stations,
-                      location.washing_halls
-                    )
-                  )}`}
-                >
-                  {locationStatus(
+              className="bg-primaryGreen h-9 absolute bottom-0 right-0"
+            ></View>
+            <View className="absolute bottom-0 right-0">
+              <Text
+                onLayout={(event) => {
+                  const { width } = event.nativeEvent.layout;
+                  setTextWidth(width);
+                }}
+                className={`text-lg px-3 py-1 font-bold bg-primaryGreen ${getStatusColor(
+                  locationStatus(
                     location.self_wash_stations,
                     location.washing_halls
-                  )}
-                </Text>
-              </View>
-              <View
-                className={`absolute w-full right-3 bg-primaryGreen z-0 `}
-                style={{
-                  height: readyBoxHeight,
-                  transform: [{ skewX: "-34deg" }],
-                }}
-              />
+                  )
+                )}`}
+              >
+                {locationStatus(
+                  location.self_wash_stations,
+                  location.washing_halls
+                )}
+              </Text>
             </View>
           </View>
-          <View
-            className="w-12/12 h-1 bg-primaryGreen"
-            style={{
-              transform: [{ skewX: "-20deg" }],
-            }}
-          ></View>
+
+          {locationStatus(
+            location.self_wash_stations,
+            location.washing_halls
+          ) === "Unavailable" ? (
+            <View
+              style={{
+                width: textWidth * 2.1,
+                transform: [{ skewX: "-34deg" }],
+              }}
+              className="h-1 bg-primaryGreen"
+            ></View>
+          ) : locationStatus(
+              location.self_wash_stations,
+              location.washing_halls
+            ) === "Busy" ? (
+            <View
+              style={{
+                width: textWidth * 4.92,
+                transform: [{ skewX: "-34deg" }],
+              }}
+              className="h-1 bg-primaryGreen"
+            ></View>
+          ) : (
+            <View
+              style={{
+                width: textWidth * 4.07,
+                transform: [{ skewX: "-34deg" }],
+              }}
+              className="h-1 bg-primaryGreen"
+            ></View>
+          )}
+
           <View className="ml-5 mr-5">
             <Heading fontSize={40} color="$primaryWhite">
               {location.address}

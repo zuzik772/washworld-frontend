@@ -66,7 +66,7 @@ const initialState: MembershipState = {
     {
       membership_id: 3,
       name: "Premium",
-      price: 179,
+      price: 169,
       packages: [
         {
           package_id: 1,
