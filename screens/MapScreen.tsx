@@ -37,8 +37,6 @@ const MapScreen = ({ navigation }: Props) => {
   const [selectedLocation, setSelectedLocation] = useState<location | null>(
     null
   );
-  //const [isFavouriteLocation, setIsFavouriteLocation] = useState(false);
-  // const [locations, setLocations] = useState<location[]>(initialLocations);
 
   const { data: locations, isPending, isError, error } = useGetLocations();
   const { mutate: updateLocation } = useUpdateLocation();
@@ -78,13 +76,7 @@ const MapScreen = ({ navigation }: Props) => {
   const openGoogleMaps = (latitude: number, longitude: number) => {
     const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&travelmode=driving`;
     Linking.canOpenURL(url)
-      .then((supported) => {
-        if (supported) {
-          Linking.openURL(url);
-        } else {
-          console.log("Don't know how to open this URL: " + url);
-        }
-      })
+      .then(() => Linking.openURL(url))
       .catch((err) => console.error("An error occurred", err));
   };
   useEffect(() => {
