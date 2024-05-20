@@ -35,35 +35,35 @@ const PackageScreen = ({ navigation }: PackageCardProps) => {
               ? "w-10 h-1 bg-primaryGreen transition-all"
               : "w-7 h-1 bg-primaryGreen opacity-50 transition-all"
           }
-        ></Box>
+        />
         <Box
           className={
             currentIndex === 1
               ? "w-10 h-1 bg-primaryGreen transition-all"
               : "w-7 h-1 bg-primaryGreen opacity-50 transition-all"
           }
-        ></Box>
+        />
         <Box
           className={
             currentIndex === 2
               ? "w-10 h-1 bg-primaryGreen transition-all"
               : "w-7 h-1 bg-primaryGreen opacity-50 transition-all"
           }
-        ></Box>
+        />
         <Box
           className={
             currentIndex === 3
               ? "w-10 h-1 bg-primaryGreen transition-all"
               : "w-7 h-1 bg-primaryGreen opacity-50 transition-all"
           }
-        ></Box>
+        />
         <Box
           className={
             currentIndex === 4
               ? "w-10 h-1 bg-primaryGreen transition-all"
               : "w-7 h-1 bg-primaryGreen opacity-50 transition-all"
           }
-        ></Box>
+        />
       </View>
       <View>
         <Carousel

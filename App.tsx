@@ -23,8 +23,8 @@ import { useFonts } from "expo-font";
 import "./global.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import LocationScreen from "./screens/map/LocationScreen";
-import { Provider } from "react-redux"; // Step 1: Import Provider
-import { store } from "./store/store"; // Step 2: Import your Redux store
+import { Provider } from "react-redux";
+import { store } from "./store/store";
 
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import LoginScreen from "./screens/LoginScreen";
@@ -125,7 +125,7 @@ export default function App() {
               screenOptions={({ route }) => ({
                 headerShown: false,
                 tabBarStyle: {
-                  backgroundColor: "#1a1a1a", // Maybe look into how to use variables here?
+                  backgroundColor: "#1a1a1a",
                   borderBlockColor: "#34b566",
                   borderTopWidth: 3,
                   height: 90,
@@ -161,7 +161,7 @@ export default function App() {
                   tabBarStyle: {
                     position: "absolute",
                     bottom: getRouteName(route),
-                    backgroundColor: "#1a1a1a", // Set the color here
+                    backgroundColor: "#1a1a1a",
                     borderBlockColor: "#34b566",
                     borderTopWidth: 3,
                     height: 90,

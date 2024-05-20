@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, StyleSheet, Image } from "react-native";
+import { StyleSheet } from "react-native";
 import Layout from "../../components/Layout";
 import { RootState } from "../../store/store";
 import { useSelector } from "react-redux";
@@ -10,6 +10,8 @@ import {
   ClockIcon,
   GlobeIcon,
   Button,
+  View,
+  Image,
 } from "@gluestack-ui/themed";
 import BadgesList from "../../components/BadgesList";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
@@ -27,13 +29,13 @@ const LocationScreen = ({ navigation }: LocationScreenProps) => {
 
   const locationStatus = (self_wash: SelfWash[], halls: Hall[]) => {
     if (
-      self_wash.some((sw) => sw.status.status === "Ready") ||
+      // self_wash.some((sw) => sw.status.status === "Ready") ||
       halls.some((hall) => hall.status.status === "Ready")
     ) {
       return "Ready";
     } else if (
-      self_wash.some((sw) => sw.status.status === "Busy") ||
-      halls.some((hall) => hall.status.status === "Busy")
+      // self_wash.every((sw) => sw.status.status === "Busy") ||
+      halls.every((hall) => hall.status.status === "Busy")
     ) {
       return "Busy";
     } else {
@@ -60,6 +62,7 @@ const LocationScreen = ({ navigation }: LocationScreenProps) => {
         <View className="flex ">
           <View className="h-64 w-full relative">
             <Image
+              alt="Location image"
               style={styles.fullWidthImage}
               source={{
                 uri: "https://washworld.dk/_next/image?url=https%3A%2F%2Fwashworld-wordpress-production.storage.googleapis.com%2Fwp-content%2Fuploads%2F2021%2F03%2F28140259%2FWashWorld_lokation-e1618300360483.jpg&w=828&q=65",
@@ -71,7 +74,7 @@ const LocationScreen = ({ navigation }: LocationScreenProps) => {
                 transform: [{ skewX: "-34deg" }],
               }}
               className="bg-primaryGreen h-9 absolute bottom-0 right-0"
-            ></View>
+            />
             <View className="absolute bottom-0 right-0">
               <Text
                 onLayout={(event) => {
@@ -103,7 +106,7 @@ const LocationScreen = ({ navigation }: LocationScreenProps) => {
                 transform: [{ skewX: "-34deg" }],
               }}
               className="h-1 bg-primaryGreen"
-            ></View>
+            />
           ) : locationStatus(
               location.self_wash_stations,
               location.washing_halls
@@ -114,7 +117,7 @@ const LocationScreen = ({ navigation }: LocationScreenProps) => {
                 transform: [{ skewX: "-34deg" }],
               }}
               className="h-1 bg-primaryGreen"
-            ></View>
+            />
           ) : (
             <View
               style={{
@@ -122,7 +125,7 @@ const LocationScreen = ({ navigation }: LocationScreenProps) => {
                 transform: [{ skewX: "-34deg" }],
               }}
               className="h-1 bg-primaryGreen"
-            ></View>
+            />
           )}
 
           <View className="ml-5 mr-5">
