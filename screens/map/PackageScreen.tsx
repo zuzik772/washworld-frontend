@@ -11,7 +11,6 @@ import { Membership } from "../../types/Membership";
 import SubscriptionCard from "../../components/SubscriptionCard";
 
 type PackageCardProps = {
-  subscription: Membership;
   navigation: NativeStackNavigationProp<MapStackParamList, "PreWash">;
 };
 
@@ -77,8 +76,8 @@ const PackageScreen = ({ navigation }: PackageCardProps) => {
           scrollAnimationDuration={500}
           renderItem={({ item, index }) => (
             <SubscriptionCard
-              navigation={navigation}
               key={index}
+              navigation={navigation}
               subscription={item}
             />
           )}

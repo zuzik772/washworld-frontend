@@ -23,7 +23,7 @@ import {
   useGetLocations,
   useUpdateLocation,
 } from "../locations/locations.hooks";
-import { location } from "../types/location";
+import { location } from "../types/Location";
 
 type Props = NativeStackScreenProps<MapStackParamList, "MapScreen">;
 

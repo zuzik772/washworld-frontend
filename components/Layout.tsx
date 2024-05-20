@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { StyleProp, View, ViewStyle } from "react-native";
+import { StyleProp, ViewStyle } from "react-native";
 import WashworldLogo from "../assets/app/washworld-logo.svg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GoBackButton from "./GoBackButton";

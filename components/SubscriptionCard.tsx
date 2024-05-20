@@ -15,13 +15,17 @@ import { ScrollView } from "react-native-gesture-handler";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../store/store";
 import { selectMembership } from "../store/selectedMembershipSlice";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { MapStackParamList } from "../navigation/MapStackParamList";
 
 type SubscriptionCardProps = {
   subscription: Membership;
+  navigation: NativeStackNavigationProp<MapStackParamList, "PreWash">;
 };
 
 const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
   subscription,
+  navigation,
 }) => {
   const user = useSelector((state: RootState) => state.user);
   const userMembership = user.membership;
@@ -176,7 +180,10 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
 
             <View className="flex items-center my-5">
               <Button
-                onPress={() => handleSelect(subscription)}
+                onPress={() => {
+                  handleSelect(subscription);
+                  navigation.navigate("PreWash");
+                }}
                 className="py-3 px-7 bg-primaryGreen"
               >
                 <Text className="text-center uppercase text-xl font-bold text-primaryWhite">

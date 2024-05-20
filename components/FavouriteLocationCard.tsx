@@ -1,6 +1,6 @@
 import React from "react";
 import { Button, ButtonText, Text, View } from "@gluestack-ui/themed";
-import { location } from "../types/location";
+import { location } from "../types/Location";
 import { getStatusColor } from "../utils/Status";
 
 type Props = {

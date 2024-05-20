@@ -14,7 +14,7 @@ import {
 import BadgesList from "../../components/BadgesList";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
-import { Hall, SelfWash } from "../../types/Location";
+import { SelfWash, Hall } from "../../types/Location";
 
 type LocationScreenProps = NativeStackScreenProps<MapStackParamList>;
 
