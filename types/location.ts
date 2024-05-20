@@ -5,9 +5,7 @@ export type location = {
   address: string;
   latitude: number;
   longitude: number;
-  opening_times: string;
-  closing_time: string;
-  hall_id: number;
-  status: Status;
-  isFavourite: boolean;
+  opening_times: number;
+  closing_time: number;
+  hall_id: number[];
 };
