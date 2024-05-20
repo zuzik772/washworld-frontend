@@ -7,7 +7,7 @@ module.exports = function (api) {
     ],
      plugins: [
       '@babel/plugin-proposal-export-namespace-from',
-      'react-native-reanimated/plugin', //if you are adding any more plugins, make sure 'react-native-reanimated/plugin is last'
+      ["react-native-reanimated/plugin", { relativeSourceLocation: true }],
     ],
   };
 };

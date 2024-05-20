@@ -1,5 +1,6 @@
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { NavigationContainer } from "@react-navigation/native";
+import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MapStackParamList } from "./navigation/MapStackParamList";
 import MapScreen from "./screens/MapScreen";
@@ -9,6 +10,7 @@ import FavouritesScreen from "./screens/FavouritesScreen";
 import { FavouritesStackParamList } from "./navigation/FavouritesStackParamList";
 import { InfoStackParamList } from "./navigation/InfoStackParamList";
 import { SettingsStackParamList } from "./navigation/SettingsStackParamList";
+import LocationScreen from "./screens/map/LocationScreen";
 import PackageScreen from "./screens/map/PackageScreen";
 import PreWashScreen from "./screens/map/PreWashScreen";
 import WashScreen from "./screens/map/WashScreen";
@@ -19,11 +21,15 @@ import DeleteProfileScreen from "./screens/settings/DeleteProfileScreen";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "./washworld-gluestack-ui.config";
 import "./global.css";
-import LocationScreen from "./screens/map/LocationScreen";
+import { QueryClientProvider, QueryClient } from "@tanstack/react-query";import LocationScreen from "./screens/map/LocationScreen";
 import { Provider } from "react-redux"; // Step 1: Import Provider
 import { store } from "./store/store"; // Step 2: Import your Redux store
 
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
+import LoginScreen from "./screens/LoginScreen";
+import SignUpScreen from "./screens/SignUpScreen";
+
+const queryClient = new QueryClient();
 
 export default function App() {
   const Tab = createBottomTabNavigator();
@@ -36,9 +42,14 @@ export default function App() {
   const MapNavigator = () => {
     return (
       <MapStack.Navigator
-        initialRouteName="Location"
+        initialRouteName="Login"
         screenOptions={{ headerShown: false }}
       >
+        {/* to be moved and render based on auth state */}
+        {/* now for simplicity of styling its under map */}
+        <MapStack.Screen name="Login" component={LoginScreen} />
+        <MapStack.Screen name="SignUp" component={SignUpScreen} />
+
         <MapStack.Screen name="MapScreen" component={MapScreen} />
         <MapStack.Screen name="Location" component={LocationScreen} />
         <MapStack.Screen name="Package" component={PackageScreen} />
@@ -91,8 +102,21 @@ export default function App() {
     );
   };
 
+  const getRouteName = (route: any) => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    console.log(routeName);
+    if (
+      routeName === "PreWash" ||
+      routeName === "Wash" ||
+      routeName === "PostWash"
+    )
+      return "-100%";
+    return "0%";
+  };
+
   return (
-    <Provider store={store}>
+  <Provider store={store}>
+    <QueryClientProvider client={queryClient}>
       <GluestackUIProvider config={config}>
         <NavigationContainer>
           <Tab.Navigator
@@ -111,30 +135,40 @@ export default function App() {
                 fontWeight: "bold",
               },
 
-              tabBarIcon: ({ focused, color, size }) => {
-                return route.name === "Map" ? (
-                  <MaterialIcons
-                    name="location-pin"
-                    size={size}
-                    color={color}
-                  />
-                ) : route.name === "Favourites" ? (
-                  <AntDesign name="heart" size={size} color={color} />
-                ) : route.name === "Info" ? (
-                  <MaterialIcons name="info" size={size} color={color} />
-                ) : route.name === "Settings" ? (
-                  <MaterialIcons name="settings" size={size} color={color} />
-                ) : null;
-              },
-            })}
-          >
-            <Tab.Screen name="Map" component={MapNavigator} />
-            <Tab.Screen name="Favourites" component={FavouritesNavigator} />
-            <Tab.Screen name="Info" component={InfoNavigator} />
-            <Tab.Screen name="Settings" component={SettingsNavigator} />
-          </Tab.Navigator>
-        </NavigationContainer>
-      </GluestackUIProvider>
-    </Provider>
+            tabBarIcon: ({ focused, color, size }) => {
+              return route.name === "Map" ? (
+                <MaterialIcons name="location-pin" size={size} color={color} />
+              ) : route.name === "Favourites" ? (
+                <AntDesign name="heart" size={size} color={color} />
+              ) : route.name === "Info" ? (
+                <MaterialIcons name="info" size={size} color={color} />
+              ) : route.name === "Settings" ? (
+                <MaterialIcons name="settings" size={size} color={color} />
+              ) : null;
+            },
+          })}
+        >
+          <Tab.Screen
+              name="Map"
+              component={MapNavigator}
+              options={({ route }) => ({
+                tabBarStyle: {
+                  position: "absolute",
+                  bottom: getRouteName(route),
+                  backgroundColor: "#1a1a1a", // Set the color here
+                  borderBlockColor: "#34b566",
+                  borderTopWidth: 3,
+                  height: 90,
+                },
+              })}
+            />
+          <Tab.Screen name="Favourites" component={FavouritesNavigator} />
+          <Tab.Screen name="Info" component={InfoNavigator} />
+          <Tab.Screen name="Settings" component={SettingsNavigator} />
+        </Tab.Navigator>
+      </NavigationContainer>
+    </GluestackUIProvider>
+      </QueryClientProvider>
+  </Provider>
   );
 }
