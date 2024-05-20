@@ -106,7 +106,7 @@ export default function App() {
   };
 
   const getRouteName = (route: any) => {
-    const routeName = getFocusedRouteNameFromRoute(route)!;
+    const routeName = getFocusedRouteNameFromRoute(route) as string;
     console.log(routeName);
 
     const hiddenRoutes = ["PreWash", "Wash", "PostWash"];

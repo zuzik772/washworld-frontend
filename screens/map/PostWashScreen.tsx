@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
-import { View } from "@gluestack-ui/themed";
+import { ScrollView, View } from "@gluestack-ui/themed";
 import NavButton from "../../components/NavButton";
 
 type Props = NativeStackScreenProps<MapStackParamList, "PostWash">;
@@ -11,7 +11,7 @@ const PostWashScreen = ({ navigation }: Props) => {
   const [litersSaved, setLitersSaved] = useState(250);
   return (
     <Layout>
-      <View className="my-8 flex flex-col gap-16 px-8">
+      <ScrollView className="py-8 flex flex-col gap-16 px-8 h-full">
         <Text
           className="text-white text-center text-5xl"
           style={{
@@ -83,7 +83,7 @@ const PostWashScreen = ({ navigation }: Props) => {
             Experienced a problem?
           </Text>
         </View>
-      </View>
+      </ScrollView>
     </Layout>
   );
 };

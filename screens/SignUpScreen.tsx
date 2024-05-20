@@ -154,7 +154,7 @@ const SignUpScreen = ({ navigation }: Props) => {
           </CheckboxGroup>
           <NavButton
             title="Sign up"
-            onPress={() => navigation.navigate("Package")}
+            onPress={() => navigation.navigate("MapScreen")}
             disabled={false}
           />
           <View className="flex items-center">

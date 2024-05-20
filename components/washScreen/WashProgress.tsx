@@ -1,4 +1,5 @@
 import { View, Text, set } from "@gluestack-ui/themed";
+import { useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
@@ -7,11 +8,13 @@ type WashProgressProps = {
   washType: "Basic" | "Gold" | "Premium" | "Premium Plus" | "All Inclusive";
   onStateChange: (state: string) => void;
   onComplete: () => void;
+  forceStop: boolean;
 };
 const WashProgress = ({
   washType,
   onStateChange,
   onComplete,
+  forceStop,
 }: WashProgressProps) => {
   const apiWashInfo = new Map([
     [
@@ -177,6 +180,7 @@ const WashProgress = ({
 
   useEffect(() => {
     setTimeout(() => {
+      if (forceStop) return;
       if (updatedSecondsLeft <= 0) return onComplete();
       else {
         setUpdatedSecondsLeft((prevSeconds) => prevSeconds - 1);

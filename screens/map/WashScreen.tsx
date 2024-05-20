@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
-import { View, Text } from "@gluestack-ui/themed";
+import { View, Text, ScrollView } from "@gluestack-ui/themed";
 import WashProgress from "../../components/washScreen/WashProgress";
 import NavButton from "../../components/NavButton";
 import CustomModal from "../../components/CustomModal";
@@ -14,6 +14,8 @@ const WashScreen = ({ navigation }: Props) => {
   const [currentState, setCurrentState] = useState("");
 
   const [showEmergencyModal, setShowEmergencyModal] = useState(false);
+  const [forceStop, setForceStop] = useState(false);
+
   return (
     <>
       <Layout>
@@ -32,61 +34,65 @@ const WashScreen = ({ navigation }: Props) => {
               title: "STOP",
               type: "danger",
               onPress: () => {
+                setForceStop(true);
                 navigation.navigate("PostWash");
               },
             },
           ]}
         />
-        <View className="my-4 flex flex-col gap-1">
-          <Text
-            className="text-white text-center text-xl"
-            style={{
-              fontFamily: "Gilroy-Medium",
-            }}
-          >
-            Wash Type
-          </Text>
-          <Text
-            className="text-primaryGreen text-center text-6xl"
-            style={{
-              fontFamily: "Gilroy-ExtraBold",
-            }}
-          >
-            {demoSelectedWashtype}
-          </Text>
-          <Text
-            className="text-white text-center text-2xl"
-            style={{
-              fontFamily: "Gilroy-Medium",
-            }}
-          >
-            Status
-          </Text>
-          <Text
-            className="text-white text-center text-3xl"
-            style={{
-              fontFamily: "Gilroy-ExtraBold",
-            }}
-          >
-            {currentState}
-          </Text>
-        </View>
+        <ScrollView>
+          <View className="my-4 flex flex-col gap-1">
+            <Text
+              className="text-white text-center text-xl"
+              style={{
+                fontFamily: "Gilroy-Medium",
+              }}
+            >
+              Wash Type
+            </Text>
+            <Text
+              className="text-primaryGreen text-center text-6xl"
+              style={{
+                fontFamily: "Gilroy-ExtraBold",
+              }}
+            >
+              {demoSelectedWashtype}
+            </Text>
+            <Text
+              className="text-white text-center text-2xl"
+              style={{
+                fontFamily: "Gilroy-Medium",
+              }}
+            >
+              Status
+            </Text>
+            <Text
+              className="text-white text-center text-3xl"
+              style={{
+                fontFamily: "Gilroy-ExtraBold",
+              }}
+            >
+              {currentState}
+            </Text>
+          </View>
 
-        <WashProgress
-          washType={demoSelectedWashtype}
-          onStateChange={(state) => setCurrentState(state)}
-          onComplete={() => navigation.navigate("PostWash")}
-        />
-
-        <View className="flex flex-col items-center mt-8 gap-4 mb-8">
-          <NavButton
-            title="EMERGENCY STOP"
-            danger
-            width="75%"
-            onPress={() => setShowEmergencyModal(true)}
+          <WashProgress
+            washType={demoSelectedWashtype}
+            onStateChange={(state) => setCurrentState(state)}
+            onComplete={() => navigation.navigate("PostWash")}
+            forceStop={forceStop}
           />
-          <Text className="text-primaryGreen underline">Need help?</Text>
-        </View>
+
+          <View className="flex flex-col items-center mt-8 gap-4 mb-8">
+            <NavButton
+              title="EMERGENCY STOP"
+              danger
+              width="75%"
+              onPress={() => setShowEmergencyModal(true)}
+            />
+            <Text className="text-primaryGreen underline">Need help?</Text>
+          </View>
+        </ScrollView>
       </Layout>
     </>
   );

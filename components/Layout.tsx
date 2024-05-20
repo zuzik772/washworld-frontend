@@ -18,7 +18,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [backButtonVisible, setBackButtonVisible] = React.useState(false);
 
   useEffect(() => {
-    const hiddenRoutes = ["MapScreen", "Wash"];
+    const hiddenRoutes = ["MapScreen", "Wash", "PostWash"];
     console.log("route:", location.name);
     if (location.name) {
       setBackButtonVisible(!hiddenRoutes.includes(location.name));
@@ -43,7 +43,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <WashworldLogo height={40} />
           </View>
         </View>
-        <ScrollView>{children}</ScrollView>
+        <View>{children}</View>
       </View>
     </View>
   );
