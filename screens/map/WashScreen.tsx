@@ -4,7 +4,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
 import { View, Text } from "@gluestack-ui/themed";
 import WashProgress from "../../components/washScreen/WashProgress";
-import StyledButton from "../../components/StyledButton";
+import NavButton from "../../components/NavButton";
 
 type Props = NativeStackScreenProps<MapStackParamList, "Wash">;
 const WashScreen = ({ navigation }: Props) => {
@@ -56,7 +56,7 @@ const WashScreen = ({ navigation }: Props) => {
       />
 
       <View className="flex flex-col items-center mt-8 gap-4 mb-8">
-        <StyledButton title="EMERGENCY STOP" danger width="75%" />
+        <NavButton title="EMERGENCY STOP" danger width="75%" />
         <Text className="text-primaryGreen underline">Need help?</Text>
       </View>
     </Layout>

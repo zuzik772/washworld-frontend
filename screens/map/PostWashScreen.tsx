@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
-import StyledButton from "../../components/StyledButton";
 import { View } from "@gluestack-ui/themed";
+import NavButton from "../../components/NavButton";
 
 type Props = NativeStackScreenProps<MapStackParamList, "PostWash">;
 const PostWashScreen = ({ navigation }: Props) => {
@@ -75,7 +75,7 @@ const PostWashScreen = ({ navigation }: Props) => {
         </View>
 
         <View className="flex flex-col gap-2 items-center">
-          <StyledButton
+          <NavButton
             title="Finish"
             onPress={() => navigation.navigate("MapScreen")}
           />

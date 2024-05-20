@@ -28,8 +28,10 @@
       [
         "expo-font",
         {
-          "fonts": ["./fonts/Gilroy-Medium.otf.otf", "./fonts/Gilroy-ExtraBold.otf"]
-        },
+          "fonts": ["./fonts/Gilroy-Medium.otf", "./fonts/Gilroy-ExtraBold.otf"]
+        }
+      ],
+      [
         "expo-location",
         {
           "locationAlwaysAndWhenInUsePermission": "Allow $(PRODUCT_NAME) to use your location."

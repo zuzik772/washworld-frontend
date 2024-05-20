@@ -4,7 +4,7 @@ import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { FlatList, Text, View } from "@gluestack-ui/themed";
 import CircleCheck from "../../components/CircleCheck";
 import { useState, useEffect } from "react";
-import StyledButton from "../../components/StyledButton";
+import NavButton from "../../components/NavButton";
 
 type Props = NativeStackScreenProps<MapStackParamList, "PreWash">;
 const instructions = [
@@ -50,25 +50,26 @@ const PreWashScreen = ({ navigation }: Props) => {
               </Text>
             </View>
           ))}
-        />
-        <View className="bg-primaryGreen h-1 w-full my-6" />
-      </View>
-      <View className="flex items-center mt-8">
-        {isCarInWashHall ? (
-          <Text className="text-primaryWhite my-8">
-            Car entered the wash hall, ready to start wash
-          </Text>
-        ) : (
-          <Text className="text-primaryWhite my-8">
-            Please enter the wash hall
-          </Text>
-        )}
 
-        <StyledButton
-          title="Start"
-          onPress={() => navigation.navigate("Wash")}
-          disabled={!isCarInWashHall}
-        />
+          <View className="bg-primaryGreen h-1 w-full my-6" />
+        </View>
+        <View className="flex items-center mt-8">
+          {isCarInWashHall ? (
+            <Text className="text-primaryWhite my-8">
+              Car entered the wash hall, ready to start wash
+            </Text>
+          ) : (
+            <Text className="text-primaryWhite my-8">
+              Please enter the wash hall
+            </Text>
+          )}
+
+          <NavButton
+            title="Start"
+            onPress={() => navigation.navigate("Wash")}
+            disabled={!isCarInWashHall}
+          />
+        </View>
       </View>
     </Layout>
   );

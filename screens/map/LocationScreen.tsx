@@ -3,8 +3,7 @@ import React from "react";
 import Layout from "../../components/Layout";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
-import StyledButton from "../../components/StyledButton";
-import GoBackButton from "../../components/GoBackButton";
+import NavButton from "../../components/NavButton";
 
 type Props = NativeStackScreenProps<MapStackParamList, "Location">;
 const LocationScreen = ({ navigation, route }: Props) => {
