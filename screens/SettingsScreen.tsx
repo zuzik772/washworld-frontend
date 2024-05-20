@@ -1,11 +1,11 @@
 import React from "react";
 import Layout from "../components/Layout";
-import CustomModal from "../components/CustomModal";
+import { Text } from "@gluestack-ui/themed";
 
 const SettingsScreen = () => {
   return (
     <Layout>
-      <CustomModal />
+      <Text className="text-white">SettingsScreen</Text>
     </Layout>
   );
 };

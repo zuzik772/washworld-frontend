@@ -20,6 +20,7 @@ import ReportDamageScreen from "./screens/settings/ReportDamageScreen";
 import DeleteProfileScreen from "./screens/settings/DeleteProfileScreen";
 import { GluestackUIProvider } from "@gluestack-ui/themed";
 import { config } from "./washworld-gluestack-ui.config";
+import { useFonts } from "expo-font";
 import "./global.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
@@ -29,6 +30,11 @@ import SignUpScreen from "./screens/SignUpScreen";
 const queryClient = new QueryClient();
 
 export default function App() {
+  useFonts({
+    "Gilroy-Medium": require("./fonts/Gilroy-Medium.otf"),
+    "Gilroy-ExtraBold": require("./fonts/Gilroy-ExtraBold.otf"),
+  });
+
   const Tab = createBottomTabNavigator();
   const MapStack = createNativeStackNavigator<MapStackParamList>();
   const FavouritesStack =
@@ -100,15 +106,11 @@ export default function App() {
   };
 
   const getRouteName = (route: any) => {
-    const routeName = getFocusedRouteNameFromRoute(route);
+    const routeName = getFocusedRouteNameFromRoute(route) as string;
     console.log(routeName);
-    if (
-      routeName === "PreWash" ||
-      routeName === "Wash" ||
-      routeName === "PostWash"
-    )
-      return "-100%";
-    return "0%";
+
+    const hiddenRoutes = ["PreWash", "Wash", "PostWash"];
+    return hiddenRoutes.includes(routeName) ? "-100%" : "0%";
   };
 
   return (
