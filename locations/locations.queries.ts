@@ -1,4 +1,4 @@
-import { location } from "../types/location";
+import { location } from "../types/Location";
 import { locations } from "../utils/locationsData";
 const fetchLocations = () => {
   return locations;

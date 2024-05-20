@@ -1,5 +1,5 @@
 import { getRandomStatus } from "./Status";
-import { location } from "../types/location";
+import { location } from "../types/Location";
 
 export const locations: location[] = [
   {

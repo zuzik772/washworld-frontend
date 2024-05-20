@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-
+import { StyleProp, ViewStyle } from "react-native";
 import WashworldLogo from "../assets/app/washworld-logo.svg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GoBackButton from "./GoBackButton";
@@ -8,6 +8,7 @@ import { useRoute } from "@react-navigation/native";
 
 type LayoutProps = {
   children: React.ReactNode;
+  style?: StyleProp<ViewStyle>;
 };
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {

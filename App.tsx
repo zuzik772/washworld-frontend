@@ -10,7 +10,6 @@ import FavouritesScreen from "./screens/FavouritesScreen";
 import { FavouritesStackParamList } from "./navigation/FavouritesStackParamList";
 import { InfoStackParamList } from "./navigation/InfoStackParamList";
 import { SettingsStackParamList } from "./navigation/SettingsStackParamList";
-import LocationScreen from "./screens/map/LocationScreen";
 import PackageScreen from "./screens/map/PackageScreen";
 import PreWashScreen from "./screens/map/PreWashScreen";
 import WashScreen from "./screens/map/WashScreen";
@@ -23,6 +22,10 @@ import { config } from "./washworld-gluestack-ui.config";
 import { useFonts } from "expo-font";
 import "./global.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
+import LocationScreen from "./screens/map/LocationScreen";
+import { Provider } from "react-redux";
+import { store } from "./store/store";
+
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
@@ -114,62 +117,64 @@ export default function App() {
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <GluestackUIProvider config={config}>
-        <NavigationContainer>
-          <Tab.Navigator
-            screenOptions={({ route }) => ({
-              headerShown: false,
-              tabBarStyle: {
-                backgroundColor: "#1a1a1a", // Maybe look into how to use variables here?
-                borderBlockColor: "#34b566",
-                borderTopWidth: 3,
-                height: 90,
-              },
-              tabBarActiveTintColor: "#34b566",
-              tabBarInactiveTintColor: "#ffffff",
-
-              tabBarLabelStyle: {
-                fontWeight: "bold",
-              },
-
-              tabBarIcon: ({ focused, color, size }) => {
-                return route.name === "Map" ? (
-                  <MaterialIcons
-                    name="location-pin"
-                    size={size}
-                    color={color}
-                  />
-                ) : route.name === "Favourites" ? (
-                  <AntDesign name="heart" size={size} color={color} />
-                ) : route.name === "Info" ? (
-                  <MaterialIcons name="info" size={size} color={color} />
-                ) : route.name === "Settings" ? (
-                  <MaterialIcons name="settings" size={size} color={color} />
-                ) : null;
-              },
-            })}
-          >
-            <Tab.Screen
-              name="Map"
-              component={MapNavigator}
-              options={({ route }) => ({
+    <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <GluestackUIProvider config={config}>
+          <NavigationContainer>
+            <Tab.Navigator
+              screenOptions={({ route }) => ({
+                headerShown: false,
                 tabBarStyle: {
-                  position: "absolute",
-                  bottom: getRouteName(route),
-                  backgroundColor: "#1a1a1a", // Set the color here
+                  backgroundColor: "#1a1a1a",
                   borderBlockColor: "#34b566",
                   borderTopWidth: 3,
                   height: 90,
                 },
+                tabBarActiveTintColor: "#34b566",
+                tabBarInactiveTintColor: "#ffffff",
+
+                tabBarLabelStyle: {
+                  fontWeight: "bold",
+                },
+
+                tabBarIcon: ({ focused, color, size }) => {
+                  return route.name === "Map" ? (
+                    <MaterialIcons
+                      name="location-pin"
+                      size={size}
+                      color={color}
+                    />
+                  ) : route.name === "Favourites" ? (
+                    <AntDesign name="heart" size={size} color={color} />
+                  ) : route.name === "Info" ? (
+                    <MaterialIcons name="info" size={size} color={color} />
+                  ) : route.name === "Settings" ? (
+                    <MaterialIcons name="settings" size={size} color={color} />
+                  ) : null;
+                },
               })}
-            />
-            <Tab.Screen name="Favourites" component={FavouritesNavigator} />
-            <Tab.Screen name="Info" component={InfoNavigator} />
-            <Tab.Screen name="Settings" component={SettingsNavigator} />
-          </Tab.Navigator>
-        </NavigationContainer>
-      </GluestackUIProvider>
-    </QueryClientProvider>
+            >
+              <Tab.Screen
+                name="Map"
+                component={MapNavigator}
+                options={({ route }) => ({
+                  tabBarStyle: {
+                    position: "absolute",
+                    bottom: getRouteName(route),
+                    backgroundColor: "#1a1a1a",
+                    borderBlockColor: "#34b566",
+                    borderTopWidth: 3,
+                    height: 90,
+                  },
+                })}
+              />
+              <Tab.Screen name="Favourites" component={FavouritesNavigator} />
+              <Tab.Screen name="Info" component={InfoNavigator} />
+              <Tab.Screen name="Settings" component={SettingsNavigator} />
+            </Tab.Navigator>
+          </NavigationContainer>
+        </GluestackUIProvider>
+      </QueryClientProvider>
+    </Provider>
   );
 }
