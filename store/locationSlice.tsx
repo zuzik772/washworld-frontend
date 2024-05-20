@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Location } from "../types/location";
+import { Location, location } from "../types/location";
 
 export interface LocationState {
   locations: Location[];
