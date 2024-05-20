@@ -1,10 +1,10 @@
 import Layout from "../../components/Layout";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import NavButton from "../../components/NavButton";
 import { FlatList, Text, View } from "@gluestack-ui/themed";
 import CircleCheck from "../../components/CircleCheck";
 import { useState, useEffect } from "react";
+import NavButton from "../../components/NavButton";
 
 type Props = NativeStackScreenProps<MapStackParamList, "PreWash">;
 const instructions = [
@@ -21,7 +21,7 @@ const PreWashScreen = ({ navigation }: Props) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsCarInWashHall(true);
-    }, 5000);
+    }, 1000);
 
     return () => {
       clearTimeout(timer);
@@ -41,36 +41,35 @@ const PreWashScreen = ({ navigation }: Props) => {
         </Text>
         <View className="bg-primaryGreen h-1 w-full my-6" />
 
-        <FlatList
-          data={instructions}
-          renderItem={({ item }) => (
-            <View className="flex-row gap-2 mb-2">
+        <View>
+          {instructions.map((item, index) => (
+            <View key={index} style={{ flexDirection: "row", marginBottom: 2 }}>
               <CircleCheck />
               <Text className="text-primaryWhite text-lg">
                 {item as string}
               </Text>
             </View>
-          )}
-          keyExtractor={(item, index) => index.toString()}
-        />
-        <View className="bg-primaryGreen h-1 w-full my-6" />
-      </View>
-      <View className="flex items-center mt-8">
-        {isCarInWashHall ? (
-          <Text className="text-primaryWhite my-8">
-            Car entered the wash hall, ready to start wash
-          </Text>
-        ) : (
-          <Text className="text-primaryWhite my-8">
-            Please enter the wash hall
-          </Text>
-        )}
+          ))}
 
-        <NavButton
-          title="Start"
-          onPress={() => navigation.navigate("Wash")}
-          disabled={!isCarInWashHall}
-        />
+          <View className="bg-primaryGreen h-1 w-full my-6" />
+        </View>
+        <View className="flex items-center mt-8">
+          {isCarInWashHall ? (
+            <Text className="text-primaryWhite my-8">
+              Car entered the wash hall, ready to start wash
+            </Text>
+          ) : (
+            <Text className="text-primaryWhite my-8">
+              Please enter the wash hall
+            </Text>
+          )}
+
+          <NavButton
+            title="Start"
+            onPress={() => navigation.navigate("Wash")}
+            disabled={!isCarInWashHall}
+          />
+        </View>
       </View>
     </Layout>
   );
