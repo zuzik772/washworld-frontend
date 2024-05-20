@@ -1,43 +1,29 @@
-import { Status } from "../utils/Status";
+export interface SelfWash {
+  status_id: number;
+  status: Status;
+}
 
-export type location = {
-  location_id: number;
-  address: string;
-  latitude: number;
-  longitude: number;
-  opening_times: string;
-  closing_times: string;
+export interface Status {
+  status_id: number;
+  status: "Ready" | "Busy" | "Unavailable";
+}
+
+export interface Hall {
   hall_id: number;
   status: Status;
-  isFavourite: boolean;
-};
-
-export type Location = {
-  location_id: number;
-  address: string;
-  latitude: number;
-  longitude: number;
-  opening_times: string;
-  closing_times: string;
-  distance: number;
-  self_wash_stations: SelfWashStation[];
-  washing_halls: WashingHall[];
-};
-
-type status = {
-  status_id: number;
-  status: string;
-};
-
-export type SelfWashStation = {
-  status_id: number;
-  status: status;
-};
-
-export type WashingHall = {
-  hall_id: number;
-  status: status;
   width: number;
   height: number;
   max_rim_size: number;
-};
+}
+
+export interface Location {
+  location_id: number;
+  address: string;
+  opening_times: string;
+  closing_times: string;
+  latitude: number;
+  longitude: number;
+  distance: number;
+  self_wash_stations: SelfWash[];
+  washing_halls: Hall[];
+}
