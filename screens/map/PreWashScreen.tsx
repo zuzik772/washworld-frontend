@@ -39,7 +39,7 @@ const PreWashScreen = ({ navigation }: Props) => {
         <Text className="text-primaryWhite text-xl font-extrabold mt-6">
           Prepare your vehicle
         </Text>
-        <Text className="bg-primaryGreen h-1 w-full my-6"></Text>
+        <View className="bg-primaryGreen h-1 w-full my-6" />
 
         <View>
           {instructions.map((item, index) => (
@@ -50,7 +50,8 @@ const PreWashScreen = ({ navigation }: Props) => {
               </Text>
             </View>
           ))}
-        </View>
+        />
+        <View className="bg-primaryGreen h-1 w-full my-6" />
       </View>
       <View className="flex items-center mt-8">
         {isCarInWashHall ? (
