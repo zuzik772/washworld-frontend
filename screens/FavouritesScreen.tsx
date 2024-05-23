@@ -12,7 +12,7 @@ const FavouritesScreen = () => {
       </Text>
       {isPending && <Text>Loading...</Text>}
       {isError && <Text>Error: {error.message}</Text>}
-      <ScrollView>
+      <ScrollView className="h-screen">
         {locations
           ?.filter((location) => location.isFavourite)
           .map((location) => (

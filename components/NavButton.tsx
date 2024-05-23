@@ -7,6 +7,7 @@ type NavButtonProps = {
   danger?: boolean;
   onPress?: () => void;
   disabled?: boolean;
+  secondary?: boolean;
 };
 const NavButton = ({
   title,
@@ -14,15 +15,16 @@ const NavButton = ({
   danger = false,
   onPress,
   disabled,
+  secondary,
 }: NavButtonProps) => {
   return (
     <Button
       onPress={onPress}
       disabled={disabled}
-      padding={14}
+      padding={secondary ? 13 : 14}
       className={`${danger ? "bg-tertiaryAlert" : "bg-primaryGreen"} ${
         disabled && "opacity-40"
-      }`}
+      } ${secondary && "border-[1px] border-primaryWhite bg-secondaryGray90"}`}
       style={{
         width: width as DimensionValue,
       }}
@@ -30,7 +32,7 @@ const NavButton = ({
       <ButtonText
         className={"text-xl text-center font-bold uppercase text-white"}
         style={{
-          fontFamily: "Gilroy-ExtraBold",
+          fontFamily: secondary ? "Gilroy-Medium" : "Gilroy-ExtraBold",
         }}
       >
         {title}

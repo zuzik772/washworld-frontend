@@ -3,7 +3,7 @@ import { StyleProp, ViewStyle } from "react-native";
 import WashworldLogo from "../assets/app/washworld-logo.svg";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import GoBackButton from "./GoBackButton";
-import { ScrollView, View } from "@gluestack-ui/themed";
+import { View } from "@gluestack-ui/themed";
 import { useRoute } from "@react-navigation/native";
 
 type LayoutProps = {

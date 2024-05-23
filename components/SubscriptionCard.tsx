@@ -39,7 +39,7 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
 
   return (
     <View>
-      <ScrollView className="h-[80%]">
+      <ScrollView className="h-[82%]">
         <View
           style={{
             transform: [{ skewX: "-34deg" }],
@@ -187,7 +187,7 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
           </>
         )}
       </ScrollView>
-      <View className="flex items-center my-5">
+      <View className="flex items-center py-6">
         <NavButton
           title="Select"
           onPress={() => {

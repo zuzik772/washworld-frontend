@@ -152,16 +152,11 @@ const MapScreen = ({ navigation }: Props) => {
         </Text>
 
         <View className="flex-row gap-2 items-center justify-between">
-          <Button
-            padding={10}
-            width="50%"
-            className="border-[1px] border-primaryWhite w-48"
+          <NavButton
+            title="Navigation"
             onPress={navigateToLocation}
-          >
-            <ButtonText className={"text-xl text-center uppercase text-white"}>
-              Navigation
-            </ButtonText>
-          </Button>
+            secondary={true}
+          />
           <NavButton
             title="Select"
             onPress={() =>
