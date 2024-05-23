@@ -43,7 +43,7 @@ const InfoScreen = () => {
             </Text>
           </View>
 
-          <Accordion className="m-5 mb-32 w-[90%] gap-4 bg-black ">
+          <Accordion className="m-5 mb-32 w-[90%] gap-4 bg-secondaryGray90">
             {[
               {
                 title: "How does the Wash World app work?",
@@ -88,12 +88,7 @@ const InfoScreen = () => {
                     {({ isExpanded }) => {
                       return (
                         <View className="flex flex-row items-center justify-between">
-                          <Text
-                            className="text-white text-2xl w-5/6"
-                            style={{
-                              fontFamily: "Gilroy-ExtraBold",
-                            }}
-                          >
+                          <Text className="text-white text-2xl w-5/6">
                             {title}
                           </Text>
                           {isExpanded ? (
@@ -111,12 +106,7 @@ const InfoScreen = () => {
                   </AccordionTrigger>
                 </AccordionHeader>
                 <AccordionContent>
-                  <AccordionContentText
-                    className="text-white pt-2"
-                    style={{
-                      fontFamily: "Gilroy-Normal",
-                    }}
-                  >
+                  <AccordionContentText className="text-white pt-2">
                     {content}
                   </AccordionContentText>
                 </AccordionContent>
