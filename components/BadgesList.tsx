@@ -10,7 +10,7 @@ interface BadgesListProps {
 
 const BadgesList: React.FC<BadgesListProps> = ({ location }) => {
   return (
-    <View className="my-7 gap-3 flex flex-row flex-wrap justify-center items-center ">
+    <View className="mt-7 mb-14 gap-3 flex flex-row flex-wrap ml-5 ">
       <Text className="bg-secondaryGray90 border-2 border-primaryGreen rounded-sm px-3 py-1 text-primaryGreen">
         {location.washing_halls.length} washing halls
       </Text>

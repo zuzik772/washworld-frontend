@@ -41,18 +41,17 @@ const PreWashScreen = ({ navigation }: Props) => {
         </Text>
         <View className="bg-primaryGreen h-1 w-full my-6" />
 
-        <View>
+        <View className="flex gap-2">
           {instructions.map((item, index) => (
-            <View key={index} style={{ flexDirection: "row", marginBottom: 2 }}>
+            <View key={index} className="flex flex-row gap-2">
               <CircleCheck />
               <Text className="text-primaryWhite text-lg">
                 {item as string}
               </Text>
             </View>
           ))}
-
-          <View className="bg-primaryGreen h-1 w-full my-6" />
         </View>
+        <View className="bg-primaryGreen h-1 w-full my-6"></View>
         <View className="flex items-center mt-8">
           {isCarInWashHall ? (
             <Text className="text-primaryWhite my-8">
@@ -63,13 +62,12 @@ const PreWashScreen = ({ navigation }: Props) => {
               Please enter the wash hall
             </Text>
           )}
-
-          <NavButton
-            title="Start"
-            onPress={() => navigation.navigate("Wash")}
-            disabled={!isCarInWashHall}
-          />
         </View>
+        <NavButton
+          title="Start"
+          onPress={() => navigation.navigate("Wash")}
+          disabled={!isCarInWashHall}
+        />
       </View>
     </Layout>
   );

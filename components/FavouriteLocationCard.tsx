@@ -9,7 +9,7 @@ type Props = {
 const FavouriteLocationCard = ({ location }: Props) => {
   const colorClass = getStatusColor(location.status);
   return (
-    <View className="flex mb-6">
+    <View className="flex pb-6">
       <View className="bg-primaryGreen h-1 w-full" />
       <View className="flex-row items-center justify-between gap-2 w-full">
         <View className="px-4 w-[60%]">

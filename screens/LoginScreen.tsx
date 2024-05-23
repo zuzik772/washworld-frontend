@@ -14,6 +14,7 @@ import {
   FormControlLabelText,
   Input,
   InputField,
+  ScrollView,
 } from "@gluestack-ui/themed";
 
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
@@ -25,60 +26,62 @@ const LoginScreen = ({ navigation }: Props) => {
   return (
     <Layout>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
-        <View className="flex items-center gap-8 mt-20">
-          <Text className="text-primaryWhite text-3xl font-extrabold">
-            Login
-          </Text>
-          <FormControl className="w-[26rem] flex gap-8">
-            <View>
-              <FormControlLabel>
-                <FormControlLabelText className="text-white pb-2">
-                  Email:
-                </FormControlLabelText>
-              </FormControlLabel>
-              <CustomInput
-                placeholderTitle="Enter your email"
-                aria-label="Enter your email"
-              />
-            </View>
+        <ScrollView className="h-screen">
+          <View className="flex items-center gap-8 mt-20">
+            <Text className="text-primaryWhite text-3xl font-extrabold">
+              Login
+            </Text>
+            <FormControl className="w-[26rem] flex gap-8">
+              <View>
+                <FormControlLabel>
+                  <FormControlLabelText className="text-white pb-2">
+                    Email:
+                  </FormControlLabelText>
+                </FormControlLabel>
+                <CustomInput
+                  placeholderTitle="Enter your email"
+                  aria-label="Enter your email"
+                />
+              </View>
 
-            <View className="flex gap-1 mb-6">
-              <FormControlLabel>
-                <FormControlLabelText className="text-white pb-2">
-                  Password:
-                </FormControlLabelText>
-              </FormControlLabel>
-              <CustomInputWithIcon
-                placeholderTitle="Enter your password"
-                aria-label="Enter your password"
-                icon={EyeIcon}
-              />
+              <View className="flex gap-1 mb-6">
+                <FormControlLabel>
+                  <FormControlLabelText className="text-white pb-2">
+                    Password:
+                  </FormControlLabelText>
+                </FormControlLabel>
+                <CustomInputWithIcon
+                  placeholderTitle="Enter your password"
+                  aria-label="Enter your password"
+                  icon={EyeIcon}
+                />
 
-              <Pressable onPress={() => console.log("Forgot password")}>
-                <Text
-                  className="text-primaryGreen text-lg underline"
-                  style={{ textAlign: "right" }}
-                >
-                  Forgot password?
+                <Pressable onPress={() => console.log("Forgot password")}>
+                  <Text
+                    className="text-primaryGreen text-lg underline"
+                    style={{ textAlign: "right" }}
+                  >
+                    Forgot password?
+                  </Text>
+                </Pressable>
+              </View>
+            </FormControl>
+            <NavButton
+              title="Login"
+              onPress={() => navigation.navigate("SignUp")}
+              disabled={false}
+            />
+
+            <View className="flex items-center">
+              <Text className="text-primaryWhite">New customer?</Text>
+              <Pressable onPress={() => navigation.navigate("SignUp")}>
+                <Text className="text-primaryGreen text-lg font-semibold underline">
+                  Sign up
                 </Text>
               </Pressable>
             </View>
-          </FormControl>
-          <NavButton
-            title="Login"
-            onPress={() => navigation.navigate("SignUp")}
-            disabled={false}
-          />
-
-          <View className="flex items-center">
-            <Text className="text-primaryWhite">New customer?</Text>
-            <Pressable onPress={() => navigation.navigate("SignUp")}>
-              <Text className="text-primaryGreen text-lg font-semibold underline">
-                Sign up
-              </Text>
-            </Pressable>
           </View>
-        </View>
+        </ScrollView>
       </TouchableWithoutFeedback>
     </Layout>
   );

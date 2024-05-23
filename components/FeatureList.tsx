@@ -4,8 +4,7 @@ import {
   CheckCircleIcon,
   Text,
   View,
-  SlashIcon,
-  CloseCircleIcon,
+  CloseIcon,
 } from "@gluestack-ui/themed";
 import { Feature } from "../types/Membership";
 
@@ -25,10 +24,16 @@ const FeatureList: React.FC<FeatureListProps> = ({
       {features.map((feature, index) => (
         <View className="flex flex-row items-center" key={index}>
           <Icon
-            as={isIncluded ? CheckCircleIcon : SlashIcon}
+            as={isIncluded ? CheckCircleIcon : CloseIcon}
             width={15}
             height={15}
-            color={isAlternative ? "$secondaryGray90" : "$primaryGreen"}
+            color={
+              !isIncluded
+                ? "$primaryWhite"
+                : isAlternative
+                ? "$secondaryGray90"
+                : "$primaryGreen"
+            }
             fill={isAlternative ? "$secondaryOrange" : undefined}
             marginRight={7}
           />
