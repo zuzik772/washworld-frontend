@@ -92,7 +92,7 @@ const PackageScreen = ({ navigation }: PackageCardProps) => {
         />
       </Layout>
       <View className="w-full h-24 bottom-[6.4rem] flex flex-row justify-center items-center relative">
-        <View className="w-full h-full absolute bg-primaryBlack opacity-75" />
+        <View className="w-full h-full absolute bg-primaryBlack opacity-35" />
         <NavButton
           title="Select"
           onPress={() => {
