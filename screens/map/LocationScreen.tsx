@@ -17,10 +17,16 @@ import BadgesList from "../../components/BadgesList";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
 import { SelfWash, Hall } from "../../types/Location";
+import NavButton from "../../components/NavButton";
 
-type LocationScreenProps = NativeStackScreenProps<MapStackParamList>;
+type LocationScreenProps = NativeStackScreenProps<
+  MapStackParamList,
+  "Location"
+>;
 
-const LocationScreen = ({ navigation }: LocationScreenProps) => {
+const LocationScreen = ({ navigation, route }: LocationScreenProps) => {
+  const { locationTitle, distance } = route.params;
+
   const [textWidth, setTextWidth] = useState(0);
 
   const location = useSelector(
@@ -130,7 +136,7 @@ const LocationScreen = ({ navigation }: LocationScreenProps) => {
 
           <View className="ml-5 mr-5">
             <Heading fontSize={40} color="$primaryWhite">
-              {location.address}
+              {locationTitle}
             </Heading>
             <View className="w-4/6 flex flex-row justify-between items-center">
               <View className="flex flex-row items-center gap-1">
@@ -152,22 +158,18 @@ const LocationScreen = ({ navigation }: LocationScreenProps) => {
                   as={GlobeIcon}
                 />
                 <Text color="$primaryWhite" fontSize={15}>
-                  {location.distance}km
+                  {distance}km
                 </Text>
               </View>
             </View>
           </View>
         </View>
-        <BadgesList location={location}></BadgesList>
+        <BadgesList location={location} />
         <View className="flex items-center justify-center">
-          <Button
+          <NavButton
+            title="Select Wash"
             onPress={() => navigation.navigate("Package")}
-            className="p-2 bg-primaryGreen"
-          >
-            <Text className="uppercase text-2xl font-bold text-primaryWhite">
-              Select Wash
-            </Text>
-          </Button>
+          />
         </View>
       </View>
     </Layout>

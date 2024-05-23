@@ -83,6 +83,30 @@ const MapScreen = ({ navigation }: Props) => {
     userLocation();
   }, []);
 
+  const calculateDistance = (
+    lat1: number,
+    lon1: number,
+    lat2: number,
+    lon2: number
+  ) => {
+    const R = 6371; // Radius of the earth in km
+    const dLat = deg2rad(lat2 - lat1); // deg2rad below
+    const dLon = deg2rad(lon2 - lon1);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos(deg2rad(lat1)) *
+        Math.cos(deg2rad(lat2)) *
+        Math.sin(dLon / 2) *
+        Math.sin(dLon / 2);
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    const distance = R * c; // Distance in km
+    return distance;
+  };
+
+  const deg2rad = (deg: number) => {
+    return deg * (Math.PI / 180);
+  };
+
   const locationTitle = selectedLocation?.address.split(" ").pop();
 
   const LocationCard = ({ location }: { location: location }) => {
@@ -90,6 +114,13 @@ const MapScreen = ({ navigation }: Props) => {
     const navigateToLocation = () =>
       openGoogleMaps(location.latitude, location.longitude);
 
+    const calculatedDistance = calculateDistance(
+      mapRegion.latitude,
+      mapRegion.longitude,
+      location.latitude,
+      location.longitude
+    );
+    const distance = calculatedDistance.toFixed(1);
     return (
       <View className="absolute bottom-[180px] left-4 right-4 mx-auto p-3 bg-secondaryGray90 flex gap-2 rounded-lg">
         <View className="w-10 h-10 absolute right-2 top-2">
@@ -123,6 +154,7 @@ const MapScreen = ({ navigation }: Props) => {
         <View className="flex-row gap-2 items-center justify-between">
           <Button
             padding={10}
+            width="50%"
             className="border-[1px] border-primaryWhite w-48"
             onPress={navigateToLocation}
           >
@@ -133,7 +165,10 @@ const MapScreen = ({ navigation }: Props) => {
           <NavButton
             title="Select"
             onPress={() =>
-              navigation.navigate("Location", { locationTitle: locationTitle })
+              navigation.navigate("Location", {
+                locationTitle: locationTitle,
+                distance: parseFloat(distance),
+              })
             }
             disabled={false}
           />

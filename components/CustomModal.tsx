@@ -71,8 +71,9 @@ const CustomModal = ({
               </Text>
             </ModalBody>
             <ModalFooter className="flex flex-row gap-6 justify-end pb-4 pr-6">
-              {buttons.map((button) => (
+              {buttons.map((button, index) => (
                 <Button
+                  key={index}
                   onPress={() => {
                     changeVisibility(false);
                     button.onPress();
