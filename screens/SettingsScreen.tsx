@@ -13,7 +13,7 @@ type MenuItem = {
       ]
     | null;
   onPress: () => void;
-  color?: string;
+  type?: "normal" | "danger";
 };
 
 const menuItems: MenuItem[] = [
@@ -86,7 +86,7 @@ const menuItems: MenuItem[] = [
     onPress: () => {
       alert("Delete Account Pressed");
     },
-    color: "red",
+    type: "danger",
   },
 ];
 
@@ -130,12 +130,14 @@ const SettingsScreen = () => {
                     <IconComponent
                       name={iconName}
                       size={24}
-                      color={item.color || "white"}
+                      color={item.type === "danger" ? "#D71515" : "white"}
                     />
                   )}
                   <Text
                     className={`text-2xl ${
-                      item.color ? `text-${item.color}-500` : "text-white"
+                      item.type === "danger"
+                        ? `text-tertiaryAlert`
+                        : "text-white"
                     }`}
                     style={{
                       fontFamily: "Gilroy-Normal",
