@@ -114,7 +114,7 @@ const InfoScreen = () => {
                   <AccordionContentText
                     className="text-white pt-2"
                     style={{
-                      fontFamily: "Gilroy-Normal",
+                      fontFamily: "Gilroy-Medium",
                     }}
                   >
                     {content}

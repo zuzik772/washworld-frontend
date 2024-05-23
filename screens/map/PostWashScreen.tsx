@@ -26,7 +26,7 @@ const PostWashScreen = ({ navigation }: Props) => {
             <Text
               className="text-white text-center text-3xl"
               style={{
-                fontFamily: "Gilroy-Normal",
+                fontFamily: "Gilroy-Medium",
               }}
             >
               Thank you for washing with{" "}
@@ -50,7 +50,7 @@ const PostWashScreen = ({ navigation }: Props) => {
             <Text
               className="text-white text-center text-3xl"
               style={{
-                fontFamily: "Gilroy-Normal",
+                fontFamily: "Gilroy-Medium",
               }}
             >
               of water due to our water recycling system.
@@ -60,7 +60,7 @@ const PostWashScreen = ({ navigation }: Props) => {
             <Text
               className="text-white text-center text-2xl"
               style={{
-                fontFamily: "Gilroy-Normal",
+                fontFamily: "Gilroy-Medium",
               }}
             >
               Wash Type

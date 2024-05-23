@@ -100,7 +100,7 @@ const SettingsScreen = () => {
             <Text
               className="text-xl text-white"
               style={{
-                fontFamily: "Gilroy-Normal",
+                fontFamily: "Gilroy-Medium",
               }}
             >
               John Doe
@@ -133,6 +133,7 @@ const SettingsScreen = () => {
                       color={item.type === "danger" ? "#D71515" : "white"}
                     />
                   )}
+                  a
                   <Text
                     className={`text-2xl ${
                       item.type === "danger"
@@ -140,7 +141,7 @@ const SettingsScreen = () => {
                         : "text-white"
                     }`}
                     style={{
-                      fontFamily: "Gilroy-Normal",
+                      fontFamily: "Gilroy-Medium",
                     }}
                   >
                     {item.title}
