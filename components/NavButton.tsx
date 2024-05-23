@@ -8,6 +8,7 @@ type NavButtonProps = {
   onPress?: () => void;
   disabled?: boolean;
   secondary?: boolean;
+  className?: string;
 };
 const NavButton = ({
   title,
@@ -16,6 +17,7 @@ const NavButton = ({
   onPress,
   disabled,
   secondary,
+  className,
 }: NavButtonProps) => {
   return (
     <Button
@@ -24,7 +26,9 @@ const NavButton = ({
       padding={secondary ? 13 : 14}
       className={`${danger ? "bg-tertiaryAlert" : "bg-primaryGreen"} ${
         disabled && "opacity-40"
-      } ${secondary && "border-[1px] border-primaryWhite bg-secondaryGray90"}`}
+      } ${
+        secondary && "border-[1px] border-primaryWhite bg-secondaryGray90"
+      } ${className}`}
       style={{
         width: width as DimensionValue,
       }}
