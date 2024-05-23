@@ -133,7 +133,6 @@ const SettingsScreen = () => {
                       color={item.type === "danger" ? "#D71515" : "white"}
                     />
                   )}
-                  a
                   <Text
                     className={`text-2xl ${
                       item.type === "danger"
