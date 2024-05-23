@@ -106,7 +106,12 @@ const InfoScreen = () => {
                   </AccordionTrigger>
                 </AccordionHeader>
                 <AccordionContent>
-                  <AccordionContentText className="text-white pt-2">
+                  <AccordionContentText
+                    className="text-white pt-2"
+                    style={{
+                      fontFamily: "Gilroy-Medium",
+                    }}
+                  >
                     {content}
                   </AccordionContentText>
                 </AccordionContent>
