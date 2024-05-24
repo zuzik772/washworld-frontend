@@ -177,7 +177,7 @@ const LocationScreen = ({ navigation, route }: LocationScreenProps) => {
                     </Text>
                   </View>
                 </View>
-                <BadgesList />
+                <BadgesList locationId={locationId} />
               </View>
             );
           }

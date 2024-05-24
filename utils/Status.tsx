@@ -1,6 +1,6 @@
 export enum Status {
-  READY = "READY",
-  BUSY = "BUSY",
+  READY = "Ready",
+  BUSY = "Busy",
   CLOSED = "CLOSED",
 }
 

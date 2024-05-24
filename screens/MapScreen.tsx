@@ -20,6 +20,7 @@ import {
 import { getStatusColor, Status } from "../utils/Status";
 import MapIcon from "../components/MapIcon";
 import { useGetLocations } from "../locations/locations.hooks";
+import { useGetHalls } from "../halls/halls.hooks";
 import { Location } from "../types/location";
 
 type Props = NativeStackScreenProps<MapStackParamList, "MapScreen">;
@@ -108,7 +109,38 @@ const MapScreen = ({ navigation }: Props) => {
   const locationTitle = selectedLocation?.address.split(" ").pop();
 
   const LocationCard = ({ location }: { location: Location }) => {
-    const colorClass = getStatusColor(Status.READY);
+    const { data: halls } = useGetHalls(location?.location_id);
+    console.log("halls", halls);
+    const statusArray = ["Ready", "Busy", "Unavailable"];
+    const hallsStatusIds = [3, 2, 3];
+    const hallsStatus = hallsStatusIds?.map((id) => {
+      return statusArray[id - 1];
+    });
+
+    console.log("hereeeeee", hallsStatus);
+    enum Status {
+      Ready = "Ready",
+      Busy = "Busy",
+      Unavailable = "Unavailable",
+    }
+
+    let locationStatus: Status = Status.Ready;
+
+    if (hallsStatus.includes(Status.Ready)) {
+      locationStatus = Status.Ready;
+    } else if (
+      !hallsStatus.includes(Status.Ready) &&
+      hallsStatus.includes(Status.Busy)
+    ) {
+      locationStatus = Status.Busy;
+    } else if (hallsStatus.every((status) => status === Status.Busy)) {
+      locationStatus = Status.Busy;
+    } else if (hallsStatus.every((status) => status === Status.Unavailable)) {
+      locationStatus = Status.Unavailable;
+    }
+    console.log("Location status:", locationStatus);
+
+    const colorClass = getStatusColor(locationStatus);
     const navigateToLocation = () =>
       openGoogleMaps(location.latitude, location.longitude);
 

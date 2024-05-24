@@ -14,6 +14,7 @@ export interface Hall {
   width: number;
   height: number;
   max_rim_size: number;
+  status_id: number;
 }
 
 export interface Location {
