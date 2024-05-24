@@ -4,6 +4,7 @@ import locationSlice from "./locationSlice";
 import membershipsSlice from "./membershipsSlice";
 import userSlice from "./userSlice";
 import selectedMembershipSlice from "./selectedMembershipSlice";
+import appNavigationSlice from "./appNavigationSlice";
 
 // ...
 
@@ -13,6 +14,7 @@ export const store = configureStore({
     memberships: membershipsSlice,
     user: userSlice,
     selectedMembership: selectedMembershipSlice,
+    appNavigation: appNavigationSlice,
   },
 });
 // Infer the `RootState` and `AppDispatch` types from the store itself

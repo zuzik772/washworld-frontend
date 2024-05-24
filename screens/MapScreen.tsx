@@ -24,6 +24,8 @@ import {
   useUpdateLocation,
 } from "../locations/locations.hooks";
 import { location } from "../types/Location";
+import { useDispatch } from "react-redux";
+import { appNavigation } from "../store/appNavigationSlice";
 
 type Props = NativeStackScreenProps<MapStackParamList, "MapScreen">;
 
@@ -123,11 +125,13 @@ const MapScreen = ({ navigation }: Props) => {
     const distance = calculatedDistance.toFixed(1);
     return (
       <View className="absolute bottom-[180px] left-4 right-4 mx-auto p-3 bg-secondaryGray90 flex gap-2 rounded-lg">
-        <View className="w-10 h-10 absolute right-2 top-2">
-          <Pressable onPress={() => setSelectedLocation(null)}>
-            <Icon as={CloseIcon} color="$colors$primaryWhite" />
-          </Pressable>
-        </View>
+        <Pressable
+          onPress={() => setSelectedLocation(null)}
+          className="h-12 w-12 top-0 right-0 absolute z-50"
+        >
+          <Icon as={CloseIcon} color="$colors$primaryWhite" />
+        </Pressable>
+
         <View className="flex-row items-center gap-2">
           <View className="w-9 h-9">
             <Pressable onPress={handleUpdateLocation}>

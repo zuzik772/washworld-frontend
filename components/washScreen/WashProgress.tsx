@@ -1,5 +1,4 @@
 import { View, Text, set } from "@gluestack-ui/themed";
-import { useRoute } from "@react-navigation/native";
 import { useEffect, useState } from "react";
 import { Dimensions } from "react-native";
 import { AnimatedCircularProgress } from "react-native-circular-progress";
