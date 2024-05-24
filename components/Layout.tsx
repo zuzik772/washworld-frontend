@@ -19,7 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [backButtonVisible, setBackButtonVisible] = React.useState(false);
 
   useEffect(() => {
-    const hiddenRoutes = ["MapScreen", "Wash", "PostWash"];
+    const hiddenRoutes = ["Login", "SignUp", "MapScreen", "Wash", "PostWash"];
     console.log("route:", location.name);
     if (location.name) {
       setBackButtonVisible(!hiddenRoutes.includes(location.name));

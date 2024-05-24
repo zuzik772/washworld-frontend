@@ -26,6 +26,7 @@ const CustomInputWithIcon = ({ placeholderTitle, icon, ariaLabel }: Props) => {
         placeholder={placeholderTitle}
         type="password"
         className="text-xl w-[20.5rem] text-white"
+        placeholderTextColor="gray"
       />
       <InputSlot className="bg-primaryGreen p-[0.75rem] rounded-r-md">
         <Icon

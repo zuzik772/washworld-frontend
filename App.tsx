@@ -112,7 +112,7 @@ export default function App() {
     const routeName = getFocusedRouteNameFromRoute(route) as string;
     console.log(routeName);
 
-    const hiddenRoutes = ["PreWash", "Wash", "PostWash"];
+    const hiddenRoutes = ["Login", "SignUp", "PreWash", "Wash", "PostWash"];
     return hiddenRoutes.includes(routeName) ? "-100%" : "0%";
   };
 

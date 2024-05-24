@@ -20,6 +20,7 @@ const CustomInput = ({ placeholderTitle, keyboardType, ariaLabel }: Props) => {
         placeholder={placeholderTitle}
         keyboardType={keyboardType}
         className="text-xl text-white"
+        placeholderTextColor="gray"
       />
     </Input>
   );
