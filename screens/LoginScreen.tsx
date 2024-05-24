@@ -32,24 +32,12 @@ const LoginScreen = ({ navigation }: Props) => {
               Login
             </Text>
             <FormControl className="w-[26rem] flex gap-8">
-              <View>
-                <FormControlLabel>
-                  <FormControlLabelText className="text-white pb-2">
-                    Email:
-                  </FormControlLabelText>
-                </FormControlLabel>
-                <CustomInput
-                  placeholderTitle="Enter your email"
-                  aria-label="Enter your email"
-                />
-              </View>
+              <CustomInput
+                placeholderTitle="Enter your email"
+                aria-label="Enter your email"
+              />
 
               <View className="flex gap-1 mb-6">
-                <FormControlLabel>
-                  <FormControlLabelText className="text-white pb-2">
-                    Password:
-                  </FormControlLabelText>
-                </FormControlLabel>
                 <CustomInputWithIcon
                   placeholderTitle="Enter your password"
                   aria-label="Enter your password"
