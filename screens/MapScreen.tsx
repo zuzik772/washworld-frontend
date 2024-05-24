@@ -5,7 +5,7 @@ import NavButton from "../components/NavButton";
 import MapView, { Marker } from "react-native-maps";
 import { StyleSheet, Linking } from "react-native";
 import { useEffect, useState } from "react";
-import * as Location from "expo-location";
+import * as CurrentLocation from "expo-location";
 import {
   Text,
   View,
@@ -17,13 +17,10 @@ import {
   FavouriteIcon,
 } from "@gluestack-ui/themed";
 
-import { getStatusColor } from "../utils/Status";
+import { getStatusColor, Status } from "../utils/Status";
 import MapIcon from "../components/MapIcon";
-import {
-  useGetLocations,
-  useUpdateLocation,
-} from "../locations/locations.hooks";
-import { location } from "../types/Location";
+import { useGetLocations } from "../locations/locations.hooks";
+import { Location } from "../types/location";
 
 type Props = NativeStackScreenProps<MapStackParamList, "MapScreen">;
 
@@ -34,36 +31,37 @@ const MapScreen = ({ navigation }: Props) => {
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
-  const [selectedLocation, setSelectedLocation] = useState<location | null>(
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null
   );
 
   const { data: locations, isPending, isError, error } = useGetLocations();
-  const { mutate: updateLocation } = useUpdateLocation();
 
-  const handleUpdateLocation = () => {
-    if (selectedLocation) {
-      const updatedLocationData = {
-        ...selectedLocation,
-        isFavourite: !selectedLocation.isFavourite,
-      };
-      console.log("current fav is", updatedLocationData.isFavourite);
-      updateLocation(updatedLocationData, {
-        onSuccess: () => {
-          // Update the selectedLocation state to reflect the change
-          setSelectedLocation(updatedLocationData);
-        },
-      });
-    }
-  };
+  // const { mutate: updateLocation } = useUpdateLocation();
+
+  // const handleUpdateLocation = () => {
+  //   if (selectedLocation) {
+  //     const updatedLocationData = {
+  //       ...selectedLocation,
+  //       isFavourite: !selectedLocation.isFavourite,
+  //     };
+  //     console.log("current fav is", updatedLocationData.isFavourite);
+  //     updateLocation(updatedLocationData, {
+  //       onSuccess: () => {
+  //         // Update the selectedLocation state to reflect the change
+  //         setSelectedLocation(updatedLocationData);
+  //       },
+  //     });
+  //   }
+  // };
   const userLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
+    let { status } = await CurrentLocation.requestForegroundPermissionsAsync();
     if (status !== "granted") {
       console.log("Permission to access location was denied");
       return;
     }
-    let location = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.High,
+    let location = await CurrentLocation.getCurrentPositionAsync({
+      accuracy: CurrentLocation.Accuracy.High,
     });
     setMapRegion({
       latitude: location.coords.latitude,
@@ -109,8 +107,8 @@ const MapScreen = ({ navigation }: Props) => {
 
   const locationTitle = selectedLocation?.address.split(" ").pop();
 
-  const LocationCard = ({ location }: { location: location }) => {
-    const colorClass = getStatusColor(location.status);
+  const LocationCard = ({ location }: { location: Location }) => {
+    const colorClass = getStatusColor(Status.READY);
     const navigateToLocation = () =>
       openGoogleMaps(location.latitude, location.longitude);
 
@@ -128,7 +126,7 @@ const MapScreen = ({ navigation }: Props) => {
             <Icon as={CloseIcon} color="$colors$primaryWhite" />
           </Pressable>
         </View>
-        <View className="flex-row items-center gap-2">
+        {/* <View className="flex-row items-center gap-2">
           <View className="w-9 h-9">
             <Pressable onPress={handleUpdateLocation}>
               <Icon
@@ -144,11 +142,11 @@ const MapScreen = ({ navigation }: Props) => {
           <Text className="text-primaryWhite text-xl font-semibold">
             {locationTitle}
           </Text>
-        </View>
+        </View> */}
         <Text className="text-primaryWhite underline">{location.address}</Text>
 
         <Text className="font-bold text-lg" color={`${colorClass}`}>
-          {location.status}
+          {Status.READY}
         </Text>
 
         <View className="flex-row gap-2 items-center justify-between">
@@ -163,6 +161,7 @@ const MapScreen = ({ navigation }: Props) => {
               navigation.navigate("Location", {
                 locationTitle: locationTitle,
                 distance: parseFloat(distance),
+                locationId: location.location_id,
               })
             }
             disabled={false}
@@ -188,7 +187,7 @@ const MapScreen = ({ navigation }: Props) => {
               title={location.address}
               onPress={() => setSelectedLocation(location)}
             >
-              <MapIcon fillColor={getStatusColor(location.status)} />
+              <MapIcon fillColor={getStatusColor(Status.READY)} />
             </Marker>
           ))}
         </MapView>

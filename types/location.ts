@@ -19,8 +19,8 @@ export interface Hall {
 export interface Location {
   location_id: number;
   address: string;
-  opening_times: string;
-  closing_times: string;
+  opening_times: number;
+  closing_times: number;
   latitude: number;
   longitude: number;
   distance: number;

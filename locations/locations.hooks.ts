@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import fetchLocations, { updateLocation } from "./locations.queries";
-import { location } from "../types/Location";
+import fetchLocations from "./locations.queries";
+import { Location } from "../types/location";
 
 export const useGetLocations = () => {
   return useQuery({
@@ -9,13 +9,13 @@ export const useGetLocations = () => {
   });
 };
 
-export const useUpdateLocation = () => {
-  const queryClient = useQueryClient();
+// export const useUpdateLocation = () => {
+//   const queryClient = useQueryClient();
 
-  return useMutation({
-    mutationFn: async (locationData: location) => {
-      await updateLocation(locationData);
-    },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["locations"] }),
-  });
-};
+//   return useMutation({
+//     mutationFn: async (locationData: Location) => {
+//       await updateLocation(locationData);
+//     },
+//     onSuccess: () => queryClient.invalidateQueries({ queryKey: ["locations"] }),
+//   });
+// };

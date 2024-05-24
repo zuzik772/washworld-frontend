@@ -17,8 +17,9 @@ import {
 import BadgesList from "../../components/BadgesList";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
-import { SelfWash, Hall } from "../../types/Location";
+// import { SelfWash, Hall } from "../../types/Location";
 import NavButton from "../../components/NavButton";
+import { useGetLocations } from "../../locations/locations.hooks";
 
 type LocationScreenProps = NativeStackScreenProps<
   MapStackParamList,
@@ -26,46 +27,48 @@ type LocationScreenProps = NativeStackScreenProps<
 >;
 
 const LocationScreen = ({ navigation, route }: LocationScreenProps) => {
-  const { locationTitle, distance } = route.params;
+  const { locationId, locationTitle, distance } = route.params;
+
+  const { data: locations } = useGetLocations();
 
   const [textWidth, setTextWidth] = useState(0);
 
-  const location = useSelector(
-    (state: RootState) => state.location.locations[0] // 0 will become the clicked location's id
-  );
+  // const location = useSelector(
+  //   (state: RootState) => state.location.locations[0] // 0 will become the clicked location's id
+  // );
 
-  const locationStatus = (self_wash: SelfWash[], halls: Hall[]) => {
-    if (
-      // self_wash.some((sw) => sw.status.status === "Ready") ||
-      halls.some((hall) => hall.status.status === "Ready")
-    ) {
-      return "Ready";
-    } else if (
-      // self_wash.every((sw) => sw.status.status === "Busy") ||
-      halls.every((hall) => hall.status.status === "Busy")
-    ) {
-      return "Busy";
-    } else {
-      return "Unavailable";
-    }
-  };
+  // const locationStatus = (self_wash: SelfWash[], halls: Hall[]) => {
+  //   if (
+  //     // self_wash.some((sw) => sw.status.status === "Ready") ||
+  //     halls.some((hall) => hall.status.status === "Ready")
+  //   ) {
+  //     return "Ready";
+  //   } else if (
+  //     // self_wash.every((sw) => sw.status.status === "Busy") ||
+  //     halls.every((hall) => hall.status.status === "Busy")
+  //   ) {
+  //     return "Busy";
+  //   } else {
+  //     return "Unavailable";
+  //   }
+  // };
 
-  function getStatusColor(status: string) {
-    switch (status) {
-      case "Ready":
-        return "color-primaryWhite";
-      case "Busy":
-        return "color-secondaryOrange";
-      case "Unavailable":
-        return "color-tertiaryAlert";
-      default:
-        return "color-primaryWhite";
-    }
-  }
+  // function getStatusColor(status: string) {
+  //   switch (status) {
+  //     case "Ready":
+  //       return "color-primaryWhite";
+  //     case "Busy":
+  //       return "color-secondaryOrange";
+  //     case "Unavailable":
+  //       return "color-tertiaryAlert";
+  //     default:
+  //       return "color-primaryWhite";
+  //   }
+  // }
 
   return (
     <Layout>
-      <View className="flex">
+      <View className="flex ">
         <View className="h-64 w-full relative">
           <Image
             alt="Location image"
@@ -82,7 +85,7 @@ const LocationScreen = ({ navigation, route }: LocationScreenProps) => {
             className="bg-primaryGreen h-9 absolute bottom-0 right-0"
           />
           <View className="absolute bottom-0 right-0">
-            <Text
+            {/* <Text
               onLayout={(event) => {
                 const { width } = event.nativeEvent.layout;
                 setTextWidth(width);
@@ -98,11 +101,11 @@ const LocationScreen = ({ navigation, route }: LocationScreenProps) => {
                 location.self_wash_stations,
                 location.washing_halls
               )}
-            </Text>
+            </Text> */}
           </View>
         </View>
 
-        {locationStatus(location.self_wash_stations, location.washing_halls) ===
+        {/* {locationStatus(location.self_wash_stations, location.washing_halls) ===
         "Unavailable" ? (
           <View
             style={{
@@ -130,49 +133,66 @@ const LocationScreen = ({ navigation, route }: LocationScreenProps) => {
             }}
             className="h-1 bg-primaryGreen"
           />
-        )}
+        )} */}
 
-        <View className="ml-5 mr-5">
-          <Heading fontSize={40} color="$primaryWhite">
-            {locationTitle}
-          </Heading>
-          <View className="w-4/6 flex flex-row justify-between items-center">
-            <View className="flex flex-row items-center gap-1">
-              <Icon
-                width={16}
-                height={16}
-                color="$primaryGreen"
-                as={ClockIcon}
-              />
-              <Text color="$primaryWhite" fontSize={15}>
-                {location.opening_times} - {location.closing_times}
-              </Text>
-            </View>
-            <View className="flex flex-row items-center gap-1">
-              <Icon
-                width={16}
-                height={16}
-                color="$primaryGreen"
-                as={GlobeIcon}
-              />
-              <Text color="$primaryWhite" fontSize={15}>
-                {distance}km
-              </Text>
-            </View>
-          </View>
+        {locations?.map((location, index) => {
+          if (location.location_id === locationId) {
+            console.log("location:", location);
+            console.log("opening_times:", location.opening_times);
+            console.log("closing_times:", location.closing_times);
+            return (
+              <View className="mx-5" key={index}>
+                <Heading fontSize={40} color="$primaryWhite">
+                  {locationTitle}
+                </Heading>
+                <Heading color="$primaryWhite" fontSize={15}>
+                  {location.address}
+                </Heading>
+                <View className="w-4/6 flex flex-row justify-between items-center">
+                  <View className="flex flex-row items-center gap-1">
+                    <Icon
+                      width={16}
+                      height={16}
+                      color="$primaryGreen"
+                      fill="$colors$secondaryGray90"
+                      as={ClockIcon}
+                    />
+                    <Text color="$primaryWhite" fontSize={15}>
+                      {location.opening_times == 0 &&
+                      location.closing_times == 0
+                        ? "24/7"
+                        : `${location.opening_times}-${location.closing_times}`}
+                    </Text>
+                  </View>
+                  <View className="flex flex-row items-center gap-1">
+                    <Icon
+                      width={16}
+                      height={16}
+                      color="$primaryGreen"
+                      fill="$colors$secondaryGray90"
+                      as={GlobeIcon}
+                    />
+                    <Text color="$primaryWhite" fontSize={15}>
+                      {distance}km
+                    </Text>
+                  </View>
+                </View>
+                <BadgesList />
+              </View>
+            );
+          }
+        })}
+
+        <View className="flex items-center justify-center">
+          <NavButton
+            title="Select Wash"
+            onPress={() => navigation.navigate("Package")}
+          />
         </View>
-      </View>
-      <BadgesList location={location} />
-      <View className="flex items-center justify-center">
-        <NavButton
-          title="Select Wash"
-          onPress={() => navigation.navigate("Package")}
-        />
       </View>
     </Layout>
   );
 };
-
 export default LocationScreen;
 
 const styles = StyleSheet.create({
