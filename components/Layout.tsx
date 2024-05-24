@@ -44,7 +44,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <WashworldLogo height={40} />
           </View>
         </View>
-        <View>{children}</View>
+        <View className="h-full">{children}</View>
       </View>
     </View>
   );

@@ -123,27 +123,30 @@ const MapScreen = ({ navigation }: Props) => {
     const distance = calculatedDistance.toFixed(1);
     return (
       <View className="absolute bottom-[180px] left-4 right-4 mx-auto p-3 bg-secondaryGray90 flex gap-2 rounded-lg">
-        <View className="w-10 h-10 absolute right-2 top-2">
-          <Pressable onPress={() => setSelectedLocation(null)}>
+        <View className="flex flex-row justify-between">
+          <View className="flex-row items-center gap-2">
+            <View className="w-9 h-9">
+              <Pressable onPress={handleUpdateLocation}>
+                <Icon
+                  as={FavouriteIcon}
+                  color={
+                    location.isFavourite
+                      ? "$colors$primaryGreen"
+                      : "$colors$primaryWhite"
+                  }
+                />
+              </Pressable>
+            </View>
+            <Text className="text-primaryWhite text-xl font-semibold">
+              {locationTitle}
+            </Text>
+          </View>
+          <Pressable
+            onPress={() => setSelectedLocation(null)}
+            className="h-12 w-12"
+          >
             <Icon as={CloseIcon} color="$colors$primaryWhite" />
           </Pressable>
-        </View>
-        <View className="flex-row items-center gap-2">
-          <View className="w-9 h-9">
-            <Pressable onPress={handleUpdateLocation}>
-              <Icon
-                as={FavouriteIcon}
-                color={
-                  location.isFavourite
-                    ? "$colors$primaryGreen"
-                    : "$colors$primaryWhite"
-                }
-              />
-            </Pressable>
-          </View>
-          <Text className="text-primaryWhite text-xl font-semibold">
-            {locationTitle}
-          </Text>
         </View>
         <Text className="text-primaryWhite underline">{location.address}</Text>
 

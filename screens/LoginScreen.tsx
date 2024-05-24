@@ -56,7 +56,7 @@ const LoginScreen = ({ navigation }: Props) => {
             </FormControl>
             <NavButton
               title="Login"
-              onPress={() => navigation.navigate("SignUp")}
+              onPress={() => navigation.navigate("MapScreen")}
               disabled={false}
             />
 
