@@ -20,8 +20,8 @@ import {
   CheckboxGroup,
   ScrollView,
 } from "@gluestack-ui/themed";
-
-import { Keyboard, TouchableWithoutFeedback } from "react-native";
+import DateTimePicker from "@react-native-community/datetimepicker";
+import { Button, Keyboard, TouchableWithoutFeedback } from "react-native";
 import CustomInput from "../components/inputs/CustomInput";
 import CustomInputWithIcon from "../components/inputs/CustomInputWithIcon";
 import { useState } from "react";
@@ -30,7 +30,7 @@ type Props = NativeStackScreenProps<MapStackParamList, "SignUp">;
 
 const SignUpScreen = ({ navigation }: Props) => {
   const [values, setValues] = useState<string[]>([]);
-
+  const [date, setDate] = useState(new Date());
   return (
     <Layout>
       <TouchableWithoutFeedback
@@ -55,10 +55,28 @@ const SignUpScreen = ({ navigation }: Props) => {
                 placeholderTitle="Repeat your password"
                 icon={EyeIcon}
               />
-              <CustomInput
+              {/* <CustomInput
                 placeholderTitle="Enter your date of birth"
                 keyboardType="numeric"
-              />
+              /> */}
+              <View className="flex items-center justify-between flex-row ml-2">
+                <Text className="text-white text-lg">
+                  Select your date of birth:
+                </Text>
+                <View className="bg-primaryGreen rounded-md p-2">
+                  <DateTimePicker
+                    value={date}
+                    mode="date"
+                    display="default"
+                    onChange={(event, selectedDate) => {
+                      const currentDate = selectedDate || date;
+                      setDate(currentDate);
+                      // setValue("date", currentDate.toISOString());
+                    }}
+                    accentColor="white"
+                  />
+                </View>
+              </View>
             </FormControl>
             <CheckboxGroup
               value={values}
