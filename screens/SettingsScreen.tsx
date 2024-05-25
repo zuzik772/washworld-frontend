@@ -103,7 +103,7 @@ const SettingsScreen = () => {
         "delete",
       ],
       onPress: () => {
-        alert("Delete Account Pressed");
+        navigation.navigate("DeleteProfile");
       },
       type: "danger",
     },
