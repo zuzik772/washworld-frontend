@@ -1,38 +1,38 @@
-import { StyleSheet } from "react-native";
-import React from "react";
-import { LocationState } from "../store/locationSlice";
-
 import { View, Text } from "@gluestack-ui/themed";
 import { useGetHalls } from "../halls/halls.hooks";
+import { useGetSelfWashes } from "../selfwashes/selfwashes.hooks";
 
-type Props = {
+type Badge = {
+  text: string;
+};
+
+type BadgeListProps = {
   locationId: number;
 };
 
-const BadgesList = ({ locationId }: Props) => {
+const BadgesList = ({ locationId }: BadgeListProps) => {
   const { data: halls } = useGetHalls(locationId);
-  console.log("halls", halls);
+  const { data: selfwashes } = useGetSelfWashes(locationId);
+
+  const badges: Badge[] = [
+    { text: `${halls?.length} Washing halls` },
+    { text: `${selfwashes?.length} Self wash stations` },
+    { text: "Environmentally friendly" },
+    { text: "Easy Payment" },
+    { text: "Short Queue time" },
+  ];
   return (
     <View className="mt-7 mb-14 gap-3 flex flex-row flex-wrap ml-5 ">
-      <Text className="bg-secondaryGray90 border-2 border-primaryGreen rounded-sm px-3 py-1 text-primaryGreen">
-        {halls?.length} washing halls
-      </Text>
-      <Text className="bg-secondaryGray90 border-2 border-primaryGreen rounded-sm px-3 py-1 text-primaryGreen">
-        X self wash stations
-      </Text>
-      <Text className="bg-secondaryGray90 border-2 border-primaryGreen rounded-sm px-3 py-1 text-primaryGreen">
-        Environmentally friendly
-      </Text>
-      <Text className="bg-secondaryGray90 border-2 border-primaryGreen rounded-sm px-3 py-1 text-primaryGreen">
-        Easy Payment
-      </Text>
-      <Text className="bg-secondaryGray90 border-2 border-primaryGreen rounded-sm px-3 py-1 text-primaryGreen">
-        Short Queue time
-      </Text>
+      {badges.map((badge, index) => (
+        <Text
+          key={index}
+          className="bg-secondaryGray90 border-2 border-primaryGreen rounded-sm px-3 py-1 text-primaryGreen"
+        >
+          {badge.text}
+        </Text>
+      ))}
     </View>
   );
 };
 
 export default BadgesList;
-
-const styles = StyleSheet.create({});

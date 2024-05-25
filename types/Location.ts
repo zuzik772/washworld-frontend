@@ -24,7 +24,4 @@ export interface Location {
   closing_times: number;
   latitude: number;
   longitude: number;
-  distance: number;
-  self_wash_stations: SelfWash[];
-  washing_halls: Hall[];
 }

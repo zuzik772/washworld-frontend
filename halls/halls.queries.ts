@@ -1,4 +1,4 @@
-import { Hall } from "../types/location";
+import { Hall } from "../types/Location";
 import axios from "axios";
 
 const fetchHalls = async (location_id: number): Promise<Hall[]> => {

@@ -12,16 +12,13 @@ import {
   CloseIcon,
   Icon,
   Pressable,
-  Button,
-  ButtonText,
   FavouriteIcon,
 } from "@gluestack-ui/themed";
 
-import { getStatusColor, Status } from "../utils/Status";
 import MapIcon from "../components/MapIcon";
 import { useGetLocations } from "../locations/locations.hooks";
 import { useGetHalls } from "../halls/halls.hooks";
-import { Location } from "../types/location";
+import { Location } from "../types/Location";
 
 type Props = NativeStackScreenProps<MapStackParamList, "MapScreen">;
 
@@ -35,26 +32,9 @@ const MapScreen = ({ navigation }: Props) => {
   const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null
   );
-
+  const [isFavourite, setIsFavourite] = useState(false);
   const { data: locations, isPending, isError, error } = useGetLocations();
 
-  // const { mutate: updateLocation } = useUpdateLocation();
-
-  // const handleUpdateLocation = () => {
-  //   if (selectedLocation) {
-  //     const updatedLocationData = {
-  //       ...selectedLocation,
-  //       isFavourite: !selectedLocation.isFavourite,
-  //     };
-  //     console.log("current fav is", updatedLocationData.isFavourite);
-  //     updateLocation(updatedLocationData, {
-  //       onSuccess: () => {
-  //         // Update the selectedLocation state to reflect the change
-  //         setSelectedLocation(updatedLocationData);
-  //       },
-  //     });
-  //   }
-  // };
   const userLocation = async () => {
     let { status } = await CurrentLocation.requestForegroundPermissionsAsync();
     if (status !== "granted") {
@@ -110,37 +90,39 @@ const MapScreen = ({ navigation }: Props) => {
 
   const LocationCard = ({ location }: { location: Location }) => {
     const { data: halls } = useGetHalls(location?.location_id);
-    console.log("halls", halls);
     const statusArray = ["Ready", "Busy", "Unavailable"];
-    const hallsStatusIds = [3, 2, 3];
+    const hallsStatusIds = halls?.map((hall) => hall.status_id);
+    console.log("hallsStatusIds", hallsStatusIds);
     const hallsStatus = hallsStatusIds?.map((id) => {
       return statusArray[id - 1];
     });
 
     console.log("hereeeeee", hallsStatus);
-    enum Status {
-      Ready = "Ready",
-      Busy = "Busy",
-      Unavailable = "Unavailable",
-    }
 
-    let locationStatus: Status = Status.Ready;
+    const statusColorMap = {
+      Ready: "#0ECC6D",
+      Busy: "#ff6b06",
+      Unavailable: "#d71515",
+    };
 
-    if (hallsStatus.includes(Status.Ready)) {
-      locationStatus = Status.Ready;
+    let locationStatus: string = "";
+    let colorClass: string = "";
+
+    if (hallsStatus?.includes("Ready")) {
+      locationStatus = "Ready";
     } else if (
-      !hallsStatus.includes(Status.Ready) &&
-      hallsStatus.includes(Status.Busy)
+      !hallsStatus?.includes("Ready") &&
+      hallsStatus?.includes("Busy")
     ) {
-      locationStatus = Status.Busy;
-    } else if (hallsStatus.every((status) => status === Status.Busy)) {
-      locationStatus = Status.Busy;
-    } else if (hallsStatus.every((status) => status === Status.Unavailable)) {
-      locationStatus = Status.Unavailable;
+      locationStatus = "Busy";
+    } else if (hallsStatus?.every((status) => status === "Busy")) {
+      locationStatus = "Busy";
+    } else if (hallsStatus?.every((status) => status === "Unavailable")) {
+      locationStatus = "Unavailable";
     }
-    console.log("Location status:", locationStatus);
 
-    const colorClass = getStatusColor(locationStatus);
+    colorClass = statusColorMap[locationStatus as keyof typeof statusColorMap];
+
     const navigateToLocation = () =>
       openGoogleMaps(location.latitude, location.longitude);
 
@@ -158,15 +140,15 @@ const MapScreen = ({ navigation }: Props) => {
             <Icon as={CloseIcon} color="$colors$primaryWhite" />
           </Pressable>
         </View>
-        {/* <View className="flex-row items-center gap-2">
+        <View className="flex-row items-center gap-2">
           <View className="w-9 h-9">
-            <Pressable onPress={handleUpdateLocation}>
+            <Pressable
+              onPress={() => setIsFavourite((prevState) => !prevState)}
+            >
               <Icon
                 as={FavouriteIcon}
                 color={
-                  location.isFavourite
-                    ? "$colors$primaryGreen"
-                    : "$colors$primaryWhite"
+                  isFavourite ? "$colors$primaryGreen" : "$colors$primaryWhite"
                 }
               />
             </Pressable>
@@ -174,11 +156,11 @@ const MapScreen = ({ navigation }: Props) => {
           <Text className="text-primaryWhite text-xl font-semibold">
             {locationTitle}
           </Text>
-        </View> */}
+        </View>
         <Text className="text-primaryWhite underline">{location.address}</Text>
 
         <Text className="font-bold text-lg" color={`${colorClass}`}>
-          {Status.READY}
+          {locationStatus}
         </Text>
 
         <View className="flex-row gap-2 items-center justify-between">
@@ -194,6 +176,7 @@ const MapScreen = ({ navigation }: Props) => {
                 locationTitle: locationTitle,
                 distance: parseFloat(distance),
                 locationId: location.location_id,
+                locationStatus: locationStatus,
               })
             }
             disabled={false}
@@ -219,7 +202,7 @@ const MapScreen = ({ navigation }: Props) => {
               title={location.address}
               onPress={() => setSelectedLocation(location)}
             >
-              <MapIcon fillColor={getStatusColor(Status.READY)} />
+              <MapIcon fillColor={"#0ECC6D"} />
             </Marker>
           ))}
         </MapView>

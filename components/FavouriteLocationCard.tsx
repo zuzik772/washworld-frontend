@@ -1,20 +1,21 @@
 import React from "react";
 import { Button, ButtonText, Text, View } from "@gluestack-ui/themed";
-import { location } from "../types/Location";
-import { getStatusColor } from "../utils/Status";
+import { Location } from "../types/Location";
 
 type Props = {
-  location: location;
+  location: Location;
 };
 const FavouriteLocationCard = ({ location }: Props) => {
-  const colorClass = getStatusColor(location.status);
   return (
     <View className="flex pb-6">
       <View className="bg-primaryGreen h-1 w-full" />
       <View className="flex-row items-center justify-between gap-2 w-full">
         <View className="px-4 w-[60%]">
-          <Text className="text-lg uppercase font-bold" color={`${colorClass}`}>
-            {location.status}
+          <Text
+            className="text-lg uppercase font-bold text-primaryGreen"
+            // color={`${primaryGreen}`}
+          >
+            STatus
           </Text>
           <Text className="text-white text-xl">
             {location.address.split(" ").pop()}

@@ -6,6 +6,7 @@ export type MapStackParamList = {
     locationTitle: string | undefined;
     distance: number | undefined;
     locationId: number | undefined;
+    locationStatus: string | undefined;
   };
   Package: undefined;
   PreWash: undefined;

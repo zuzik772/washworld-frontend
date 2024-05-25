@@ -1,23 +1,18 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { StyleSheet } from "react-native";
 import Layout from "../../components/Layout";
-import { RootState } from "../../store/store";
-import { useSelector } from "react-redux";
 import {
   Text,
   Heading,
   Icon,
   ClockIcon,
   GlobeIcon,
-  Button,
   View,
   Image,
-  ScrollView,
 } from "@gluestack-ui/themed";
 import BadgesList from "../../components/BadgesList";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
-// import { SelfWash, Hall } from "../../types/Location";
 import NavButton from "../../components/NavButton";
 import { useGetLocations } from "../../locations/locations.hooks";
 
@@ -27,44 +22,27 @@ type LocationScreenProps = NativeStackScreenProps<
 >;
 
 const LocationScreen = ({ navigation, route }: LocationScreenProps) => {
-  const { locationId, locationTitle, distance } = route.params;
+  const { locationId, locationTitle, distance, locationStatus } = route.params;
 
   const { data: locations } = useGetLocations();
 
   const [textWidth, setTextWidth] = useState(0);
 
-  // const location = useSelector(
-  //   (state: RootState) => state.location.locations[0] // 0 will become the clicked location's id
-  // );
+  function getStatusColor(status: string | undefined) {
+    switch (status) {
+      case "Ready":
+        return "primaryGreen";
+      case "Busy":
+        return "secondaryOrange";
+      case "Unavailable":
+        return "tertiaryAlert";
+      default:
+        return "primaryGreen";
+    }
+  }
 
-  // const locationStatus = (self_wash: SelfWash[], halls: Hall[]) => {
-  //   if (
-  //     // self_wash.some((sw) => sw.status.status === "Ready") ||
-  //     halls.some((hall) => hall.status.status === "Ready")
-  //   ) {
-  //     return "Ready";
-  //   } else if (
-  //     // self_wash.every((sw) => sw.status.status === "Busy") ||
-  //     halls.every((hall) => hall.status.status === "Busy")
-  //   ) {
-  //     return "Busy";
-  //   } else {
-  //     return "Unavailable";
-  //   }
-  // };
-
-  // function getStatusColor(status: string) {
-  //   switch (status) {
-  //     case "Ready":
-  //       return "color-primaryWhite";
-  //     case "Busy":
-  //       return "color-secondaryOrange";
-  //     case "Unavailable":
-  //       return "color-tertiaryAlert";
-  //     default:
-  //       return "color-primaryWhite";
-  //   }
-  // }
+  console.log("locationStatus:", locationStatus);
+  console.log(getStatusColor("Busy"));
 
   return (
     <Layout>
@@ -82,72 +60,36 @@ const LocationScreen = ({ navigation, route }: LocationScreenProps) => {
               width: textWidth * 1.2,
               transform: [{ skewX: "-34deg" }],
             }}
-            className="bg-primaryGreen h-9 absolute bottom-0 right-0"
+            className={`h-9 absolute bottom-0 right-0 bg-${getStatusColor(
+              locationStatus
+            )}`}
           />
-          <View className="absolute bottom-0 right-0">
-            {/* <Text
+          <View className="absolute bottom-0 right-0 ">
+            <Text
               onLayout={(event) => {
                 const { width } = event.nativeEvent.layout;
                 setTextWidth(width);
               }}
-              className={`text-lg px-3 py-1 font-bold bg-primaryGreen ${getStatusColor(
-                locationStatus(
-                  location.self_wash_stations,
-                  location.washing_halls
-                )
+              className={`text-lg p-2 pr-4 py-1 font-bold text-primaryWhite  bg-${getStatusColor(
+                locationStatus
               )}`}
             >
-              {locationStatus(
-                location.self_wash_stations,
-                location.washing_halls
-              )}
-            </Text> */}
+              {locationStatus}
+            </Text>
           </View>
         </View>
-
-        {/* {locationStatus(location.self_wash_stations, location.washing_halls) ===
-        "Unavailable" ? (
-          <View
-            style={{
-              width: textWidth * 2.1,
-              transform: [{ skewX: "-34deg" }],
-            }}
-            className="h-1 bg-primaryGreen"
-          />
-        ) : locationStatus(
-            location.self_wash_stations,
-            location.washing_halls
-          ) === "Busy" ? (
-          <View
-            style={{
-              width: textWidth * 4.92,
-              transform: [{ skewX: "-34deg" }],
-            }}
-            className="h-1 bg-primaryGreen"
-          />
-        ) : (
-          <View
-            style={{
-              width: textWidth * 4.07,
-              transform: [{ skewX: "-34deg" }],
-            }}
-            className="h-1 bg-primaryGreen"
-          />
-        )} */}
+        <View className={`h-1 bg-${getStatusColor(locationStatus)}`} />
 
         {locations?.map((location, index) => {
           if (location.location_id === locationId) {
-            console.log("location:", location);
-            console.log("opening_times:", location.opening_times);
-            console.log("closing_times:", location.closing_times);
             return (
               <View className="mx-5" key={index}>
                 <Heading fontSize={40} color="$primaryWhite">
                   {locationTitle}
                 </Heading>
-                <Heading color="$primaryWhite" fontSize={15}>
+                {/* <Heading color="$primaryWhite" fontSize={15}>
                   {location.address}
-                </Heading>
+                </Heading> */}
                 <View className="w-4/6 flex flex-row justify-between items-center">
                   <View className="flex flex-row items-center gap-1">
                     <Icon
