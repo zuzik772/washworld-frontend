@@ -18,6 +18,7 @@ import {
 import MapIcon from "../components/MapIcon";
 import { useGetLocations } from "../locations/locations.hooks";
 import { useGetHalls } from "../halls/halls.hooks";
+import { useGetStatuses } from "../statuses/statuses.hooks";
 import { Location } from "../types/Location";
 
 type Props = NativeStackScreenProps<MapStackParamList, "MapScreen">;
@@ -90,14 +91,14 @@ const MapScreen = ({ navigation }: Props) => {
 
   const LocationCard = ({ location }: { location: Location }) => {
     const { data: halls } = useGetHalls(location?.location_id);
-    const statusArray = ["Ready", "Busy", "Unavailable"];
-    const hallsStatusIds = halls?.map((hall) => hall.status_id);
-    console.log("hallsStatusIds", hallsStatusIds);
-    const hallsStatus = hallsStatusIds?.map((id) => {
-      return statusArray[id - 1];
-    });
+    const { data: statuses } = useGetStatuses();
 
-    console.log("hereeeeee", hallsStatus);
+    const hallsStatusIds = halls?.map((hall) => hall.status_id);
+
+    const hallsStatus = hallsStatusIds?.map((id) => {
+      const statusObj = statuses?.find((status) => status.status_id === id);
+      return statusObj ? statusObj.status : undefined;
+    });
 
     const statusColorMap = {
       Ready: "#0ECC6D",
