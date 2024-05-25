@@ -8,8 +8,8 @@ import NavButton from "../../components/NavButton";
 import { SettingsStackParamList } from "../../navigation/SettingsStackParamList";
 
 type Props =
-  | NativeStackScreenProps<MapStackParamList> &
-      NativeStackScreenProps<SettingsStackParamList>;
+  | NativeStackScreenProps<MapStackParamList>
+  | NativeStackScreenProps<SettingsStackParamList>;
 const PostWashScreen = ({ navigation }: Props) => {
   const [litersSaved, setLitersSaved] = useState(250);
   return (
@@ -81,9 +81,23 @@ const PostWashScreen = ({ navigation }: Props) => {
           <View className="flex flex-col gap-2 items-center">
             <NavButton
               title="Finish"
-              onPress={() => navigation.navigate("MapScreen")}
+              onPress={() =>
+                (
+                  navigation as unknown as NativeStackScreenProps<MapStackParamList> & {
+                    navigate: (screen: string) => void;
+                  }
+                ).navigate("MapScreen")
+              }
             />
-            <Pressable onPress={() => navigation.navigate("ReportDamage")}>
+            <Pressable
+              onPress={() =>
+                (
+                  navigation as unknown as NativeStackScreenProps<SettingsStackParamList> & {
+                    navigate: (screen: string) => void;
+                  }
+                ).navigate("ReportDamage")
+              }
+            >
               <Text className="text-primaryGreen underline">
                 Experienced a problem?
               </Text>
