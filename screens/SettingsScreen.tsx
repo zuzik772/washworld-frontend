@@ -5,6 +5,7 @@ import Avatar from "../components/Avatar";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { SettingsStackParamList } from "../navigation/SettingsStackParamList";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
 
 type MenuItem = {
   title: string;
@@ -18,9 +19,8 @@ type MenuItem = {
   type?: "normal" | "danger";
 };
 
-const SettingsScreen = () => {
-  const navigation = useNavigation() as NavigationProp<SettingsStackParamList>;
-
+type Props = NativeStackScreenProps<SettingsStackParamList>;
+const SettingsScreen = ({ navigation }: Props) => {
   const menuItems: MenuItem[] = [
     {
       title: "Edit Profile",

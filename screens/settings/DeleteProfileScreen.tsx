@@ -10,7 +10,7 @@ import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome6 } from "@expo/vector-icons";
 
-type Props = NativeStackScreenProps<MapStackParamList, "Wash">;
+type Props = NativeStackScreenProps<MapStackParamList>;
 const DeleteProfileScreen = ({ navigation }: Props) => {
   const [showDeletionModal, setShowDeletionModal] = useState(false);
 
@@ -72,7 +72,10 @@ const DeleteProfileScreen = ({ navigation }: Props) => {
                   ),
                 },
               ].map((item, index) => (
-                <View className="border-t-2 border-primaryGreen p-4 flex gap-2">
+                <View
+                  className="border-t-2 border-primaryGreen p-4 flex gap-2"
+                  key={index}
+                >
                   <View className="flex flex-row justify-between">
                     <Text
                       className="text-white text-3xl"

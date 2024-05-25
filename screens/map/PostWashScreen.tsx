@@ -1,12 +1,15 @@
-import { Text } from "react-native";
+import { Pressable, Text } from "react-native";
 import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
 import { ScrollView, View } from "@gluestack-ui/themed";
 import NavButton from "../../components/NavButton";
+import { SettingsStackParamList } from "../../navigation/SettingsStackParamList";
 
-type Props = NativeStackScreenProps<MapStackParamList, "PostWash">;
+type Props =
+  | NativeStackScreenProps<MapStackParamList> &
+      NativeStackScreenProps<SettingsStackParamList>;
 const PostWashScreen = ({ navigation }: Props) => {
   const [litersSaved, setLitersSaved] = useState(250);
   return (
@@ -80,9 +83,11 @@ const PostWashScreen = ({ navigation }: Props) => {
               title="Finish"
               onPress={() => navigation.navigate("MapScreen")}
             />
-            <Text className="text-primaryGreen underline">
-              Experienced a problem?
-            </Text>
+            <Pressable onPress={() => navigation.navigate("ReportDamage")}>
+              <Text className="text-primaryGreen underline">
+                Experienced a problem?
+              </Text>
+            </Pressable>
           </View>
         </View>
       </ScrollView>

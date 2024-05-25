@@ -25,7 +25,7 @@ import {
 } from "../locations/locations.hooks";
 import { location } from "../types/Location";
 
-type Props = NativeStackScreenProps<MapStackParamList, "MapScreen">;
+type Props = NativeStackScreenProps<MapStackParamList>;
 
 const MapScreen = ({ navigation }: Props) => {
   const [mapRegion, setMapRegion] = useState({

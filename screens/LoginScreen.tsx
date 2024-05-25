@@ -21,7 +21,7 @@ import { Keyboard, TouchableWithoutFeedback } from "react-native";
 import CustomInput from "../components/inputs/CustomInput";
 import CustomInputWithIcon from "../components/inputs/CustomInputWithIcon";
 
-type Props = NativeStackScreenProps<MapStackParamList, "Login">;
+type Props = NativeStackScreenProps<MapStackParamList>;
 const LoginScreen = ({ navigation }: Props) => {
   return (
     <Layout>

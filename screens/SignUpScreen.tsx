@@ -26,7 +26,7 @@ import CustomInput from "../components/inputs/CustomInput";
 import CustomInputWithIcon from "../components/inputs/CustomInputWithIcon";
 import { useState } from "react";
 
-type Props = NativeStackScreenProps<MapStackParamList, "SignUp">;
+type Props = NativeStackScreenProps<MapStackParamList>;
 
 const SignUpScreen = ({ navigation }: Props) => {
   const [values, setValues] = useState<string[]>([]);
