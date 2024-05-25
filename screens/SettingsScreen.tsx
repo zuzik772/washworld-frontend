@@ -51,6 +51,20 @@ const SettingsScreen = ({ navigation }: Props) => {
       },
     },
     {
+      title: "Manage Vehicles",
+      icon: [
+        AntDesign as React.ComponentType<{
+          name: string;
+          size: number;
+          color: string;
+        }>,
+        "car",
+      ],
+      onPress: () => {
+        navigation.navigate("AddCar");
+      },
+    },
+    {
       title: "Change Plan",
       icon: [
         AntDesign as React.ComponentType<{
