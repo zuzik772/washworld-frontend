@@ -1,15 +1,12 @@
-import { Pressable, Text } from "react-native";
+import { Text } from "react-native";
 import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
 import { ScrollView, View } from "@gluestack-ui/themed";
 import NavButton from "../../components/NavButton";
-import { SettingsStackParamList } from "../../navigation/SettingsStackParamList";
 
-type Props =
-  | NativeStackScreenProps<MapStackParamList>
-  | NativeStackScreenProps<SettingsStackParamList>;
+type Props = NativeStackScreenProps<MapStackParamList, "PostWash">;
 const PostWashScreen = ({ navigation }: Props) => {
   const [litersSaved, setLitersSaved] = useState(250);
   return (
@@ -81,27 +78,11 @@ const PostWashScreen = ({ navigation }: Props) => {
           <View className="flex flex-col gap-2 items-center">
             <NavButton
               title="Finish"
-              onPress={() =>
-                (
-                  navigation as unknown as NativeStackScreenProps<MapStackParamList> & {
-                    navigate: (screen: string) => void;
-                  }
-                ).navigate("MapScreen")
-              }
+              onPress={() => navigation.navigate("MapScreen")}
             />
-            <Pressable
-              onPress={() =>
-                (
-                  navigation as unknown as NativeStackScreenProps<SettingsStackParamList> & {
-                    navigate: (screen: string) => void;
-                  }
-                ).navigate("ReportDamage")
-              }
-            >
-              <Text className="text-primaryGreen underline">
-                Experienced a problem?
-              </Text>
-            </Pressable>
+            <Text className="text-primaryGreen underline">
+              Experienced a problem?
+            </Text>
           </View>
         </View>
       </ScrollView>
