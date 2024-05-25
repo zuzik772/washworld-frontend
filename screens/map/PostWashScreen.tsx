@@ -80,8 +80,9 @@ const PostWashScreen = ({ navigation }: Props) => {
               title="Finish"
               onPress={() => navigation.navigate("MapScreen")}
             />
-            <Text className="text-primaryGreen underline">
-              Experienced a problem?
+            <Text className="text-secondaryGray60 text-center">
+              Experienced a problem? Report any problems under "Report Damage"
+              in the Settings menu
             </Text>
           </View>
         </View>

@@ -7,7 +7,7 @@ import WashProgress from "../../components/washScreen/WashProgress";
 import NavButton from "../../components/NavButton";
 import CustomModal from "../../components/CustomModal";
 
-type Props = NativeStackScreenProps<MapStackParamList, "Wash">;
+type Props = NativeStackScreenProps<MapStackParamList>;
 const WashScreen = ({ navigation }: Props) => {
   const demoSelectedWashtype = "Gold";
 

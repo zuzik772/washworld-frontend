@@ -20,10 +20,7 @@ import { MapStackParamList } from "../../navigation/MapStackParamList";
 import { SelfWash, Hall } from "../../types/Location";
 import NavButton from "../../components/NavButton";
 
-type LocationScreenProps = NativeStackScreenProps<
-  MapStackParamList,
-  "Location"
->;
+type LocationScreenProps = NativeStackScreenProps<MapStackParamList>;
 
 const LocationScreen = ({ navigation, route }: LocationScreenProps) => {
   const { locationTitle, distance } = route.params;
