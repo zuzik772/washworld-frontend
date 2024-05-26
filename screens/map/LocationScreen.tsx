@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { StyleSheet } from "react-native";
 import Layout from "../../components/Layout";
 import {
@@ -14,7 +14,8 @@ import BadgesList from "../../components/BadgesList";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../../navigation/MapStackParamList";
 import NavButton from "../../components/NavButton";
-import { useGetLocations } from "../../locations/locations.hooks";
+import { useSelector } from "react-redux";
+import { RootState } from "../../store/store";
 
 type LocationScreenProps = NativeStackScreenProps<
   MapStackParamList,
@@ -22,9 +23,9 @@ type LocationScreenProps = NativeStackScreenProps<
 >;
 
 const LocationScreen = ({ navigation, route }: LocationScreenProps) => {
-  const { locationId, locationTitle, distance, locationStatus } = route.params;
+  const { locationId, distance, locationStatus } = route.params;
 
-  const { data: locations } = useGetLocations();
+  const locations = useSelector((state: RootState) => state.location.locations);
 
   const [textWidth, setTextWidth] = useState(0);
 
@@ -40,9 +41,6 @@ const LocationScreen = ({ navigation, route }: LocationScreenProps) => {
         return "primaryGreen";
     }
   }
-
-  console.log("locationStatus:", locationStatus);
-  console.log(getStatusColor("Busy"));
 
   return (
     <Layout>
@@ -84,12 +82,9 @@ const LocationScreen = ({ navigation, route }: LocationScreenProps) => {
           if (location.location_id === locationId) {
             return (
               <View className="mx-5" key={index}>
-                <Heading fontSize={40} color="$primaryWhite">
-                  {locationTitle}
-                </Heading>
-                {/* <Heading color="$primaryWhite" fontSize={15}>
+                <Heading color="$primaryWhite" fontSize={20}>
                   {location.address}
-                </Heading> */}
+                </Heading>
                 <View className="w-4/6 flex flex-row justify-between items-center">
                   <View className="flex flex-row items-center gap-1">
                     <Icon

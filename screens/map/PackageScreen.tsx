@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Layout from "../../components/Layout";
 import { Box, Heading, ScrollView, View } from "@gluestack-ui/themed";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store/store";
+import { AppDispatch, RootState } from "../../store/store";
 import Carousel from "react-native-reanimated-carousel";
 import { Dimensions } from "react-native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
@@ -17,7 +17,7 @@ type PackageCardProps = {
 };
 
 const PackageScreen = ({ navigation }: PackageCardProps) => {
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
 
   const handleSelect = (membership: Membership) => {
     dispatch(selectMembership(membership));

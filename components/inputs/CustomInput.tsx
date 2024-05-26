@@ -1,12 +1,19 @@
 import { Input, InputField } from "@gluestack-ui/themed";
+import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 
 type Props = {
   placeholderTitle: string;
   keyboardType?: any;
   ariaLabel?: string;
+  onChangeText?: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
 };
 
-const CustomInput = ({ placeholderTitle, keyboardType, ariaLabel }: Props) => {
+const CustomInput = ({
+  placeholderTitle,
+  keyboardType,
+  ariaLabel,
+  onChangeText,
+}: Props) => {
   return (
     <Input
       isDisabled={false}
@@ -21,6 +28,7 @@ const CustomInput = ({ placeholderTitle, keyboardType, ariaLabel }: Props) => {
         keyboardType={keyboardType}
         className="text-xl text-white"
         placeholderTextColor="gray"
+        onChange={onChangeText}
       />
     </Input>
   );

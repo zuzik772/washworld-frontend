@@ -8,21 +8,25 @@ import {
   Pressable,
   EyeIcon,
   FormControl,
-  FormControlHelper,
-  FormControlHelperText,
-  FormControlLabel,
-  FormControlLabelText,
-  Input,
-  InputField,
   ScrollView,
 } from "@gluestack-ui/themed";
 
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
 import CustomInput from "../components/inputs/CustomInput";
 import CustomInputWithIcon from "../components/inputs/CustomInputWithIcon";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
+import { signIn } from "../store/userSlice";
+import { AppDispatch } from "../store/store";
 
 type Props = NativeStackScreenProps<MapStackParamList, "Login">;
+
 const LoginScreen = ({ navigation }: Props) => {
+  const dispatch: AppDispatch = useDispatch();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
   return (
     <Layout>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
@@ -35,6 +39,9 @@ const LoginScreen = ({ navigation }: Props) => {
               <CustomInput
                 placeholderTitle="Enter your email"
                 aria-label="Enter your email"
+                onChangeText={(e) => {
+                  setEmail(e.nativeEvent.text);
+                }}
               />
 
               <View className="flex gap-1 mb-6">
@@ -42,6 +49,9 @@ const LoginScreen = ({ navigation }: Props) => {
                   placeholderTitle="Enter your password"
                   aria-label="Enter your password"
                   icon={EyeIcon}
+                  onChangeText={(e) => {
+                    setPassword(e.nativeEvent.text);
+                  }}
                 />
 
                 <Pressable onPress={() => console.log("Forgot password")}>
@@ -56,7 +66,7 @@ const LoginScreen = ({ navigation }: Props) => {
             </FormControl>
             <NavButton
               title="Login"
-              onPress={() => navigation.navigate("SignUp")}
+              onPress={() => dispatch(signIn({ email, password }))}
               disabled={false}
             />
 

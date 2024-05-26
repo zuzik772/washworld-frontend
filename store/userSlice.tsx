@@ -1,49 +1,79 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { User } from "../types/User";
+import axios from "axios";
+import { SignUpDto } from "../dto/signupDto";
+import { SignInDto } from "../dto/signinDto";
 
 export interface UserState {
-  user: User;
+  user: User | null;
+  token: string;
+  isSignedIn: boolean;
 }
 
-const initialState: User = {
-  user_id: 1,
-  first_name: "John",
-  last_name: "Doe",
-  email: "john.doe@example.com",
-  birthday: new Date(1990, 1, 1).toISOString(),
-  membership: {
-    membership_id: 3,
-    name: "Premium",
-    price: 169,
-    packages: [
-      {
-        package_id: 1,
-        name: "Premium Package",
-        price: 179,
-        included_features: [
-          { feature_id: 1, name: "Shampoo" },
-          { feature_id: 2, name: "Drying" },
-          { feature_id: 3, name: "Brush wash" },
-          { feature_id: 4, name: "High-pressure rinse" },
-          { feature_id: 5, name: "Wheel wash" },
-          { feature_id: 7, name: "Undercarriage rinse" },
-          { feature_id: 8, name: "Polishing" },
-        ],
-        not_included_features: [
-          { feature_id: 9, name: "Extra drying" },
-          { feature_id: 10, name: "Insect cleaning" },
-          { feature_id: 11, name: "Foam Splash" },
-          { feature_id: 12, name: "Degreasing" },
-        ],
-      },
-    ],
-  },
+const initialState: UserState = {
+  user: null,
+  token: "",
+  isSignedIn: false,
 };
+
+export const signUp = createAsyncThunk(
+  "user/signUp",
+  async (signUpDto: SignUpDto, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        "http://192.168.246.161:3000/auth/signup",
+        signUpDto
+      );
+
+      return response.data;
+    } catch (error: any) {
+      console.log("signup thunk error", error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const signIn = createAsyncThunk(
+  "user/signIn",
+  async (signInDto: SignInDto, thunkAPI) => {
+    try {
+      const response = await axios.post(
+        "http://192.168.246.161:3000/auth/login",
+        signInDto
+      );
+      return response.data;
+    } catch (error: any) {
+      console.log("signin thunk error", error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(signUp.fulfilled, (state, action) => {
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      state.isSignedIn = true;
+    });
+    builder.addCase(signUp.rejected, (state, action) => {
+      state.user = null;
+      state.token = "";
+    }),
+      builder.addCase(signIn.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.token = action.payload.token;
+        state.isSignedIn = true;
+        console.log(state.user, state.token, state.isSignedIn);
+      });
+    builder.addCase(signIn.rejected, (state, action) => {
+      state.user = null;
+      state.token = "";
+    });
+  },
 });
 
 export const {} = userSlice.actions;
