@@ -4,6 +4,8 @@ import axios from "axios";
 import { SignUpDto } from "../dto/signupDto";
 import { SignInDto } from "../dto/signinDto";
 
+const baseUrl = process.env.REACT_APP_BASE_URL;
+
 export interface UserState {
   user: User | null;
   token: string;
@@ -20,10 +22,7 @@ export const signUp = createAsyncThunk(
   "user/signUp",
   async (signUpDto: SignUpDto, thunkAPI) => {
     try {
-      const response = await axios.post(
-        "http://192.168.246.161:3000/auth/signup",
-        signUpDto
-      );
+      const response = await axios.post(`${baseUrl}/auth/signup`, signUpDto);
 
       return response.data;
     } catch (error: any) {
@@ -37,10 +36,7 @@ export const signIn = createAsyncThunk(
   "user/signIn",
   async (signInDto: SignInDto, thunkAPI) => {
     try {
-      const response = await axios.post(
-        "http://192.168.246.161:3000/auth/login",
-        signInDto
-      );
+      const response = await axios.post(`${baseUrl}/auth/login`, signInDto);
       return response.data;
     } catch (error: any) {
       console.log("signin thunk error", error);
@@ -56,7 +52,7 @@ export const userSlice = createSlice({
   extraReducers: (builder) => {
     builder.addCase(signUp.fulfilled, (state, action) => {
       state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.token = action.payload.access_token;
       state.isSignedIn = true;
     });
     builder.addCase(signUp.rejected, (state, action) => {
@@ -65,9 +61,8 @@ export const userSlice = createSlice({
     }),
       builder.addCase(signIn.fulfilled, (state, action) => {
         state.user = action.payload.user;
-        state.token = action.payload.token;
+        state.token = action.payload.access_token;
         state.isSignedIn = true;
-        console.log(state.user, state.token, state.isSignedIn);
       });
     builder.addCase(signIn.rejected, (state, action) => {
       state.user = null;
