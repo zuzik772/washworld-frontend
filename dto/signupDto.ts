@@ -1,19 +1,19 @@
 export class SignUpDto {
-  first_name: string;
-  last_name: string;
+  firstName: string;
+  lastName: string;
   email: string;
   password: string;
-  birthday: Date;
+  birthday: string;
 
   constructor(
-    first_name: string,
-    last_name: string,
+    firstName: string,
+    lastName: string,
     email: string,
     password: string,
-    birthday: Date
+    birthday: string
   ) {
-    this.first_name = first_name;
-    this.last_name = last_name;
+    this.firstName = firstName;
+    this.lastName = lastName;
     this.email = email;
     this.password = password;
     this.birthday = birthday;

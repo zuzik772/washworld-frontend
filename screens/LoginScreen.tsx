@@ -18,14 +18,45 @@ import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { signIn } from "../store/userSlice";
 import { AppDispatch } from "../store/store";
+import { Controller, useForm } from "react-hook-form";
 
 type Props = NativeStackScreenProps<MapStackParamList, "Login">;
+type LoginSchema = {
+  email: string;
+  password: string;
+};
 
 const LoginScreen = ({ navigation }: Props) => {
   const dispatch: AppDispatch = useDispatch();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const {
+    reset,
+    handleSubmit,
+    control,
+    setError,
+    formState: { errors },
+  } = useForm<LoginSchema>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+  const onSubmit = async (data: LoginSchema) => {
+    try {
+      await dispatch(signIn(data)).then((res) => {
+        console.log("login succesful", res.payload);
+        if (res.payload) {
+          navigation.navigate("MapScreen");
+          reset({ email: "", password: "" });
+        }
+      });
+    } catch (error) {
+      console.log("login error", error);
+      setError("root", {
+        message: "Invalid credentials",
+      });
+    }
+  };
 
   return (
     <Layout>
@@ -36,21 +67,52 @@ const LoginScreen = ({ navigation }: Props) => {
               Login
             </Text>
             <FormControl className="w-[26rem] flex gap-8">
-              <CustomInput
-                placeholderTitle="Enter your email"
-                aria-label="Enter your email"
-                onChangeText={(e) => {
-                  setEmail(e.nativeEvent.text);
+              {(errors.root || errors.email || errors.password) && (
+                <Text className="text-red-500 text-lg">
+                  {errors.root?.message ||
+                    errors.email?.message ||
+                    errors.password?.message}
+                </Text>
+              )}
+              <Controller
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <CustomInput
+                    placeholderTitle="Enter your email"
+                    aria-label="Enter your email"
+                    onChangeText={onChange}
+                    value={value}
+                  />
+                )}
+                name="email"
+                rules={{
+                  required: "Invalid credentials",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Invalid credentials",
+                  },
                 }}
               />
 
               <View className="flex gap-1 mb-6">
-                <CustomInputWithIcon
-                  placeholderTitle="Enter your password"
-                  aria-label="Enter your password"
-                  icon={EyeIcon}
-                  onChangeText={(e) => {
-                    setPassword(e.nativeEvent.text);
+                <Controller
+                  control={control}
+                  render={({ field: { onChange, value } }) => (
+                    <CustomInputWithIcon
+                      placeholderTitle="Enter your password"
+                      aria-label="Enter your password"
+                      icon={EyeIcon}
+                      onChangeText={onChange}
+                      value={value}
+                    />
+                  )}
+                  name="password"
+                  rules={{
+                    required: true,
+                    minLength: {
+                      value: 6,
+                      message: "Invalid credentials",
+                    },
                   }}
                 />
 
@@ -66,10 +128,9 @@ const LoginScreen = ({ navigation }: Props) => {
             </FormControl>
             <NavButton
               title="Login"
-              onPress={() => dispatch(signIn({ email, password }))}
+              onPress={handleSubmit(onSubmit)}
               disabled={false}
             />
-
             <View className="flex items-center">
               <Text className="text-primaryWhite">New customer?</Text>
               <Pressable onPress={() => navigation.navigate("SignUp")}>

@@ -4,7 +4,7 @@ import axios from "axios";
 import { SignUpDto } from "../dto/signupDto";
 import { SignInDto } from "../dto/signinDto";
 
-const baseUrl = process.env.REACT_APP_BASE_URL;
+const baseUrl = process.env.baseURL;
 
 export interface UserState {
   user: User | null;
@@ -21,6 +21,7 @@ const initialState: UserState = {
 export const signUp = createAsyncThunk(
   "user/signUp",
   async (signUpDto: SignUpDto, thunkAPI) => {
+    console.log("SignUpDto thunk", signUpDto);
     try {
       const response = await axios.post(`${baseUrl}/auth/signup`, signUpDto);
 
@@ -35,11 +36,15 @@ export const signUp = createAsyncThunk(
 export const signIn = createAsyncThunk(
   "user/signIn",
   async (signInDto: SignInDto, thunkAPI) => {
+    console.log("signin thunk", signInDto);
+    console.log("baseUrl", baseUrl);
     try {
       const response = await axios.post(`${baseUrl}/auth/login`, signInDto);
+      console.log("sign in response", response.data);
       return response.data;
     } catch (error: any) {
-      console.log("signin thunk error", error);
+      console.log("signin thunk error message", error.message);
+      console.log("signin thunk error res data", error.response.data);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }

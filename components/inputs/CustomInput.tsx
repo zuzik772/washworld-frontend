@@ -5,7 +5,8 @@ type Props = {
   placeholderTitle: string;
   keyboardType?: any;
   ariaLabel?: string;
-  onChangeText?: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
+  onChangeText?: (text: string) => void;
+  value: string;
 };
 
 const CustomInput = ({
@@ -13,6 +14,7 @@ const CustomInput = ({
   keyboardType,
   ariaLabel,
   onChangeText,
+  value,
 }: Props) => {
   return (
     <Input
@@ -28,7 +30,11 @@ const CustomInput = ({
         keyboardType={keyboardType}
         className="text-xl text-white"
         placeholderTextColor="gray"
-        onChange={onChangeText}
+        onChange={(e: NativeSyntheticEvent<TextInputChangeEventData>) => {
+          onChangeText && onChangeText(e.nativeEvent.text); // Call onChangeText with the text value directly
+        }}
+        value={value}
+        autoCapitalize="none"
       />
     </Input>
   );

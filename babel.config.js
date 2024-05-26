@@ -8,7 +8,7 @@ module.exports = function (api) {
     plugins: [
       "@babel/plugin-proposal-export-namespace-from",
       ["react-native-reanimated/plugin", { relativeSourceLocation: true }],
-      "inline-dotenv",
+      ["inline-dotenv"],
     ],
   };
 };

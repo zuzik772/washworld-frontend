@@ -11,7 +11,8 @@ type Props = {
   placeholderTitle: string;
   icon: any;
   ariaLabel?: string;
-  onChangeText?: (e: NativeSyntheticEvent<TextInputChangeEventData>) => void;
+  onChangeText?: (text: string) => void;
+  value: string;
 };
 
 const CustomInputWithIcon = ({
@@ -19,6 +20,7 @@ const CustomInputWithIcon = ({
   icon,
   ariaLabel,
   onChangeText,
+  value,
 }: Props) => {
   return (
     <Input
@@ -34,7 +36,11 @@ const CustomInputWithIcon = ({
         type="password"
         className="text-xl w-[20.5rem] text-white"
         placeholderTextColor="gray"
-        onChange={onChangeText}
+        onChange={(e: NativeSyntheticEvent<TextInputChangeEventData>) => {
+          onChangeText && onChangeText(e.nativeEvent.text); // Call onChangeText with the text value directly
+        }}
+        value={value}
+        autoCapitalize="none"
       />
       <InputSlot className="bg-primaryGreen p-[0.75rem] rounded-r-md">
         <Icon

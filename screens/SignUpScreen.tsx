@@ -25,12 +25,62 @@ import { Button, Keyboard, TouchableWithoutFeedback } from "react-native";
 import CustomInput from "../components/inputs/CustomInput";
 import CustomInputWithIcon from "../components/inputs/CustomInputWithIcon";
 import { useState } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { AppDispatch } from "../store/store";
+import { useDispatch } from "react-redux";
+import { SignUpDto } from "../dto/signupDto";
+import { signUp } from "../store/userSlice";
 
 type Props = NativeStackScreenProps<MapStackParamList, "SignUp">;
+type SignUpSchema = {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+  repeatPassword: string;
+  birthday: string;
+};
 
 const SignUpScreen = ({ navigation }: Props) => {
+  const dispatch: AppDispatch = useDispatch();
+
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+    watch,
+    reset,
+  } = useForm<SignUpSchema>({
+    defaultValues: {
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      repeatPassword: "",
+      birthday: new Date().toISOString(),
+    },
+  });
+  const password = watch("password");
   const [values, setValues] = useState<string[]>([]);
-  const [date, setDate] = useState(new Date());
+  const defaultDate = new Date();
+  defaultDate.setFullYear(defaultDate.getFullYear() - 20);
+  const [date, setDate] = useState(defaultDate);
+
+  const onSubmit = (data: SignUpSchema) => {
+    //remove repeat password from from form data
+    const { repeatPassword, ...rest } = data;
+    const signupDto = new SignUpDto(
+      rest.firstName,
+      rest.lastName,
+      rest.email,
+      rest.password,
+      (rest.birthday =
+        new Date(rest.birthday).toISOString().slice(0, 10) + "T00:00:00Z") // to ensure the date is interpreted as a timestamp at the start of the day in UTC, we append 'T00:00:00Z' to the date string
+    );
+    dispatch(signUp(signupDto));
+  };
+
   return (
     <Layout>
       <TouchableWithoutFeedback
@@ -39,26 +89,118 @@ const SignUpScreen = ({ navigation }: Props) => {
         aria-label="Dismiss keyboard"
       >
         <ScrollView className="h-screen">
-          <View className="flex items-center gap-4 my-6 ">
+          <View className="flex items-center gap-4 my-6 mb-10">
             <Text className="text-primaryWhite text-3xl font-extrabold">
               Create Profile
             </Text>
             <FormControl className="w-[26rem] flex gap-4">
-              <CustomInput placeholderTitle="Enter your first name" />
-              <CustomInput placeholderTitle="Enter your last name" />
-              <CustomInput placeholderTitle="Enter your email" />
-              <CustomInputWithIcon
-                placeholderTitle="Enter your password"
-                icon={EyeIcon}
+              {errors.firstName && (
+                <Text className="text-tertiaryAlert">
+                  {errors.firstName.message}
+                </Text>
+              )}
+              <Controller
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <CustomInput
+                    placeholderTitle="Enter your first name"
+                    onChangeText={(text) => onChange(text)}
+                    value={value}
+                  />
+                )}
+                name="firstName"
+                rules={{
+                  required: "First name is required",
+                }}
               />
-              <CustomInputWithIcon
-                placeholderTitle="Repeat your password"
-                icon={EyeIcon}
+              {errors.lastName && (
+                <Text className="text-tertiaryAlert">
+                  {errors.lastName.message}
+                </Text>
+              )}
+              <Controller
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <CustomInput
+                    placeholderTitle="Enter your last name"
+                    onChangeText={(text) => onChange(text)}
+                    value={value}
+                  />
+                )}
+                name="lastName"
+                rules={{
+                  required: "Last name is required",
+                }}
               />
-              {/* <CustomInput
-                placeholderTitle="Enter your date of birth"
-                keyboardType="numeric"
-              /> */}
+              {errors.email && (
+                <Text className="text-tertiaryAlert">
+                  {errors.email.message}
+                </Text>
+              )}
+              <Controller
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <CustomInput
+                    placeholderTitle="Enter your email"
+                    onChangeText={(text) => onChange(text)}
+                    value={value}
+                  />
+                )}
+                name="email"
+                rules={{
+                  required: "Email is required",
+                  pattern: {
+                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+                    message: "Invalid email address",
+                  },
+                }}
+              />
+              {errors.password && (
+                <Text className="text-tertiaryAlert">
+                  {errors.password.message}
+                </Text>
+              )}
+              <Controller
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <CustomInputWithIcon
+                    placeholderTitle="Enter your password"
+                    onChangeText={(text) => onChange(text)}
+                    icon={EyeIcon}
+                    value={value}
+                  />
+                )}
+                name="password"
+                rules={{
+                  required: "Password is required",
+                  minLength: {
+                    value: 6,
+                    message: "Password must be at least 6 characters long",
+                  },
+                }}
+              />
+              {errors.repeatPassword && (
+                <Text className="text-tertiaryAlert">
+                  {errors.repeatPassword.message}
+                </Text>
+              )}
+              <Controller
+                control={control}
+                render={({ field: { onChange, value } }) => (
+                  <CustomInputWithIcon
+                    placeholderTitle="Repeat your password"
+                    onChangeText={(text) => onChange(text)}
+                    icon={EyeIcon}
+                    value={value}
+                  />
+                )}
+                name="repeatPassword"
+                rules={{
+                  required: "Confirm password is required",
+                  validate: (value) =>
+                    value === password || "The passwords do not match",
+                }}
+              />
               <View className="flex items-center justify-between flex-row ml-2">
                 <Text className="text-white text-lg">
                   Select your date of birth:
@@ -71,7 +213,7 @@ const SignUpScreen = ({ navigation }: Props) => {
                     onChange={(event, selectedDate) => {
                       const currentDate = selectedDate || date;
                       setDate(currentDate);
-                      // setValue("date", currentDate.toISOString());
+                      setValue("birthday", currentDate.toISOString());
                     }}
                     accentColor="white"
                   />
@@ -152,9 +294,18 @@ const SignUpScreen = ({ navigation }: Props) => {
                 </CheckboxLabel>
               </Checkbox>
             </CheckboxGroup>
-            <NavButton
+            {/* <NavButton
               title="Sign up"
               onPress={() => navigation.navigate("MapScreen")}
+              disabled={false}
+              aria-label="Sign up"
+            /> */}
+            <NavButton
+              title="Sign up"
+              onPress={handleSubmit((data) => {
+                onSubmit(data);
+                navigation.navigate("MapScreen");
+              })}
               disabled={false}
               aria-label="Sign up"
             />
