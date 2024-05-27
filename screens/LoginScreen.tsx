@@ -15,16 +15,12 @@ import { Keyboard, TouchableWithoutFeedback } from "react-native";
 import CustomInput from "../components/inputs/CustomInput";
 import CustomInputWithIcon from "../components/inputs/CustomInputWithIcon";
 import { useDispatch } from "react-redux";
-import { useState } from "react";
 import { signIn } from "../store/userSlice";
 import { AppDispatch } from "../store/store";
 import { Controller, useForm } from "react-hook-form";
+import { SignInDto } from "../dto/signinDto";
 
 type Props = NativeStackScreenProps<MapStackParamList, "Login">;
-type LoginSchema = {
-  email: string;
-  password: string;
-};
 
 const LoginScreen = ({ navigation }: Props) => {
   const dispatch: AppDispatch = useDispatch();
@@ -35,23 +31,19 @@ const LoginScreen = ({ navigation }: Props) => {
     control,
     setError,
     formState: { errors },
-  } = useForm<LoginSchema>({
+  } = useForm<SignInDto>({
     defaultValues: {
       email: "",
       password: "",
     },
   });
-  const onSubmit = async (data: LoginSchema) => {
-    try {
-      await dispatch(signIn(data)).then((res) => {
-        console.log("login succesful", res.payload);
-        if (res.payload) {
-          navigation.navigate("MapScreen");
-          reset({ email: "", password: "" });
-        }
-      });
-    } catch (error) {
-      console.log("login error", error);
+  const onSubmit = async (signinDto: SignInDto) => {
+    const resultAction = await dispatch(signIn(signinDto));
+    console.log("signinDto", signinDto);
+    if (signIn.fulfilled.match(resultAction)) {
+      navigation.navigate("MapScreen");
+      reset({ email: "", password: "" });
+    } else if (signIn.rejected.match(resultAction)) {
       setError("root", {
         message: "Invalid credentials",
       });

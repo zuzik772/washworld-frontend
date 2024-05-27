@@ -15,13 +15,11 @@ import {
   Link,
   LinkText,
   FormControl,
-  FormControlLabel,
-  FormControlLabelText,
-  CheckboxGroup,
   ScrollView,
+  CheckboxGroup,
 } from "@gluestack-ui/themed";
 import DateTimePicker from "@react-native-community/datetimepicker";
-import { Button, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { Keyboard, TouchableWithoutFeedback } from "react-native";
 import CustomInput from "../components/inputs/CustomInput";
 import CustomInputWithIcon from "../components/inputs/CustomInputWithIcon";
 import { useState } from "react";
@@ -50,7 +48,7 @@ const SignUpScreen = ({ navigation }: Props) => {
     setValue,
     formState: { errors },
     watch,
-    reset,
+    setError,
   } = useForm<SignUpSchema>({
     defaultValues: {
       first_name: "",
@@ -78,7 +76,21 @@ const SignUpScreen = ({ navigation }: Props) => {
       (rest.birthday =
         new Date(rest.birthday).toISOString().slice(0, 10) + "T00:00:00Z") // to ensure the date is interpreted as a timestamp at the start of the day in UTC, we append 'T00:00:00Z' to the date string
     );
-    dispatch(signUp(signupDto));
+    dispatch(signUp(signupDto))
+      .unwrap()
+      .then((res) => {
+        console.log("signupDto", signupDto);
+        navigation.navigate("Login");
+      })
+      .catch((error: any) => {
+        console.log("signup error", error);
+        if (error.statusCode === 409) {
+          console.log("A user with this email already exists");
+          setError("email", {
+            message: "User with this email already exists",
+          });
+        }
+      });
   };
 
   return (
@@ -294,18 +306,9 @@ const SignUpScreen = ({ navigation }: Props) => {
                 </CheckboxLabel>
               </Checkbox>
             </CheckboxGroup>
-            {/* <NavButton
-              title="Sign up"
-              onPress={() => navigation.navigate("MapScreen")}
-              disabled={false}
-              aria-label="Sign up"
-            /> */}
             <NavButton
               title="Sign up"
-              onPress={handleSubmit((data) => {
-                onSubmit(data);
-                navigation.navigate("MapScreen");
-              })}
+              onPress={handleSubmit(onSubmit)}
               disabled={false}
               aria-label="Sign up"
             />

@@ -1,19 +1,19 @@
 export interface Feature {
   feature_id: number;
-  name: string;
+  feature_name: string;
+  feature_description: string;
 }
 
 export interface Package {
-  package_id: number | null;
-  name: string | null;
-  price: number | null;
-  included_features: Feature[];
-  not_included_features: Feature[];
+  package_id: number;
+  package_name: string;
+  package_price: number;
+  features: Feature[];
 }
 
 export interface Membership {
-  membership_id: number | null;
-  name: "Basic" | "Gold" | "Premium" | "Premium Plus" | "All Inclusive" | "";
-  price: number | null;
-  packages: Package[];
+  membership_id: number;
+  membership_name: string;
+  membership_price: number;
+  package: Package;
 }
