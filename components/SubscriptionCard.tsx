@@ -117,7 +117,7 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
                     </Text>
                   </Button>
                   <Text className="text-sm mt-2 text-center text-primaryWhite">
-                    Upgrade for
+                    Upgrade for{" "}
                     {subscription.membership_price > userMembershipPrice
                       ? `${
                           subscription.membership_price - userMembershipPrice
