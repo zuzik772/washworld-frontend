@@ -1,7 +1,5 @@
-import React, { useState } from "react";
-import { Membership } from "../types/Membership";
-import FeatureList from "./FeatureList";
-
+import React from "react";
+import { Feature, Membership } from "../types/Membership";
 import {
   Icon,
   CheckCircleIcon,
@@ -12,51 +10,58 @@ import {
   CloseCircleIcon,
 } from "@gluestack-ui/themed";
 import { ScrollView } from "react-native-gesture-handler";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { RootState } from "../store/store";
-import { selectMembership } from "../store/selectedMembershipSlice";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../navigation/MapStackParamList";
-import NavButton from "./NavButton";
+import IncludedFeatureList from "./IncludedFeatureList";
+import NotIncludedFeatureList from "./NotIncludedFeatureList";
 
 type SubscriptionCardProps = {
   subscription: Membership;
   navigation: NativeStackNavigationProp<MapStackParamList, "PreWash">;
+  allFeatures: Feature[];
 };
 
 const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
   subscription,
   navigation,
+  allFeatures,
 }) => {
   const user = useSelector((state: RootState) => state.user);
-  const userMembership = user.membership;
+  const userMembership = user.user?.membership[0];
+  const isCurrentUserPlan =
+    subscription.membership_name === userMembership?.membership_name;
+  const userMembershipPrice = userMembership
+    ? userMembership.membership_price
+    : 0;
+
+  const isAlternative = userMembershipPrice < subscription.membership_price;
 
   return (
     <View className="">
-      <ScrollView>
+      <ScrollView className="pt-10">
         <View className="pb-48">
-          <View
-            style={{
-              transform: [{ skewX: "-34deg" }],
-              opacity: subscription.name === userMembership.name ? 1 : 0,
-            }}
-            className="bg-primaryGreen absolute right-16"
-          >
-            <Text className="text-lg px-3 py-1 font-bold text-primaryGreen">
-              Your
-            </Text>
-          </View>
-          <View
-            style={{
-              opacity: subscription.name === userMembership.name ? 1 : 0,
-            }}
-            className="flex mr-2 "
-          >
-            <Text className="text-lg bg-primaryGreen px-3 py-1 font-bold text-primaryWhite self-end">
-              Your Plan
-            </Text>
-          </View>
-          {subscription.price > 169 ? (
+          {isCurrentUserPlan && (
+            <View style={{ marginTop: -31 }}>
+              <View
+                style={{
+                  transform: [{ skewX: "-34deg" }],
+                }}
+                className="bg-primaryGreen absolute right-16"
+              >
+                <Text className="text-lg px-3 py-1 font-bold text-primaryGreen">
+                  Your
+                </Text>
+              </View>
+              <View className="flex mr-2 ">
+                <Text className="text-lg bg-primaryGreen px-3 py-1 font-bold text-primaryWhite self-end">
+                  Your Plan
+                </Text>
+              </View>
+            </View>
+          )}
+          {subscription.membership_price > userMembershipPrice ? (
             // Alternative styles
             <>
               <View className="border-2 border-secondaryOrange p-5 mr-2 ml-2 ">
@@ -69,7 +74,7 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
                     height={45}
                   />
                   <Text className="text-primaryWhite font-bold text-2xl mt-1">
-                    {subscription.name}
+                    {subscription.membership_name}
                   </Text>
                 </View>
 
@@ -79,36 +84,25 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
                   </Text>
                   <Divider className="w-80 h-px bg-primaryWhite self-center mb-3 mt-1" />
                   <View className="self-start pl-6 mb-8">
-                    {subscription.packages.map(
-                      (packageFeature, packageIndex) => (
-                        <FeatureList
-                          key={packageIndex}
-                          features={packageFeature.included_features}
-                          isIncluded={true}
-                          isAlternative={true}
-                        />
-                      )
-                    )}
+                    <IncludedFeatureList
+                      allFeatures={allFeatures}
+                      features={subscription.package.features}
+                      isAlternative={isAlternative}
+                    />
                   </View>
                 </View>
 
-                {subscription.name !== "All Inclusive" && (
+                {subscription.membership_name !== "All Inclusive" && (
                   <View className="flex flex-col">
                     <Text className="text-primaryWhite text-center font-bold text-lg">
                       Not Included
                     </Text>
                     <Divider className="w-80 h-px bg-primaryWhite self-center mb-3 mt-1" />
                     <View className="self-start pl-6">
-                      {subscription.packages.map(
-                        (packageFeature, packageIndex) => (
-                          <FeatureList
-                            key={packageIndex}
-                            features={packageFeature.not_included_features}
-                            isIncluded={false}
-                            isAlternative={true}
-                          />
-                        )
-                      )}
+                      <NotIncludedFeatureList
+                        features={subscription.package.features}
+                        allFeatures={allFeatures}
+                      />
                     </View>
                   </View>
                 )}
@@ -123,7 +117,12 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
                     </Text>
                   </Button>
                   <Text className="text-sm mt-2 text-center text-primaryWhite">
-                    Upgrade for {subscription.price - userMembership.price}kr
+                    Upgrade for
+                    {subscription.membership_price > userMembershipPrice
+                      ? `${
+                          subscription.membership_price - userMembershipPrice
+                        } kr`
+                      : "0 kr"}
                   </Text>
                 </View>
               </View>
@@ -141,7 +140,7 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
                     height={45}
                   />
                   <Text className="text-primaryWhite font-bold text-2xl mt-1">
-                    {subscription.name}
+                    {subscription.membership_name}
                   </Text>
                 </View>
 
@@ -151,36 +150,25 @@ const SubscriptionCard: React.FC<SubscriptionCardProps> = ({
                   </Text>
                   <Divider className="w-80 h-px bg-primaryWhite self-center mb-3 mt-1" />
                   <View className="self-start pl-6 mb-8">
-                    {subscription.packages.map(
-                      (packageFeature, packageIndex) => (
-                        <FeatureList
-                          key={packageIndex}
-                          features={packageFeature.included_features}
-                          isIncluded={true}
-                          isAlternative={false}
-                        />
-                      )
-                    )}
+                    <IncludedFeatureList
+                      allFeatures={allFeatures}
+                      features={subscription.package.features}
+                      isAlternative={isAlternative}
+                    />
                   </View>
                 </View>
 
-                {subscription.name !== "All Inclusive" && (
+                {subscription.membership_name !== "All Inclusive" && (
                   <View className="flex flex-col">
                     <Text className="text-primaryWhite text-center font-bold text-lg">
                       Not Included
                     </Text>
                     <Divider className="w-80 h-px bg-primaryWhite self-center mb-3 mt-1" />
                     <View className="self-start pl-6">
-                      {subscription.packages.map(
-                        (packageFeature, packageIndex) => (
-                          <FeatureList
-                            key={packageIndex}
-                            features={packageFeature.not_included_features}
-                            isIncluded={false}
-                            isAlternative={false}
-                          />
-                        )
-                      )}
+                      <NotIncludedFeatureList
+                        features={subscription.package.features}
+                        allFeatures={allFeatures}
+                      />
                     </View>
                   </View>
                 )}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import { Box, Heading, ScrollView, View } from "@gluestack-ui/themed";
 import { useDispatch, useSelector } from "react-redux";
@@ -11,6 +11,7 @@ import { Membership } from "../../types/Membership";
 import SubscriptionCard from "../../components/SubscriptionCard";
 import NavButton from "../../components/NavButton";
 import { selectMembership } from "../../store/selectedMembershipSlice";
+import { fetchMembershipsWithFeatures } from "../../store/membershipsSlice";
 
 type PackageCardProps = {
   navigation: NativeStackNavigationProp<MapStackParamList, "PreWash">;
@@ -23,9 +24,16 @@ const PackageScreen = ({ navigation }: PackageCardProps) => {
     dispatch(selectMembership(membership));
   };
 
+  useEffect(() => {
+    dispatch(fetchMembershipsWithFeatures());
+  }, []);
+
   const packages: Membership[] = useSelector(
     (state: RootState) => state.memberships.memberships
   );
+
+  const allFeatures = packages.map((membership) => membership.package.features);
+
   const width = Dimensions.get("window").width;
   const [currentIndex, setCurrentIndex] = useState(0);
 
@@ -87,6 +95,7 @@ const PackageScreen = ({ navigation }: PackageCardProps) => {
               key={index}
               navigation={navigation}
               subscription={item}
+              allFeatures={allFeatures.flat()}
             />
           )}
         />

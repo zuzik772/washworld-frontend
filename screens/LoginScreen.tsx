@@ -66,7 +66,14 @@ const LoginScreen = ({ navigation }: Props) => {
             </FormControl>
             <NavButton
               title="Login"
-              onPress={() => dispatch(signIn({ email, password }))}
+              onPress={async () => {
+                const resultAction = await dispatch(
+                  signIn({ email, password })
+                );
+                if (signIn.fulfilled.match(resultAction)) {
+                  navigation.navigate("MapScreen");
+                }
+              }}
               disabled={false}
             />
 
