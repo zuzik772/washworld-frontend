@@ -33,8 +33,8 @@ import { signUp } from "../store/userSlice";
 
 type Props = NativeStackScreenProps<MapStackParamList, "SignUp">;
 type SignUpSchema = {
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
   repeatPassword: string;
@@ -53,8 +53,8 @@ const SignUpScreen = ({ navigation }: Props) => {
     reset,
   } = useForm<SignUpSchema>({
     defaultValues: {
-      firstName: "",
-      lastName: "",
+      first_name: "",
+      last_name: "",
       email: "",
       password: "",
       repeatPassword: "",
@@ -71,8 +71,8 @@ const SignUpScreen = ({ navigation }: Props) => {
     //remove repeat password from from form data
     const { repeatPassword, ...rest } = data;
     const signupDto = new SignUpDto(
-      rest.firstName,
-      rest.lastName,
+      rest.first_name,
+      rest.last_name,
       rest.email,
       rest.password,
       (rest.birthday =
@@ -94,9 +94,9 @@ const SignUpScreen = ({ navigation }: Props) => {
               Create Profile
             </Text>
             <FormControl className="w-[26rem] flex gap-4">
-              {errors.firstName && (
+              {errors.first_name && (
                 <Text className="text-tertiaryAlert">
-                  {errors.firstName.message}
+                  {errors.first_name.message}
                 </Text>
               )}
               <Controller
@@ -108,14 +108,14 @@ const SignUpScreen = ({ navigation }: Props) => {
                     value={value}
                   />
                 )}
-                name="firstName"
+                name="first_name"
                 rules={{
                   required: "First name is required",
                 }}
               />
-              {errors.lastName && (
+              {errors.last_name && (
                 <Text className="text-tertiaryAlert">
-                  {errors.lastName.message}
+                  {errors.last_name.message}
                 </Text>
               )}
               <Controller
@@ -127,7 +127,7 @@ const SignUpScreen = ({ navigation }: Props) => {
                     value={value}
                   />
                 )}
-                name="lastName"
+                name="last_name"
                 rules={{
                   required: "Last name is required",
                 }}

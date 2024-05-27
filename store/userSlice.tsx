@@ -56,11 +56,13 @@ export const userSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder.addCase(signUp.fulfilled, (state, action) => {
+      console.log("signup action.payload", action.payload);
       state.user = action.payload.user;
       state.token = action.payload.access_token;
       state.isSignedIn = true;
     });
     builder.addCase(signUp.rejected, (state, action) => {
+      console.log("signup failed", action.payload);
       state.user = null;
       state.token = "";
     }),
