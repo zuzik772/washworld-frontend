@@ -11,13 +11,14 @@ const initialState: MembershipState = {
 };
 
 //make a thunk that fetches the memberships from the server
+const baseUrl = process.env.baseURL;
 
 export const fetchMembershipsWithFeatures = createAsyncThunk(
   "memberships/fetchMemberships",
   async (_, thunkAPI) => {
     try {
       const response = await axios.get(
-        "http://192.168.246.161:3000/membership-package-features"
+        `${baseUrl}/membership-package-features`
       );
       return response.data;
     } catch (error: any) {
