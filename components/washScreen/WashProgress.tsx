@@ -235,8 +235,6 @@ const WashProgress = ({
   const [currentStateIndex, setCurrentStateIndex] = useState(0);
 
   useEffect(() => {
-    console.log(stateProgress);
-
     const currentStateIndex = stateProgress.findIndex(
       (state) => state.progress !== 100
     );

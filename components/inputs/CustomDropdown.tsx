@@ -42,7 +42,7 @@ const CustomDropdown = ({ placeholderTitle, items, onChange }: Props) => {
       {menuExpanded && (
         <View className="top-[47px] absolute border-primaryGreen border-[1px] rounded-lg w-[26rem] overflow-hidden">
           {items.map((item, index) => (
-            <View className="relative">
+            <View className="relative" key={index}>
               <Pressable
                 onPress={() => {
                   if (onChange) {
@@ -51,7 +51,6 @@ const CustomDropdown = ({ placeholderTitle, items, onChange }: Props) => {
                     setMenuExpanded(false);
                   }
                 }}
-                key={index}
                 className="p-2 w-full"
               >
                 <Text className="text-xl text-white">{item}</Text>

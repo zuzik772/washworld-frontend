@@ -1,201 +1,149 @@
 import Layout from "../components/Layout";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { MapStackParamList } from "../navigation/MapStackParamList";
-import NavButton from "../components/NavButton";
 import MapView, { Marker } from "react-native-maps";
-import { StyleSheet, Linking } from "react-native";
+import { StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
-import * as Location from "expo-location";
-import {
-  Text,
-  View,
-  CloseIcon,
-  Icon,
-  Pressable,
-  Button,
-  ButtonText,
-  FavouriteIcon,
-} from "@gluestack-ui/themed";
-
-import { getStatusColor } from "../utils/Status";
+import { Center, Text, View } from "@gluestack-ui/themed";
 import MapIcon from "../components/MapIcon";
+import { Hall, Location, Status } from "../types/Location";
+import { userLocation } from "../utils/mapCalculations";
+import LocationCard from "../components/LocationCard";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { AppDispatch, RootState } from "../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllLocations } from "../store/locationSlice";
 import {
-  useGetLocations,
-  useUpdateLocation,
-} from "../locations/locations.hooks";
-import { location } from "../types/Location";
+  getHallsStatus,
+  getLocationStatus,
+  getColorStatus,
+  statusColorMap,
+} from "../utils/colorStatus";
+import axios from "axios";
 
-type Props = NativeStackScreenProps<MapStackParamList>;
-
+type Props = {
+  navigation: NativeStackNavigationProp<MapStackParamList, "MapScreen">;
+};
 const MapScreen = ({ navigation }: Props) => {
+  const locations = useSelector((state: RootState) => state.location.locations);
+  const [statusTypes, setStatusTypes] = useState<Status[]>([]);
+  const [halls, setHalls] = useState<{ location_id: number; halls: Hall[] }[]>(
+    []
+  );
+  useEffect(() => {
+    fetchStatuses().then((data) => {
+      setStatusTypes(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    const hallArray: { location_id: number; halls: Hall[] }[] = [];
+    locations.map(async (location) => {
+      const halls = await fetchHalls(location.location_id);
+
+      const object = { location_id: location.location_id, halls };
+      hallArray.push(object);
+    });
+    setHalls(hallArray);
+  }, [locations]);
+
+  const dispatch: AppDispatch = useDispatch();
+
+  const fetchHalls = async (location_id: number): Promise<Hall[]> => {
+    const baseUrl = process.env.baseURL;
+    try {
+      const response = await axios.get(`${baseUrl}/halls/${location_id}`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching halls", error);
+      return [];
+    }
+  };
+  const fetchStatuses = async (): Promise<Status[]> => {
+    const baseUrl = process.env.baseURL;
+    console.log(baseUrl);
+
+    try {
+      const response = await axios.get(`${baseUrl}/statuses`);
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching statuses", error);
+      return [];
+    }
+  };
+
+  const getLocationStatusAndHalls = async (location_id: number) => {
+    return new Promise<{
+      hallsStatus: ("Ready" | "Busy" | "Unavailable" | undefined)[];
+      locationStatus: string;
+      colorClass: string;
+    }>(async (resolve, reject) => {
+      if (!halls.length || !statusTypes.length) return null;
+
+      const hallsStatus = getHallsStatus({
+        halls:
+          halls.find((hall) => hall.location_id === location_id)?.halls || [],
+        statuses: statusTypes,
+      });
+      const locationStatus = getLocationStatus(hallsStatus as string[]);
+      const colorClass = getColorStatus({ locationStatus, statusColorMap });
+      resolve({ hallsStatus, locationStatus, colorClass });
+    });
+  };
+
   const [mapRegion, setMapRegion] = useState({
     latitude: 55.676098,
     longitude: 12.568337,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   });
-  const [selectedLocation, setSelectedLocation] = useState<location | null>(
+
+  const [selectedLocation, setSelectedLocation] = useState<Location | null>(
     null
   );
-
-  const { data: locations, isPending, isError, error } = useGetLocations();
-  const { mutate: updateLocation } = useUpdateLocation();
-
-  const handleUpdateLocation = () => {
-    if (selectedLocation) {
-      const updatedLocationData = {
-        ...selectedLocation,
-        isFavourite: !selectedLocation.isFavourite,
-      };
-      console.log("current fav is", updatedLocationData.isFavourite);
-      updateLocation(updatedLocationData, {
-        onSuccess: () => {
-          // Update the selectedLocation state to reflect the change
-          setSelectedLocation(updatedLocationData);
-        },
-      });
-    }
-  };
-  const userLocation = async () => {
-    let { status } = await Location.requestForegroundPermissionsAsync();
-    if (status !== "granted") {
-      console.log("Permission to access location was denied");
-      return;
-    }
-    let location = await Location.getCurrentPositionAsync({
-      accuracy: Location.Accuracy.High,
-    });
-    setMapRegion({
-      latitude: location.coords.latitude,
-      longitude: location.coords.longitude,
-      latitudeDelta: 0.0922,
-      longitudeDelta: 0.0421,
-    });
-  };
-
-  const openGoogleMaps = (latitude: number, longitude: number) => {
-    const url = `https://www.google.com/maps/dir/?api=1&destination=${latitude},${longitude}&travelmode=driving`;
-    Linking.canOpenURL(url)
-      .then(() => Linking.openURL(url))
-      .catch((err) => console.error("An error occurred", err));
-  };
   useEffect(() => {
-    userLocation();
+    dispatch(fetchAllLocations());
+    userLocation({ setMapRegion });
   }, []);
 
-  const calculateDistance = (
-    lat1: number,
-    lon1: number,
-    lat2: number,
-    lon2: number
-  ) => {
-    const R = 6371; // Radius of the earth in km
-    const dLat = deg2rad(lat2 - lat1); // deg2rad below
-    const dLon = deg2rad(lon2 - lon1);
-    const a =
-      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-      Math.cos(deg2rad(lat1)) *
-        Math.cos(deg2rad(lat2)) *
-        Math.sin(dLon / 2) *
-        Math.sin(dLon / 2);
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = R * c; // Distance in km
-    return distance;
-  };
-
-  const deg2rad = (deg: number) => {
-    return deg * (Math.PI / 180);
-  };
-
-  const locationTitle = selectedLocation?.address.split(" ").pop();
-
-  const LocationCard = ({ location }: { location: location }) => {
-    const colorClass = getStatusColor(location.status);
-    const navigateToLocation = () =>
-      openGoogleMaps(location.latitude, location.longitude);
-
-    const calculatedDistance = calculateDistance(
-      mapRegion.latitude,
-      mapRegion.longitude,
-      location.latitude,
-      location.longitude
-    );
-    const distance = calculatedDistance.toFixed(1);
-    return (
-      <View className="absolute bottom-[180px] left-4 right-4 mx-auto p-3 bg-secondaryGray90 flex gap-2 rounded-lg">
-        <View className="flex flex-row justify-between">
-          <View className="flex-row items-center gap-2">
-            <View className="w-9 h-9">
-              <Pressable onPress={handleUpdateLocation}>
-                <Icon
-                  as={FavouriteIcon}
-                  color={
-                    location.isFavourite
-                      ? "$colors$primaryGreen"
-                      : "$colors$primaryWhite"
-                  }
-                />
-              </Pressable>
-            </View>
-            <Text className="text-primaryWhite text-xl font-semibold">
-              {locationTitle}
-            </Text>
-          </View>
-          <Pressable
-            onPress={() => setSelectedLocation(null)}
-            className="h-12 w-12"
-          >
-            <Icon as={CloseIcon} color="$colors$primaryWhite" />
-          </Pressable>
-        </View>
-        <Text className="text-primaryWhite underline">{location.address}</Text>
-
-        <Text className="font-bold text-lg" color={`${colorClass}`}>
-          {location.status}
-        </Text>
-
-        <View className="flex-row gap-2 items-center justify-between">
-          <NavButton
-            title="Navigation"
-            onPress={navigateToLocation}
-            secondary={true}
-          />
-          <NavButton
-            title="Select"
-            onPress={() =>
-              navigation.navigate("Location", {
-                locationTitle: locationTitle,
-                distance: parseFloat(distance),
-              })
-            }
-            disabled={false}
-          />
-        </View>
-      </View>
-    );
-  };
-  if (isPending) return <Text>Loading...</Text>;
-  if (isError) return <Text>Error: {error.message}</Text>;
   return (
     <Layout>
       <View className="relative">
         <MapView style={styles.map} region={mapRegion}>
           <Marker coordinate={mapRegion} title="Current Location" />
-          {locations?.map((location) => (
-            <Marker
-              key={location.location_id}
-              coordinate={{
-                latitude: location.latitude,
-                longitude: location.longitude,
-              }}
-              title={location.address}
-              onPress={() => setSelectedLocation(location)}
-            >
-              <MapIcon fillColor={getStatusColor(location.status)} />
-            </Marker>
-          ))}
+          {locations.length ? (
+            <>
+              {locations?.map(async (location) => {
+                const status = await getLocationStatusAndHalls(
+                  location.location_id
+                );
+
+                return (
+                  <Marker
+                    key={location.location_id}
+                    coordinate={{
+                      latitude: location.latitude,
+                      longitude: location.longitude,
+                    }}
+                    title={location.address}
+                    onPress={() => setSelectedLocation(location)}
+                  >
+                    <MapIcon fillColor={status.colorClass} />
+                  </Marker>
+                );
+              })}
+            </>
+          ) : (
+            <></>
+          )}
         </MapView>
-        {selectedLocation && <LocationCard location={selectedLocation} />}
+        {selectedLocation && (
+          <LocationCard
+            location={selectedLocation}
+            mapRegion={mapRegion}
+            setSelectedLocation={setSelectedLocation}
+            navigation={navigation}
+          />
+        )}
       </View>
     </Layout>
   );

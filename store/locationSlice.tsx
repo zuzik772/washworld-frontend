@@ -1,113 +1,43 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Location } from "../types/Location";
+import axios from "axios";
 
 export interface LocationState {
   locations: Location[];
 }
 
 const initialState: LocationState = {
-  locations: [
-    {
-      location_id: 1,
-      address: "123 Hovedgade, Springfield",
-      opening_times: "08:00",
-      closing_times: "20:00",
-      latitude: 37.7749,
-      longitude: -122.4194,
-      distance: 5.2,
-      self_wash_stations: [
-        {
-          status_id: 1,
-          status: {
-            status_id: 1,
-            status: "Unavailable",
-          },
-        },
-        {
-          status_id: 2,
-          status: {
-            status_id: 2,
-            status: "Unavailable",
-          },
-        },
-      ],
-      washing_halls: [
-        {
-          hall_id: 1,
-          status: {
-            status_id: 1,
-            status: "Unavailable",
-          },
-          width: 10,
-          height: 10,
-          max_rim_size: 22,
-        },
-        {
-          hall_id: 2,
-          status: {
-            status_id: 3,
-            status: "Ready",
-          },
-          width: 10,
-          height: 10,
-          max_rim_size: 22,
-        },
-      ],
-    },
-    {
-      location_id: 2,
-      address: "456 Elmegade, Shelbyville",
-      opening_times: "09:00",
-      closing_times: "22:00",
-      latitude: 34.0522,
-      longitude: -118.2437,
-      distance: 10.4,
-      self_wash_stations: [
-        {
-          status_id: 3,
-          status: {
-            status_id: 1,
-            status: "Ready",
-          },
-        },
-        {
-          status_id: 4,
-          status: {
-            status_id: 2,
-            status: "Busy",
-          },
-        },
-      ],
-      washing_halls: [
-        {
-          hall_id: 3,
-          status: {
-            status_id: 2,
-            status: "Busy",
-          },
-          width: 10,
-          height: 10,
-          max_rim_size: 22,
-        },
-        {
-          hall_id: 4,
-          status: {
-            status_id: 3,
-            status: "Unavailable",
-          },
-          width: 10,
-          height: 10,
-          max_rim_size: 22,
-        },
-      ],
-    },
-  ],
+  locations: [],
 };
+const baseUrl = process.env.baseURL;
+
+export const fetchAllLocations = createAsyncThunk(
+  "locations/fetchAllLocations",
+  async (thunkAPI) => {
+    try {
+      const response = await axios.get(`${baseUrl}/locations`);
+      return await response.data;
+    } catch (error: any) {
+      console.log("Error message", error.message);
+      console.log("Error response", error.response);
+      return;
+    }
+  }
+);
 
 export const locationSlice = createSlice({
   name: "location",
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchAllLocations.fulfilled, (state, action) => {
+      state.locations = action.payload;
+    });
+    builder.addCase(fetchAllLocations.rejected, (state, action) => {
+      state.locations = [];
+      console.log("Error in fetchlocation thunk", action.error);
+    });
+  },
 });
 
 export const {} = locationSlice.actions;

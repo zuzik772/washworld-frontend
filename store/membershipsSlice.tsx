@@ -1,157 +1,41 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Membership } from "../types/Membership";
+import axios from "axios";
 
 export interface MembershipState {
   memberships: Membership[];
 }
 
 const initialState: MembershipState = {
-  memberships: [
-    {
-      membership_id: 1,
-      name: "Basic",
-      price: 99,
-      packages: [
-        {
-          package_id: 1,
-          name: "Basic Package",
-          price: 99,
-          included_features: [
-            { feature_id: 1, name: "Shampoo" },
-            { feature_id: 2, name: "Air drying" },
-            { feature_id: 3, name: "Brush wash" },
-            { feature_id: 4, name: "High-pressure rinse" },
-          ],
-          not_included_features: [
-            { feature_id: 5, name: "Wheel wash" },
-            { feature_id: 6, name: "Rinse wax" },
-            { feature_id: 7, name: "Undercarriage rinse" },
-            { feature_id: 8, name: "Polishing" },
-            { feature_id: 9, name: "Extra drying" },
-            { feature_id: 10, name: "Insect cleaning" },
-            { feature_id: 11, name: "Foam Splash" },
-            { feature_id: 12, name: "Degreasing" },
-          ],
-        },
-      ],
-    },
-    {
-      membership_id: 2,
-      name: "Gold",
-      price: 139,
-      packages: [
-        {
-          package_id: 1,
-          name: "Gold Package",
-          price: 139,
-          included_features: [
-            { feature_id: 1, name: "Shampoo" },
-            { feature_id: 2, name: "Drying" },
-            { feature_id: 3, name: "Brush wash" },
-            { feature_id: 4, name: "High-pressure rinse" },
-            { feature_id: 5, name: "Wheel wash" },
-            { feature_id: 6, name: "Rinse wax" },
-          ],
-          not_included_features: [
-            { feature_id: 7, name: "Undercarriage rinse" },
-            { feature_id: 8, name: "Polishing" },
-            { feature_id: 9, name: "Extra drying" },
-            { feature_id: 10, name: "Insect cleaning" },
-            { feature_id: 11, name: "Foam Splash" },
-            { feature_id: 12, name: "Degreasing" },
-          ],
-        },
-      ],
-    },
-    {
-      membership_id: 3,
-      name: "Premium",
-      price: 169,
-      packages: [
-        {
-          package_id: 1,
-          name: "Premium Package",
-          price: 179,
-          included_features: [
-            { feature_id: 1, name: "Shampoo" },
-            { feature_id: 2, name: "Drying" },
-            { feature_id: 3, name: "Brush wash" },
-            { feature_id: 4, name: "High-pressure rinse" },
-            { feature_id: 5, name: "Wheel wash" },
-            { feature_id: 7, name: "Undercarriage rinse" },
-            { feature_id: 8, name: "Polishing" },
-          ],
-          not_included_features: [
-            { feature_id: 9, name: "Extra drying" },
-            { feature_id: 10, name: "Insect cleaning" },
-            { feature_id: 11, name: "Foam Splash" },
-            { feature_id: 12, name: "Degreasing" },
-          ],
-        },
-      ],
-    },
-    {
-      membership_id: 4,
-      name: "Premium Plus",
-      price: 179,
-      packages: [
-        {
-          package_id: 1,
-          name: "Premium Plus Package",
-          price: 179,
-          included_features: [
-            { feature_id: 1, name: "Shampoo" },
-            { feature_id: 2, name: "Drying" },
-            { feature_id: 3, name: "Brush wash" },
-            { feature_id: 4, name: "High-pressure rinse" },
-            { feature_id: 5, name: "Wheel wash" },
-            { feature_id: 6, name: "Rinse wax" },
-            { feature_id: 7, name: "Undercarriage rinse" },
-            { feature_id: 8, name: "Polishing" },
-            { feature_id: 10, name: "Insect cleaning" },
-          ],
-          not_included_features: [
-            { feature_id: 9, name: "Extra drying" },
-            { feature_id: 11, name: "Foam Splash" },
-            { feature_id: 12, name: "Degreasing" },
-          ],
-        },
-      ],
-    },
-    {
-      membership_id: 5,
-      name: "All Inclusive",
-      price: 249,
-      packages: [
-        {
-          package_id: 1,
-          name: "All Inclusive Package",
-          price: 249,
-          included_features: [
-            { feature_id: 1, name: "Shampoo" },
-            { feature_id: 2, name: "Drying" },
-            { feature_id: 3, name: "Brush wash" },
-            { feature_id: 4, name: "High-pressure rinse" },
-            { feature_id: 5, name: "Wheel wash" },
-            { feature_id: 6, name: "Rinse wax" },
-            { feature_id: 7, name: "Undercarriage rinse" },
-            { feature_id: 8, name: "Polishing" },
-            { feature_id: 9, name: "Extra drying" },
-            { feature_id: 10, name: "Insect cleaning" },
-            { feature_id: 11, name: "Foam Splash" },
-            { feature_id: 12, name: "Degreasing" },
-          ],
-          not_included_features: [],
-        },
-      ],
-    },
-  ],
+  memberships: [],
 };
+
+//make a thunk that fetches the memberships from the server
+const baseUrl = process.env.baseURL;
+
+export const fetchMembershipsWithFeatures = createAsyncThunk(
+  "memberships/fetchMemberships",
+  async (_, thunkAPI) => {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/membership-package-features`
+      );
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue({ error: error.message });
+    }
+  }
+);
 
 export const membershipsSlice = createSlice({
   name: "memberships",
   initialState,
   reducers: {},
+  extraReducers: (builder) => {
+    builder.addCase(fetchMembershipsWithFeatures.fulfilled, (state, action) => {
+      state.memberships = action.payload;
+    });
+  },
 });
 
 export const {} = membershipsSlice.actions;

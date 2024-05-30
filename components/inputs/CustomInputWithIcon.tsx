@@ -5,14 +5,23 @@ import {
   InputIcon,
   InputSlot,
 } from "@gluestack-ui/themed";
+import { NativeSyntheticEvent, TextInputChangeEventData } from "react-native";
 
 type Props = {
   placeholderTitle: string;
   icon: any;
   ariaLabel?: string;
+  onChangeText?: (text: string) => void;
+  value: string;
 };
 
-const CustomInputWithIcon = ({ placeholderTitle, icon, ariaLabel }: Props) => {
+const CustomInputWithIcon = ({
+  placeholderTitle,
+  icon,
+  ariaLabel,
+  onChangeText,
+  value,
+}: Props) => {
   return (
     <Input
       isDisabled={false}
@@ -27,6 +36,11 @@ const CustomInputWithIcon = ({ placeholderTitle, icon, ariaLabel }: Props) => {
         type="password"
         className="text-xl w-[20.5rem] text-white"
         placeholderTextColor="gray"
+        onChange={(e: NativeSyntheticEvent<TextInputChangeEventData>) => {
+          onChangeText && onChangeText(e.nativeEvent.text); // Call onChangeText with the text value directly
+        }}
+        value={value}
+        autoCapitalize="none"
       />
       <InputSlot className="bg-primaryGreen p-[0.75rem] rounded-r-md">
         <Icon

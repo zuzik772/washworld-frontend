@@ -8,7 +8,6 @@ export const selectedMembershipSlice = createSlice({
   initialState,
   reducers: {
     selectMembership: (state, action) => {
-      console.log(action.payload);
       state = action.payload;
 
       return action.payload;

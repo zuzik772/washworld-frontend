@@ -3,9 +3,11 @@ import Layout from "../components/Layout";
 import { ScrollView, View, Text, Pressable } from "@gluestack-ui/themed";
 import Avatar from "../components/Avatar";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { NavigationProp, useNavigation } from "@react-navigation/native";
-import { SettingsStackParamList } from "../navigation/SettingsStackParamList";
+import { logout } from "../store/userSlice";
+import { AppDispatch } from "../store/store";
+import { useDispatch } from "react-redux";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { SettingsStackParamList } from "../navigation/SettingsStackParamList";
 
 type MenuItem = {
   title: string;
@@ -18,9 +20,15 @@ type MenuItem = {
   onPress: () => void;
   type?: "normal" | "danger";
 };
+type Props = NativeStackScreenProps<SettingsStackParamList, "SettingsScreen">;
 
-type Props = NativeStackScreenProps<SettingsStackParamList>;
 const SettingsScreen = ({ navigation }: Props) => {
+  const dispatch: AppDispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    navigation.navigate("Login");
+  };
+
   const menuItems: MenuItem[] = [
     {
       title: "Edit Profile",
@@ -102,9 +110,7 @@ const SettingsScreen = ({ navigation }: Props) => {
         }>,
         "logout",
       ],
-      onPress: () => {
-        alert("Logout Pressed");
-      },
+      onPress: handleLogout,
     },
     {
       title: "Delete Account",
@@ -117,7 +123,7 @@ const SettingsScreen = ({ navigation }: Props) => {
         "delete",
       ],
       onPress: () => {
-        navigation.navigate("DeleteProfile");
+        alert("Delete Account Pressed");
       },
       type: "danger",
     },

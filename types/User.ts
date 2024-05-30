@@ -1,10 +1,10 @@
 import { Membership } from "./Membership";
 
 export interface User {
-  user_id: number;
-  first_name: string;
-  last_name: string;
-  email: string;
-  birthday: string;
-  membership: Membership;
+  user_id: number | null;
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+  birthday: Date | null;
+  membership: Membership | null;
 }
