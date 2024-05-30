@@ -40,47 +40,22 @@ const PackageScreen = ({ navigation }: PackageCardProps) => {
   return (
     <>
       <Layout>
-        <View className="flex items-center">
+        <View className="flex items-center bg-secondaryGray90">
           <Heading fontSize={25} className="text-primaryWhite">
             Select Wash
           </Heading>
         </View>
         <View className="flex flex-row gap-2 items-center justify-center mb-7">
-          <Box
-            className={
-              currentIndex === 0
-                ? "w-10 h-1 bg-primaryGreen transition-all"
-                : "w-7 h-1 bg-primaryGreen opacity-50 transition-all"
-            }
-          />
-          <Box
-            className={
-              currentIndex === 1
-                ? "w-10 h-1 bg-primaryGreen transition-all"
-                : "w-7 h-1 bg-primaryGreen opacity-50 transition-all"
-            }
-          />
-          <Box
-            className={
-              currentIndex === 2
-                ? "w-10 h-1 bg-primaryGreen transition-all"
-                : "w-7 h-1 bg-primaryGreen opacity-50 transition-all"
-            }
-          />
-          <Box
-            className={
-              currentIndex === 3
-                ? "w-10 h-1 bg-primaryGreen transition-all"
-                : "w-7 h-1 bg-primaryGreen opacity-50 transition-all"
-            }
-          />
-          <Box
-            className={
-              currentIndex === 4
-                ? "w-10 h-1 bg-primaryGreen transition-all"
-                : "w-7 h-1 bg-primaryGreen opacity-50 transition-all"
-            }
-          />
+          {packages.map((_, index) => (
+            <Box
+              key={index}
+              className={
+                currentIndex === index
+                  ? "w-10 h-1 bg-primaryGreen transition-all"
+                  : "w-7 h-1 bg-primaryGreen opacity-50 transition-all"
+              }
+            />
+          ))}
         </View>
         <Carousel
           loop={false}
