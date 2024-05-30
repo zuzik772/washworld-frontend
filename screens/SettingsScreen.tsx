@@ -59,6 +59,20 @@ const SettingsScreen = ({ navigation }: Props) => {
       },
     },
     {
+      title: "Manage Vehicles",
+      icon: [
+        AntDesign as React.ComponentType<{
+          name: string;
+          size: number;
+          color: string;
+        }>,
+        "car",
+      ],
+      onPress: () => {
+        navigation.navigate("AddCar");
+      },
+    },
+    {
       title: "Change Plan",
       icon: [
         AntDesign as React.ComponentType<{
@@ -70,6 +84,20 @@ const SettingsScreen = ({ navigation }: Props) => {
       ],
       onPress: () => {
         alert("Change Plan Pressed");
+      },
+    },
+    {
+      title: "Report Damage",
+      icon: [
+        AntDesign as React.ComponentType<{
+          name: string;
+          size: number;
+          color: string;
+        }>,
+        "warning",
+      ],
+      onPress: () => {
+        navigation.navigate("ReportDamage");
       },
     },
     {

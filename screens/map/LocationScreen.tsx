@@ -17,10 +17,7 @@ import NavButton from "../../components/NavButton";
 import { useSelector } from "react-redux";
 import { RootState } from "../../store/store";
 
-type LocationScreenProps = NativeStackScreenProps<
-  MapStackParamList,
-  "Location"
->;
+type LocationScreenProps = NativeStackScreenProps<MapStackParamList>;
 
 const LocationScreen = ({ navigation, route }: LocationScreenProps) => {
   const { locationId, distance, locationStatus } = route.params;

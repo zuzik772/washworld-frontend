@@ -84,7 +84,6 @@ const MapScreen = ({ navigation }: Props) => {
           halls.find((hall) => hall.location_id === location_id)?.halls || [],
         statuses: statusTypes,
       });
-      console.log("hallsStatus", hallsStatus);
       const locationStatus = getLocationStatus(hallsStatus as string[]);
       const colorClass = getColorStatus({ locationStatus, statusColorMap });
       resolve({ hallsStatus, locationStatus, colorClass });

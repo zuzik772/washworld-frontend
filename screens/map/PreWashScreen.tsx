@@ -6,7 +6,7 @@ import CircleCheck from "../../components/CircleCheck";
 import { useState, useEffect } from "react";
 import NavButton from "../../components/NavButton";
 
-type Props = NativeStackScreenProps<MapStackParamList, "PreWash">;
+type Props = NativeStackScreenProps<MapStackParamList>;
 const instructions = [
   "Close all windows tightly",
   "Lower or remove retractable antennas",

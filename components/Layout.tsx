@@ -33,7 +33,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       >
         <View className="h-20 flex items-center justify-center w-full border-b-[3px] border-b-primaryGreen">
           <View
-            className={`absolute left-4 top-4 ${
+            className={`absolute left-4 top-4 z-50 ${
               backButtonVisible ? "block" : "hidden"
             }`}
           >
@@ -43,7 +43,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
             <WashworldLogo height={40} />
           </View>
         </View>
-        <View>{children}</View>
+        <View className="h-full">{children}</View>
       </View>
     </View>
   );
