@@ -52,12 +52,8 @@ const LocationCard = ({
   const favoriteLocations = useSelector(
     (state: RootState) => state.user.favoriteLocations
   );
-  console.log("favoriteLocations", favoriteLocations);
-  const [isFavorite, setIsFavorite] = useState(
-    favoriteLocations?.some(
-      (favLocation) => favLocation.location_id === location.location_id
-    )
-  );
+  // console.log("favoriteLocations", favoriteLocations);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   const handleFavoritePress = () => {
     if (isFavorite) {
@@ -75,6 +71,14 @@ const LocationCard = ({
     }
     setIsFavorite((prevState) => !prevState);
   };
+  useEffect(() => {
+    setIsFavorite(
+      favoriteLocations
+        ?.map((favoriteLocation) => favoriteLocation.location_id)
+        .includes(location.location_id) || false
+    );
+    console.log("loc id", location.location_id);
+  }, [favoriteLocations, location]);
 
   useEffect(() => {
     user_id && dispatch(fetchAllFavoriteLocations(user_id));
