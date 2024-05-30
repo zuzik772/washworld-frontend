@@ -19,6 +19,15 @@ import NavButton from "./NavButton";
 import { MapStackParamList } from "../navigation/MapStackParamList";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { Location } from "../types/Location";
+import { AppDispatch, RootState } from "../store/store";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import {
+  fetchAllFavoriteLocations,
+  addFavoriteLocation,
+  removeFavoriteLocation,
+  loadUser,
+} from "../store/userSlice";
 
 type LocationCardProps = {
   location: Location;
@@ -35,8 +44,41 @@ const LocationCard = ({
   setSelectedLocation,
   navigation,
 }: LocationCardProps) => {
+  const dispatch: AppDispatch = useDispatch();
+
   const { data: halls } = useGetHalls(location?.location_id);
   const { data: statuses } = useGetStatuses();
+  const user_id = useSelector((state: RootState) => state.user.user?.user_id);
+  const favoriteLocations = useSelector(
+    (state: RootState) => state.user.favoriteLocations
+  );
+  console.log("favoriteLocations", favoriteLocations);
+  const [isFavorite, setIsFavorite] = useState(
+    favoriteLocations?.some(
+      (favLocation) => favLocation.location_id === location.location_id
+    )
+  );
+
+  const handleFavoritePress = () => {
+    if (isFavorite) {
+      if (user_id && location.location_id) {
+        dispatch(
+          removeFavoriteLocation({ user_id, location_id: location.location_id })
+        );
+      }
+    } else {
+      if (user_id && location.location_id) {
+        dispatch(
+          addFavoriteLocation({ user_id, location_id: location.location_id })
+        );
+      }
+    }
+    setIsFavorite((prevState) => !prevState);
+  };
+
+  useEffect(() => {
+    user_id && dispatch(fetchAllFavoriteLocations(user_id));
+  }, [user_id, isFavorite]);
 
   if (!halls || !statuses) return null;
   const hallsStatus = getHallsStatus({ halls, statuses });
@@ -51,6 +93,7 @@ const LocationCard = ({
   );
   const distance = calculatedDistance.toFixed(1);
   const locationTitle = location?.address.split(" ").pop();
+
   return (
     <View className="absolute bottom-[180px] left-4 right-4 mx-auto p-3 bg-secondaryGray90 flex gap-2 rounded-lg">
       <View className="w-10 h-10 absolute right-2 top-2">
@@ -60,8 +103,13 @@ const LocationCard = ({
       </View>
       <View className="flex-row items-center gap-2">
         <View className="w-9 h-9">
-          <Pressable>
-            <Icon as={FavouriteIcon} color={"$colors$primaryWhite"} />
+          <Pressable onPress={handleFavoritePress}>
+            <Icon
+              as={FavouriteIcon}
+              color={
+                isFavorite ? "$colors$primaryGreen" : "$colors$primaryWhite"
+              }
+            />
           </Pressable>
         </View>
         <Text className="text-primaryWhite text-xl font-semibold">
