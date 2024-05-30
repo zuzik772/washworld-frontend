@@ -4,17 +4,20 @@ import axios from "axios";
 import { SignUpDto } from "../dto/signupDto";
 import { SignInDto } from "../dto/signinDto";
 import * as SecureStore from "expo-secure-store";
+import { Location } from "../types/Location";
 
 const baseUrl = process.env.baseURL;
 
 export interface UserState {
   user: User | null;
+  favoriteLocations: Location[] | null;
   token: string | null;
   isSignedIn: boolean;
 }
 
 const initialState: UserState = {
   user: null,
+  favoriteLocations: null,
   token: "",
   isSignedIn: false,
 };
@@ -39,14 +42,16 @@ export const signIn = createAsyncThunk(
   async (signInDto: SignInDto, thunkAPI) => {
     try {
       const response = await axios.post(`${baseUrl}/auth/login`, signInDto);
-      // console.log("sign in response", response.data);
-      await SecureStore.setItemAsync(
-        "userToken",
-        JSON.stringify(response.data.access_token)
-      );
-      // const tokenCheck = await SecureStore.getItemAsync("userToken");
-      // console.log("tokenCheck", tokenCheck);
-      return response.data;
+      await SecureStore.setItemAsync("user", JSON.stringify(response.data));
+      const loadedUser = await SecureStore.getItemAsync("user");
+      console.log("loadedUser", loadedUser);
+      const parsedUser = loadedUser ? JSON.parse(loadedUser) : null;
+      console.log("parsedUser", parsedUser);
+      // if (parsedUser && parsedUser.id) {
+      //   console.log("parsedUser", parsedUser);
+      //   thunkAPI.dispatch(fetchAllFavoriteLocations(parsedUser.id));
+      // }
+      return parsedUser;
     } catch (error: any) {
       console.log("signin thunk error message", error.message);
       console.log("signin thunk error res data", error.response.data);
@@ -55,19 +60,76 @@ export const signIn = createAsyncThunk(
   }
 );
 
-export const loadToken = createAsyncThunk("user/loadToken", async () => {
-  const token = await SecureStore.getItemAsync("userToken");
-  return token;
+export const loadUser = createAsyncThunk("user/loadUser", async () => {
+  const user = await SecureStore.getItemAsync("user");
+  return user ? JSON.parse(user) : null;
 });
 
 export const logout = createAsyncThunk("user/logout", async (_, thunkAPI) => {
   try {
-    await SecureStore.deleteItemAsync("userToken");
+    await SecureStore.deleteItemAsync("user");
     console.log("User logged out");
   } catch (error) {
     console.error("Error logging out:", error);
   }
 });
+
+export const fetchAllFavoriteLocations = createAsyncThunk(
+  "user/fetchAllFavoriteLocations",
+  async (user_id: number, thunkAPI) => {
+    try {
+      const response = await axios.get(
+        `${baseUrl}/users/${user_id}/favorite_locations`
+      );
+      return response.data;
+    } catch (error: any) {
+      console.log("fetchFavouriteLocations thunk error", error);
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
+export const addFavoriteLocation = createAsyncThunk(
+  "user/addFavoriteLocation",
+  async ({
+    user_id,
+    location_id,
+  }: {
+    user_id: number;
+    location_id: number;
+  }) => {
+    try {
+      const response = await axios.post(
+        `${baseUrl}/users/${user_id}/${location_id}`
+      );
+      return response.data;
+    } catch (error: any) {
+      console.log("addFavoriteLocation thunk error", error);
+      return error.response.data;
+    }
+  }
+);
+
+export const removeFavoriteLocation = createAsyncThunk(
+  "user/removeFavoriteLocation",
+  async ({
+    user_id,
+    location_id,
+  }: {
+    user_id: number;
+    location_id: number;
+  }) => {
+    try {
+      const response = await axios.delete(
+        `${baseUrl}/users/${user_id}/${location_id}`
+      );
+      return response.data;
+    } catch (error: any) {
+      console.log("removeFavoriteLocation thunk error", error);
+      return error.response.data;
+    }
+  }
+);
 
 export const userSlice = createSlice({
   name: "user",
@@ -86,27 +148,54 @@ export const userSlice = createSlice({
       state.token = "";
     }),
       builder.addCase(signIn.fulfilled, (state, action) => {
-        console.log("signin action.payload", action.payload);
+        // console.log("signin action.payload", action.payload);
         state.user = action.payload.user;
-        state.token = action.payload.access_token;
+        state.favoriteLocations = action.payload.favorite_locations;
+        state.token = action.payload;
         state.isSignedIn = true;
       }),
       builder.addCase(signIn.rejected, (state, action) => {
         state.user = null;
+        state.favoriteLocations = null;
         state.token = "";
+        state.isSignedIn = false;
       }),
-      builder.addCase(loadToken.fulfilled, (state, action) => {
+      builder.addCase(loadUser.fulfilled, (state, action) => {
+        state.user = action.payload.user;
+        state.favoriteLocations = action.payload.favorite_locations;
         state.token = action.payload;
-        console.log("loadToken action.payload", action.payload);
+        state.isSignedIn = true;
       }),
-      builder.addCase(loadToken.rejected, (state) => {
-        state.token = "";
-      }),
+      // builder.addCase(loadUser.rejected, (state) => {
+      //   state.user = null;
+      //   state.favoriteLocations = null;
+      //   state.token = "";
+      //   state.isSignedIn = false;
+      // }),
       builder.addCase(logout.fulfilled, (state) => {
         state.user = null;
+        state.favoriteLocations = null;
         state.token = "";
         state.isSignedIn = false;
       });
+    builder.addCase(fetchAllFavoriteLocations.fulfilled, (state, action) => {
+      state.favoriteLocations = action.payload;
+    });
+    builder.addCase(fetchAllFavoriteLocations.rejected, (state, action) => {
+      state.favoriteLocations = null;
+    });
+    builder.addCase(addFavoriteLocation.fulfilled, (state, action) => {
+      console.log("addFavoriteLocation action.payload", action.payload);
+    });
+    builder.addCase(addFavoriteLocation.rejected, (state, action) => {
+      console.log("addFavoriteLocation error", action.payload);
+    });
+    builder.addCase(removeFavoriteLocation.fulfilled, (state, action) => {
+      console.log("removeFavoriteLocation action.payload", action.payload);
+    });
+    builder.addCase(removeFavoriteLocation.rejected, (state, action) => {
+      console.log("removeFavoriteLocation error", action.payload);
+    });
   },
 });
 
