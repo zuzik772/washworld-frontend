@@ -6,6 +6,7 @@ import NavButton from "../../components/NavButton";
 import CustomDropdown from "../../components/inputs/CustomDropdown";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
 
+
 type VehicleTypes = "Sedan" | "SUV" | "Truck" | "Van" | "Motorcycle";
 const AddCarScreen = () => {
   const [selectedVehicleType, setSelectedVehicleType] =

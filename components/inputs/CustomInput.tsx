@@ -29,20 +29,18 @@ const CustomInput = ({
 }: Props) => {
   const IconComponent = icon ? icon[0] : null;
   const iconName = icon ? icon[1] : "";
+
   return (
     <Input
-      isDisabled={false}
-      isInvalid={false}
-      isReadOnly={false}
-      isRequired={true}
+      isReadOnly={isReadOnly}
       aria-label={ariaLabel || placeholderTitle}
-      // className="border-primaryGreen border-[1px] border-solid w-[26rem] p-[0.75rem] rounded-lg"
       className={`border-primaryGreen border-[1px] border-solid w-[26rem] p-[0.75rem] rounded-lg ${
         IconComponent && "flex flex-row justify-between items-center"
       } ${className}`}
       onTouchStart={onPress}
     >
       <InputField
+        value={value}
         placeholder={placeholderTitle}
         keyboardType={keyboardType}
         className="text-xl text-white"
