@@ -1,11 +1,4 @@
-import React from "react";
-import {
-  Icon,
-  CheckCircleIcon,
-  Text,
-  View,
-  CloseIcon,
-} from "@gluestack-ui/themed";
+import { Icon, Text, View, CloseIcon } from "@gluestack-ui/themed";
 import { Feature } from "../types/Membership";
 
 interface NotIncludedFeatureListProps {

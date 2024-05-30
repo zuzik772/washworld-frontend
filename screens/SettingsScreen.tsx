@@ -3,6 +3,11 @@ import Layout from "../components/Layout";
 import { ScrollView, View, Text, Pressable } from "@gluestack-ui/themed";
 import Avatar from "../components/Avatar";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { logout } from "../store/userSlice";
+import { AppDispatch } from "../store/store";
+import { useDispatch } from "react-redux";
+import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import { SettingsStackParamList } from "../navigation/SettingsStackParamList";
 
 type MenuItem = {
   title: string;
@@ -15,82 +20,87 @@ type MenuItem = {
   onPress: () => void;
   type?: "normal" | "danger";
 };
+type Props = NativeStackScreenProps<SettingsStackParamList, "SettingsScreen">;
 
-const menuItems: MenuItem[] = [
-  {
-    title: "Edit Profile",
-    icon: [
-      AntDesign as React.ComponentType<{
-        name: string;
-        size: number;
-        color: string;
-      }>,
-      "edit",
-    ],
-    onPress: () => {
-      alert("Edit Profile Pressed");
-    },
-  },
-  {
-    title: "Change Password",
-    icon: [
-      AntDesign as React.ComponentType<{
-        name: string;
-        size: number;
-        color: string;
-      }>,
-      "lock",
-    ],
-    onPress: () => {
-      alert("Change Password Pressed");
-    },
-  },
-  {
-    title: "Change Plan",
-    icon: [
-      AntDesign as React.ComponentType<{
-        name: string;
-        size: number;
-        color: string;
-      }>,
-      "swap",
-    ],
-    onPress: () => {
-      alert("Change Plan Pressed");
-    },
-  },
-  {
-    title: "Logout",
-    icon: [
-      AntDesign as React.ComponentType<{
-        name: string;
-        size: number;
-        color: string;
-      }>,
-      "logout",
-    ],
-    onPress: () => {
-      alert("Logout Pressed");
-    },
-  },
-  {
-    title: "Delete Account",
-    icon: [
-      AntDesign as React.ComponentType<{
-        name: string;
-        size: number;
-        color: string;
-      }>,
-      "delete",
-    ],
-    onPress: () => {
-      alert("Delete Account Pressed");
-    },
-    type: "danger",
-  },
-];
+const SettingsScreen = ({ navigation }: Props) => {
+  const dispatch: AppDispatch = useDispatch();
+  const handleLogout = () => {
+    dispatch(logout());
+    navigation.navigate("Login");
+  };
 
-const SettingsScreen = () => {
+  const menuItems: MenuItem[] = [
+    {
+      title: "Edit Profile",
+      icon: [
+        AntDesign as React.ComponentType<{
+          name: string;
+          size: number;
+          color: string;
+        }>,
+        "edit",
+      ],
+      onPress: () => {
+        alert("Edit Profile Pressed");
+      },
+    },
+    {
+      title: "Change Password",
+      icon: [
+        AntDesign as React.ComponentType<{
+          name: string;
+          size: number;
+          color: string;
+        }>,
+        "lock",
+      ],
+      onPress: () => {
+        alert("Change Password Pressed");
+      },
+    },
+    {
+      title: "Change Plan",
+      icon: [
+        AntDesign as React.ComponentType<{
+          name: string;
+          size: number;
+          color: string;
+        }>,
+        "swap",
+      ],
+      onPress: () => {
+        alert("Change Plan Pressed");
+      },
+    },
+    {
+      title: "Logout",
+      icon: [
+        AntDesign as React.ComponentType<{
+          name: string;
+          size: number;
+          color: string;
+        }>,
+        "logout",
+      ],
+      onPress: handleLogout,
+    },
+    {
+      title: "Delete Account",
+      icon: [
+        AntDesign as React.ComponentType<{
+          name: string;
+          size: number;
+          color: string;
+        }>,
+        "delete",
+      ],
+      onPress: () => {
+        alert("Delete Account Pressed");
+      },
+      type: "danger",
+    },
+  ];
+
   return (
     <Layout>
       <ScrollView className="h-full">

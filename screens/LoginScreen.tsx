@@ -1,5 +1,4 @@
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
-import { MapStackParamList } from "../navigation/MapStackParamList";
 import NavButton from "../components/NavButton";
 import Layout from "../components/Layout";
 import {
@@ -19,8 +18,12 @@ import { signIn } from "../store/userSlice";
 import { AppDispatch } from "../store/store";
 import { Controller, useForm } from "react-hook-form";
 import { SignInDto } from "../dto/signinDto";
+import { loadToken } from "../store/userSlice";
+import { useEffect } from "react";
+import * as SecureStore from "expo-secure-store";
+import { RootStackParamList } from "../navigation/RootStackParamList";
 
-type Props = NativeStackScreenProps<MapStackParamList, "Login">;
+type Props = NativeStackScreenProps<RootStackParamList, "Login">;
 
 const LoginScreen = ({ navigation }: Props) => {
   const dispatch: AppDispatch = useDispatch();
@@ -41,6 +44,11 @@ const LoginScreen = ({ navigation }: Props) => {
     const resultAction = await dispatch(signIn(signinDto));
     console.log("signinDto", signinDto);
     if (signIn.fulfilled.match(resultAction)) {
+      const userToken = await SecureStore.setItemAsync(
+        "userToken",
+        resultAction.payload.token
+      );
+      console.log("userToken", userToken);
       navigation.navigate("MapScreen");
       reset({ email: "", password: "" });
     } else if (signIn.rejected.match(resultAction)) {
@@ -49,6 +57,10 @@ const LoginScreen = ({ navigation }: Props) => {
       });
     }
   };
+
+  useEffect(() => {
+    dispatch(loadToken());
+  }, []);
 
   return (
     <Layout>

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
-import { Box, Heading, ScrollView, View } from "@gluestack-ui/themed";
+import { Box, Heading, View } from "@gluestack-ui/themed";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "../../store/store";
 import Carousel from "react-native-reanimated-carousel";

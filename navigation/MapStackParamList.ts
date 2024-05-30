@@ -1,7 +1,4 @@
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
 export type MapStackParamList = {
-  Login: undefined;
-  SignUp: undefined;
   MapScreen: undefined;
   Location: {
     locationTitle: string | undefined;

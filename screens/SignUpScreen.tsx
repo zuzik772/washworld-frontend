@@ -28,8 +28,9 @@ import { AppDispatch } from "../store/store";
 import { useDispatch } from "react-redux";
 import { SignUpDto } from "../dto/signupDto";
 import { signUp } from "../store/userSlice";
+import { RootStackParamList } from "../navigation/RootStackParamList";
 
-type Props = NativeStackScreenProps<MapStackParamList, "SignUp">;
+type Props = NativeStackScreenProps<RootStackParamList, "SignUp">;
 type SignUpSchema = {
   first_name: string;
   last_name: string;

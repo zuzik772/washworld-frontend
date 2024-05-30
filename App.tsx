@@ -23,12 +23,13 @@ import { useFonts } from "expo-font";
 import "./global.css";
 import { QueryClientProvider, QueryClient } from "@tanstack/react-query";
 import LocationScreen from "./screens/map/LocationScreen";
-import { Provider } from "react-redux";
+import { Provider, useSelector } from "react-redux";
+import { RootState } from "./store/store";
 import { store } from "./store/store";
-
 import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
+import { RootStackParamList } from "./navigation/RootStackParamList";
 
 const queryClient = new QueryClient();
 
@@ -37,7 +38,7 @@ export default function App() {
     "Gilroy-Medium": require("./fonts/Gilroy-Medium.otf"),
     "Gilroy-ExtraBold": require("./fonts/Gilroy-ExtraBold.otf"),
   });
-
+  const RootStack = createNativeStackNavigator<RootStackParamList>();
   const Tab = createBottomTabNavigator();
   const MapStack = createNativeStackNavigator<MapStackParamList>();
   const FavouritesStack =
@@ -46,23 +47,28 @@ export default function App() {
   const SettingsStack = createNativeStackNavigator<SettingsStackParamList>();
 
   const MapNavigator = () => {
+    const userToken = useSelector((state: RootState) => state.user.token);
     return (
-      <MapStack.Navigator
+      <RootStack.Navigator
         initialRouteName="Login"
         screenOptions={{ headerShown: false }}
       >
-        {/* to be moved and render based on auth state */}
-        {/* now for simplicity of styling its under map */}
-        <MapStack.Screen name="Login" component={LoginScreen} />
-        <MapStack.Screen name="SignUp" component={SignUpScreen} />
-
-        <MapStack.Screen name="MapScreen" component={MapScreen} />
-        <MapStack.Screen name="Location" component={LocationScreen} />
-        <MapStack.Screen name="Package" component={PackageScreen} />
-        <MapStack.Screen name="PreWash" component={PreWashScreen} />
-        <MapStack.Screen name="Wash" component={WashScreen} />
-        <MapStack.Screen name="PostWash" component={PostWashScreen} />
-      </MapStack.Navigator>
+        {userToken ? (
+          <>
+            <MapStack.Screen name="MapScreen" component={MapScreen} />
+            <MapStack.Screen name="Location" component={LocationScreen} />
+            <MapStack.Screen name="Package" component={PackageScreen} />
+            <MapStack.Screen name="PreWash" component={PreWashScreen} />
+            <MapStack.Screen name="Wash" component={WashScreen} />
+            <MapStack.Screen name="PostWash" component={PostWashScreen} />
+          </>
+        ) : (
+          <>
+            <RootStack.Screen name="Login" component={LoginScreen} />
+            <RootStack.Screen name="SignUp" component={SignUpScreen} />
+          </>
+        )}
+      </RootStack.Navigator>
     );
   };
 

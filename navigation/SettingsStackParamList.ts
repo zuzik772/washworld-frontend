@@ -3,4 +3,5 @@ export type SettingsStackParamList = {
   AddCar: undefined;
   ReportDamage: undefined;
   DeleteProfile: undefined;
+  Login: undefined;
 };
