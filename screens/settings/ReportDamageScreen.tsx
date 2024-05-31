@@ -36,7 +36,7 @@ const ReportDamageScreen = () => {
   if (!permission) {
     // Camera permissions are still loading.
     return (
-      <View>
+      <View className="flex items-center justify-center bg-red-300">
         <Text>Waiting for permission...</Text>
       </View>
     );

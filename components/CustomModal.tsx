@@ -51,7 +51,7 @@ const CustomModal = ({
         }}
         finalFocusRef={ref}
         className={`bg-secondaryGray90 h-max w-[90%] flex justify-center mt-96 border-secondaryGray60 border-[1px] ml-[5%] ${
-          isVisible ? "block" : "hidden"
+          isVisible ? "flex" : "hidden"
         }`}
       >
         <ModalBackdrop />

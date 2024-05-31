@@ -40,7 +40,6 @@ const FavouriteLocationCard = ({ location }: Props) => {
   const hallsStatus = getHallsStatus({ halls, statuses });
   const locationStatus = getLocationStatus(hallsStatus as string[]);
   const colorClass = getColorStatus({ locationStatus, statusColorMap });
-  console.log("favoriteLocations", favoriteLocations);
   return (
     <View className="flex pb-6">
       <View className="bg-primaryGreen h-1 w-full" />

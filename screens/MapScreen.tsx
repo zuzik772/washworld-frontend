@@ -3,7 +3,7 @@ import { MapStackParamList } from "../navigation/MapStackParamList";
 import MapView, { Marker } from "react-native-maps";
 import { StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
-import { Center, Text, View } from "@gluestack-ui/themed";
+import { Center, Spinner, Text, View } from "@gluestack-ui/themed";
 import MapIcon from "../components/MapIcon";
 import { Hall, Location, Status } from "../types/Location";
 import { userLocation } from "../utils/mapCalculations";
@@ -19,6 +19,8 @@ import {
   statusColorMap,
 } from "../utils/colorStatus";
 import axios from "axios";
+import fetchStatuses from "../statuses/statuses.queries";
+import fetchHalls from "../halls/halls.queries";
 
 type Props = {
   navigation: NativeStackNavigationProp<MapStackParamList, "MapScreen">;
@@ -47,29 +49,6 @@ const MapScreen = ({ navigation }: Props) => {
   }, [locations]);
 
   const dispatch: AppDispatch = useDispatch();
-
-  const fetchHalls = async (location_id: number): Promise<Hall[]> => {
-    const baseUrl = process.env.baseURL;
-    try {
-      const response = await axios.get(`${baseUrl}/halls/${location_id}`);
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching halls", error);
-      return [];
-    }
-  };
-  const fetchStatuses = async (): Promise<Status[]> => {
-    const baseUrl = process.env.baseURL;
-    console.log(baseUrl);
-
-    try {
-      const response = await axios.get(`${baseUrl}/statuses`);
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching statuses", error);
-      return [];
-    }
-  };
 
   const getLocationStatusAndHalls = async (location_id: number) => {
     return new Promise<{
@@ -133,7 +112,11 @@ const MapScreen = ({ navigation }: Props) => {
               })}
             </>
           ) : (
-            <></>
+            <>
+              {/* <View className="bg-primaryGreen p-4 flex items-center justify-center">
+                <Spinner color="white" />
+              </View> */}
+            </>
           )}
         </MapView>
         {selectedLocation && (

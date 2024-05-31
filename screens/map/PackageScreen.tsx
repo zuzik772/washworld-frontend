@@ -33,7 +33,6 @@ const PackageScreen = ({ navigation }: PackageCardProps) => {
   );
 
   const allFeatures = packages.map((membership) => membership.package.features);
-  console.log("packages", packages);
   const width = Dimensions.get("window").width;
   const [currentIndex, setCurrentIndex] = useState(0);
 

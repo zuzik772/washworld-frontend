@@ -52,7 +52,6 @@ const LocationCard = ({
   const favoriteLocations = useSelector(
     (state: RootState) => state.user.favoriteLocations
   );
-  // console.log("favoriteLocations", favoriteLocations);
   const [isFavorite, setIsFavorite] = useState(false);
 
   const handleFavoritePress = () => {

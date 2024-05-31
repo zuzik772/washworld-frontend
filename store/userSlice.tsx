@@ -44,13 +44,7 @@ export const signIn = createAsyncThunk(
       const response = await axios.post(`${baseUrl}/auth/login`, signInDto);
       await SecureStore.setItemAsync("user", JSON.stringify(response.data));
       const loadedUser = await SecureStore.getItemAsync("user");
-      console.log("loadedUser", loadedUser);
       const parsedUser = loadedUser ? JSON.parse(loadedUser) : null;
-      console.log("parsedUser", parsedUser);
-      // if (parsedUser && parsedUser.id) {
-      //   console.log("parsedUser", parsedUser);
-      //   thunkAPI.dispatch(fetchAllFavoriteLocations(parsedUser.id));
-      // }
       return parsedUser;
     } catch (error: any) {
       console.log("signin thunk error message", error.message);

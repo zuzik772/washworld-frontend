@@ -17,6 +17,8 @@ import {
   FormControl,
   ScrollView,
   CheckboxGroup,
+  Button,
+  ButtonText,
 } from "@gluestack-ui/themed";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import { Keyboard, TouchableWithoutFeedback } from "react-native";
@@ -29,6 +31,7 @@ import { useDispatch } from "react-redux";
 import { SignUpDto } from "../dto/signupDto";
 import { signUp } from "../store/userSlice";
 import { RootStackParamList } from "../navigation/RootStackParamList";
+import { Platform } from "react-native";
 
 type Props = NativeStackScreenProps<RootStackParamList, "SignUp">;
 type SignUpSchema = {
@@ -65,6 +68,7 @@ const SignUpScreen = ({ navigation }: Props) => {
   const defaultDate = new Date();
   defaultDate.setFullYear(defaultDate.getFullYear() - 20);
   const [date, setDate] = useState(defaultDate);
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const onSubmit = (data: SignUpSchema) => {
     //remove repeat password from from form data
@@ -94,6 +98,25 @@ const SignUpScreen = ({ navigation }: Props) => {
       });
   };
 
+  // const onChange = (event, selectedDate) => {
+  //   const currentDate = selectedDate || date;
+  //   setShow()
+  //   setDate(currentDate);
+  //   setValue("birthday", currentDate.toISOString());
+  // };
+
+  const showDatepicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirm = (selectedDate: Date) => {
+    setDate(selectedDate);
+    hideDatePicker();
+  };
   return (
     <Layout>
       <TouchableWithoutFeedback
@@ -214,22 +237,63 @@ const SignUpScreen = ({ navigation }: Props) => {
                     value === password || "The passwords do not match",
                 }}
               />
-              <View className="flex items-center justify-between flex-row ml-2">
-                <Text className="text-white text-lg">
+              <View className="flex items-center justify-between flex-row">
+                {/* <Text className="text-white text-lg">
                   Select your date of birth:
-                </Text>
-                <View className="bg-primaryGreen rounded-md p-2">
-                  <DateTimePicker
-                    value={date}
-                    mode="date"
-                    display="default"
-                    onChange={(event, selectedDate) => {
-                      const currentDate = selectedDate || date;
-                      setDate(currentDate);
-                      setValue("birthday", currentDate.toISOString());
-                    }}
-                    accentColor="white"
-                  />
+                </Text> */}
+                <View className="border-primaryGreen border-[1px] rounded-md p-2 flex flex-row items-center justify-between w-full">
+                  <Button onPress={showDatepicker} className="text-lg p-2">
+                    <ButtonText className="text-white">
+                      Select date of birth
+                    </ButtonText>
+                  </Button>
+                  {isDatePickerVisible && (
+                    <DateTimePicker
+                      value={date}
+                      mode="date"
+                      display="default"
+                      onChange={(event, selectedDate) => {
+                        if (Platform.OS === "android") {
+                          const currentDate = selectedDate || date;
+                          setDate(currentDate);
+                          setValue("birthday", currentDate.toISOString());
+                          setDatePickerVisibility(false);
+                        }
+                      }}
+                      accentColor="#34b566"
+                      backgroundColor="white"
+                      onConfirm={(selectedDate: Date) => {
+                        if (Platform.OS === "ios") {
+                          const currentDate = selectedDate || date;
+                          setDate(currentDate);
+                          setValue("birthday", currentDate.toISOString());
+                          setDatePickerVisibility(false);
+                        }
+                      }}
+                      onCancel={() => {
+                        if (Platform.OS === "ios") {
+                          setDatePickerVisibility(false);
+                        }
+                      }}
+                    />
+                  )}
+                  {Platform.OS === "android" && (
+                    <Text className="text-white">{date.toDateString()}</Text>
+                  )}
+                  {/* <Button onPress={showDatepicker} className="bg-primaryGreen">
+                    <ButtonText className="text-white">
+                      Select date of birth
+                    </ButtonText>
+                  </Button>
+                  {show && (
+                    <DateTimePicker
+                      value={date}
+                      mode="date"
+                      display="default"
+                      onChange={onChange}
+                      accentColor="white"
+                    />
+                  )} */}
                 </View>
               </View>
             </FormControl>
