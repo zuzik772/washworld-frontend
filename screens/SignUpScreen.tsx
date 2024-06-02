@@ -280,20 +280,6 @@ const SignUpScreen = ({ navigation }: Props) => {
                   {Platform.OS === "android" && (
                     <Text className="text-white">{date.toDateString()}</Text>
                   )}
-                  {/* <Button onPress={showDatepicker} className="bg-primaryGreen">
-                    <ButtonText className="text-white">
-                      Select date of birth
-                    </ButtonText>
-                  </Button>
-                  {show && (
-                    <DateTimePicker
-                      value={date}
-                      mode="date"
-                      display="default"
-                      onChange={onChange}
-                      accentColor="white"
-                    />
-                  )} */}
                 </View>
               </View>
             </FormControl>
