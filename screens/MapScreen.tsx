@@ -137,6 +137,7 @@ const MapScreen = ({ navigation }: Props) => {
 
     userLocation({ setMapRegion });
   }, []);
+
   return (
     <Layout>
       <View className="relative">
@@ -152,23 +153,21 @@ const MapScreen = ({ navigation }: Props) => {
           <Marker coordinate={mapRegion} title="Current Location" />
           {markerData.map((marker) => {
             return (
-              <>
-                <Marker
-                  key={marker.location.location_id}
-                  coordinate={{
-                    latitude: marker.location.latitude
-                      ? Number(marker.location.latitude)
-                      : 0,
-                    longitude: marker.location.longitude
-                      ? Number(marker.location.longitude)
-                      : 0,
-                  }}
-                  title={marker.location.address}
-                  onPress={() => setSelectedLocation(marker.location)}
-                >
-                  <MapIcon fillColor={marker.colorClass} />
-                </Marker>
-              </>
+              <Marker
+                key={marker.location.location_id}
+                coordinate={{
+                  latitude: marker.location.latitude
+                    ? Number(marker.location.latitude)
+                    : 0,
+                  longitude: marker.location.longitude
+                    ? Number(marker.location.longitude)
+                    : 0,
+                }}
+                title={marker.location.address}
+                onPress={() => setSelectedLocation(marker.location)}
+              >
+                <MapIcon fillColor={marker.colorClass} />
+              </Marker>
             );
           })}
         </MapView>

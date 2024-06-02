@@ -98,7 +98,7 @@ const LocationCard = ({
   const locationTitle = location?.address.split(" ").pop();
 
   return (
-    <View className="absolute bottom-[180px] left-4 right-4 mx-auto p-3 bg-secondaryGray90 flex gap-2 rounded-lg">
+    <View className="absolute bottom-[180px] left-4 right-4 mx-auto p-3 bg-secondaryGray90 flex gap-2 rounded-lg z-50">
       <View className="w-10 h-10 absolute right-2 top-2">
         <Pressable onPress={() => setSelectedLocation(null)}>
           <Icon as={CloseIcon} color="$colors$primaryWhite" />
