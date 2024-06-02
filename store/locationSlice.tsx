@@ -1,6 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Location } from "../types/Location";
 import axios from "axios";
+import { loadUser } from "./userSlice";
+import { useDispatch } from "react-redux";
+import { AppDispatch } from "./store";
+import * as SecureStore from "expo-secure-store";
+import getUserFromSecureStorage from "../utils/getUserFromSecureStorage";
 
 export interface LocationState {
   locations: Location[];
@@ -10,16 +15,20 @@ const initialState: LocationState = {
   locations: [],
 };
 const baseUrl = process.env.baseURL;
-
 export const fetchAllLocations = createAsyncThunk(
   "locations/fetchAllLocations",
   async (thunkAPI) => {
     try {
-      const response = await axios.get(`${baseUrl}/locations`);
+      const parsedUser = await getUserFromSecureStorage();
+      const token = parsedUser.access_token;
+      const response = await axios.get(`${baseUrl}/locations`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       return await response.data;
     } catch (error: any) {
       console.log("Error message", error.message);
-      console.log("Error response", error.response);
       return;
     }
   }

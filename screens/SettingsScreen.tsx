@@ -4,8 +4,8 @@ import { ScrollView, View, Text, Pressable } from "@gluestack-ui/themed";
 import Avatar from "../components/Avatar";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { logout } from "../store/userSlice";
-import { AppDispatch } from "../store/store";
-import { useDispatch } from "react-redux";
+import { AppDispatch, RootState } from "../store/store";
+import { useDispatch, useSelector } from "react-redux";
 import { NativeStackScreenProps } from "@react-navigation/native-stack";
 import { SettingsStackParamList } from "../navigation/SettingsStackParamList";
 
@@ -24,6 +24,7 @@ type Props = NativeStackScreenProps<SettingsStackParamList, "SettingsScreen">;
 
 const SettingsScreen = ({ navigation }: Props) => {
   const dispatch: AppDispatch = useDispatch();
+  const user = useSelector((state: RootState) => state.user.user);
   const handleLogout = () => {
     dispatch(logout());
     navigation.navigate("Login");
@@ -128,7 +129,14 @@ const SettingsScreen = ({ navigation }: Props) => {
       type: "danger",
     },
   ];
-
+  const firstName = user?.first_name
+    ? user.first_name.charAt(0).toUpperCase() + user.first_name.slice(1)
+    : "";
+  const lastName = user?.last_name
+    ? user.last_name.charAt(0).toUpperCase() + user.last_name.slice(1)
+    : "";
+  const fullName = `${firstName} ${lastName}`;
+  console.log("user", user);
   return (
     <Layout>
       <ScrollView className="h-full">
@@ -136,20 +144,20 @@ const SettingsScreen = ({ navigation }: Props) => {
           <Avatar image="https://hwchamber.co.uk/wp-content/uploads/2022/04/avatar-placeholder.gif" />
           <View className="flex flex-col items-center">
             <Text
-              className="text-xl text-white"
+              className="text-xl text-white text-center"
               style={{
                 fontFamily: "Gilroy-Medium",
               }}
             >
-              John Doe
+              {fullName}
             </Text>
             <Text
-              className="text-4xl text-primaryGreen"
+              className="text-4xl text-primaryGreen text-center"
               style={{
                 fontFamily: "Gilroy-ExtraBold",
               }}
             >
-              Gold Plan
+              {user?.membership[0]?.membership_name}
             </Text>
           </View>
 

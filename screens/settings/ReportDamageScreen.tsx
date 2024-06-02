@@ -36,7 +36,7 @@ const ReportDamageScreen = () => {
   if (!permission) {
     // Camera permissions are still loading.
     return (
-      <View>
+      <View className="flex items-center justify-center bg-red-300">
         <Text>Waiting for permission...</Text>
       </View>
     );
@@ -109,11 +109,13 @@ const ReportDamageScreen = () => {
                 color="white"
                 className="opacity-75 absolute z-10"
               />
-              <Image
-                source={{ uri: imageUri }}
-                className="h-full w-full"
-                alt="Image"
-              />
+              {imageUri && (
+                <Image
+                  source={{ uri: imageUri }}
+                  className="h-full w-full"
+                  alt="Image"
+                />
+              )}
             </Pressable>
             <Button
               onPress={() => console.log("pressed")}

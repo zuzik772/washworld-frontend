@@ -30,6 +30,7 @@ import { MaterialIcons, AntDesign } from "@expo/vector-icons";
 import LoginScreen from "./screens/LoginScreen";
 import SignUpScreen from "./screens/SignUpScreen";
 import { RootStackParamList } from "./navigation/RootStackParamList";
+import { Platform } from "react-native";
 
 const queryClient = new QueryClient();
 
@@ -133,7 +134,8 @@ export default function App() {
                   backgroundColor: "#1a1a1a",
                   borderBlockColor: "#34b566",
                   borderTopWidth: 3,
-                  height: 90,
+                  height: Platform.OS === "android" ? 65 : 90,
+                  display: "flex",
                 },
                 tabBarActiveTintColor: "#34b566",
                 tabBarInactiveTintColor: "#ffffff",
@@ -169,7 +171,7 @@ export default function App() {
                     backgroundColor: "#1a1a1a",
                     borderBlockColor: "#34b566",
                     borderTopWidth: 3,
-                    height: 90,
+                    height: Platform.OS === "android" ? 60 : 90,
                   },
                 })}
               />

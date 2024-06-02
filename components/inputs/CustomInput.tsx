@@ -48,7 +48,6 @@ const CustomInput = ({
         onChange={(e: NativeSyntheticEvent<TextInputChangeEventData>) => {
           onChangeText && onChangeText(e.nativeEvent.text); // Call onChangeText with the text value directly
         }}
-        value={value}
         autoCapitalize="none"
       />
       {IconComponent && (

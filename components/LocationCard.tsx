@@ -52,8 +52,11 @@ const LocationCard = ({
   const favoriteLocations = useSelector(
     (state: RootState) => state.user.favoriteLocations
   );
-  // console.log("favoriteLocations", favoriteLocations);
-  const [isFavorite, setIsFavorite] = useState(false);
+
+  const isFavorite =
+    favoriteLocations
+      ?.map((favoriteLocation) => favoriteLocation.location_id)
+      .includes(location.location_id) || false;
 
   const handleFavoritePress = () => {
     if (isFavorite) {
@@ -69,17 +72,7 @@ const LocationCard = ({
         );
       }
     }
-    setIsFavorite((prevState) => !prevState);
   };
-  useEffect(() => {
-    setIsFavorite(
-      favoriteLocations
-        ?.map((favoriteLocation) => favoriteLocation.location_id)
-        .includes(location.location_id) || false
-    );
-    console.log("loc id", location.location_id);
-  }, [favoriteLocations, location]);
-
   useEffect(() => {
     user_id && dispatch(fetchAllFavoriteLocations(user_id));
   }, [user_id, isFavorite]);
@@ -99,7 +92,7 @@ const LocationCard = ({
   const locationTitle = location?.address.split(" ").pop();
 
   return (
-    <View className="absolute bottom-[180px] left-4 right-4 mx-auto p-3 bg-secondaryGray90 flex gap-2 rounded-lg">
+    <View className="absolute bottom-[180px] left-4 right-4 mx-auto p-3 bg-secondaryGray90 flex gap-2 rounded-lg z-50">
       <View className="w-10 h-10 absolute right-2 top-2">
         <Pressable onPress={() => setSelectedLocation(null)}>
           <Icon as={CloseIcon} color="$colors$primaryWhite" />

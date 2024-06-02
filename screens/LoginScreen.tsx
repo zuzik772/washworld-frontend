@@ -41,17 +41,23 @@ const LoginScreen = ({ navigation }: Props) => {
     },
   });
   const onSubmit = async (signinDto: SignInDto) => {
-    const resultAction = await dispatch(signIn(signinDto));
-    console.log("signinDto", signinDto);
-    if (signIn.fulfilled.match(resultAction)) {
-      const user = await SecureStore.setItemAsync("user", resultAction.payload);
-      console.log("user login screen", user);
-      navigation.navigate("MapScreen");
-      reset({ email: "", password: "" });
-    } else if (signIn.rejected.match(resultAction)) {
-      setError("root", {
-        message: "Invalid credentials",
-      });
+    try {
+      const resultAction = await dispatch(signIn(signinDto));
+      console.log("signinDto", signinDto);
+      if (signIn.fulfilled.match(resultAction)) {
+        if (resultAction.payload) {
+          navigation.navigate("MapScreen");
+          reset({ email: "", password: "" });
+        } else {
+          console.error("Payload is null");
+        }
+      } else if (signIn.rejected.match(resultAction)) {
+        setError("root", {
+          message: "Invalid credentials",
+        });
+      }
+    } catch (error) {
+      console.error("An error occurred during sign in", error);
     }
   };
 

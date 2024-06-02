@@ -3,7 +3,7 @@ import { MapStackParamList } from "../navigation/MapStackParamList";
 import MapView, { Marker } from "react-native-maps";
 import { StyleSheet } from "react-native";
 import { useEffect, useState } from "react";
-import { Center, Text, View } from "@gluestack-ui/themed";
+import { Center, Spinner, Text, View } from "@gluestack-ui/themed";
 import MapIcon from "../components/MapIcon";
 import { Hall, Location, Status } from "../types/Location";
 import { userLocation } from "../utils/mapCalculations";
@@ -18,7 +18,8 @@ import {
   getColorStatus,
   statusColorMap,
 } from "../utils/colorStatus";
-import axios from "axios";
+import fetchStatuses from "../statuses/statuses.queries";
+import fetchHalls from "../halls/halls.queries";
 
 type Props = {
   navigation: NativeStackNavigationProp<MapStackParamList, "MapScreen">;
@@ -26,9 +27,25 @@ type Props = {
 const MapScreen = ({ navigation }: Props) => {
   const locations = useSelector((state: RootState) => state.location.locations);
   const [statusTypes, setStatusTypes] = useState<Status[]>([]);
-  const [halls, setHalls] = useState<{ location_id: number; halls: Hall[] }[]>(
-    []
-  );
+  const [halls, setHalls] = useState<
+    {
+      location_id: number;
+      halls: Hall[];
+      address: string;
+      latitude: number;
+      longitude: number;
+    }[]
+  >([]);
+
+  const [markerData, setMarkerData] = useState<
+    {
+      location: Location;
+      hallsStatus: ("Ready" | "Busy" | "Unavailable" | undefined)[];
+      locationStatus: string;
+      colorClass: string;
+    }[]
+  >([]);
+
   useEffect(() => {
     fetchStatuses().then((data) => {
       setStatusTypes(data);
@@ -36,42 +53,56 @@ const MapScreen = ({ navigation }: Props) => {
   }, []);
 
   useEffect(() => {
-    const hallArray: { location_id: number; halls: Hall[] }[] = [];
-    locations.map(async (location) => {
-      const halls = await fetchHalls(location.location_id);
+    Promise.all(
+      locations.map(async (location) => {
+        const halls = await fetchHalls(location.location_id);
 
-      const object = { location_id: location.location_id, halls };
-      hallArray.push(object);
+        const object = {
+          location_id: location.location_id,
+          halls,
+          address: location.address,
+          latitude: location.latitude,
+          longitude: location.longitude,
+        };
+        return object;
+      })
+    ).then((hallArray) => {
+      setHalls(hallArray);
     });
-    setHalls(hallArray);
   }, [locations]);
+
+  useEffect(() => {
+    if (halls.length && statusTypes.length) {
+      Promise.all(
+        halls.map(async (hall) => {
+          const data = await getLocationStatusAndHalls(
+            hall.location_id,
+            hall.halls
+          );
+
+          const location = locations.find(
+            (loc) => loc.location_id === hall.location_id
+          ) as Location;
+
+          return {
+            location,
+            hallsStatus: data.hallsStatus,
+            locationStatus: data.locationStatus,
+            colorClass: data.colorClass,
+          };
+        })
+      ).then((data) => {
+        setMarkerData(data);
+      });
+    }
+  }, [halls, statusTypes]);
 
   const dispatch: AppDispatch = useDispatch();
 
-  const fetchHalls = async (location_id: number): Promise<Hall[]> => {
-    const baseUrl = process.env.baseURL;
-    try {
-      const response = await axios.get(`${baseUrl}/halls/${location_id}`);
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching halls", error);
-      return [];
-    }
-  };
-  const fetchStatuses = async (): Promise<Status[]> => {
-    const baseUrl = process.env.baseURL;
-    console.log(baseUrl);
-
-    try {
-      const response = await axios.get(`${baseUrl}/statuses`);
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching statuses", error);
-      return [];
-    }
-  };
-
-  const getLocationStatusAndHalls = async (location_id: number) => {
+  const getLocationStatusAndHalls = async (
+    location_id: number,
+    allHalls: Hall[]
+  ) => {
     return new Promise<{
       hallsStatus: ("Ready" | "Busy" | "Unavailable" | undefined)[];
       locationStatus: string;
@@ -102,40 +133,13 @@ const MapScreen = ({ navigation }: Props) => {
   );
   useEffect(() => {
     dispatch(fetchAllLocations());
+
     userLocation({ setMapRegion });
   }, []);
 
   return (
     <Layout>
       <View className="relative">
-        <MapView style={styles.map} region={mapRegion}>
-          <Marker coordinate={mapRegion} title="Current Location" />
-          {locations.length ? (
-            <>
-              {locations?.map(async (location) => {
-                const status = await getLocationStatusAndHalls(
-                  location.location_id
-                );
-
-                return (
-                  <Marker
-                    key={location.location_id}
-                    coordinate={{
-                      latitude: location.latitude,
-                      longitude: location.longitude,
-                    }}
-                    title={location.address}
-                    onPress={() => setSelectedLocation(location)}
-                  >
-                    <MapIcon fillColor={status.colorClass} />
-                  </Marker>
-                );
-              })}
-            </>
-          ) : (
-            <></>
-          )}
-        </MapView>
         {selectedLocation && (
           <LocationCard
             location={selectedLocation}
@@ -144,6 +148,28 @@ const MapScreen = ({ navigation }: Props) => {
             navigation={navigation}
           />
         )}
+        <MapView style={styles.map} region={mapRegion}>
+          <Marker coordinate={mapRegion} title="Current Location" />
+          {markerData.map((marker) => {
+            return (
+              <Marker
+                key={marker.location.location_id}
+                coordinate={{
+                  latitude: marker.location.latitude
+                    ? Number(marker.location.latitude)
+                    : 0,
+                  longitude: marker.location.longitude
+                    ? Number(marker.location.longitude)
+                    : 0,
+                }}
+                title={marker.location.address}
+                onPress={() => setSelectedLocation(marker.location)}
+              >
+                <MapIcon fillColor={marker.colorClass} />
+              </Marker>
+            );
+          })}
+        </MapView>
       </View>
     </Layout>
   );
