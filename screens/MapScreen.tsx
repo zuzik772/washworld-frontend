@@ -18,7 +18,6 @@ import {
   getColorStatus,
   statusColorMap,
 } from "../utils/colorStatus";
-import axios from "axios";
 import fetchStatuses from "../statuses/statuses.queries";
 import fetchHalls from "../halls/halls.queries";
 

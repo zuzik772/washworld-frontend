@@ -1,8 +1,6 @@
 import React from "react";
 import { Button, ButtonText, Text, View } from "@gluestack-ui/themed";
 import { Location } from "../types/Location";
-import { AppDispatch, RootState } from "../store/store";
-import { useDispatch, useSelector } from "react-redux";
 import { useGetHalls } from "../halls/halls.hooks";
 import { useGetStatuses } from "../statuses/statuses.hooks";
 import {
@@ -28,10 +26,6 @@ type NavigationProps = {
 
 const FavouriteLocationCard = ({ location }: Props) => {
   const navigation = useNavigation<NavigationProps>();
-
-  const favoriteLocations = useSelector(
-    (state: RootState) => state.user.favoriteLocations
-  );
 
   const { data: halls } = useGetHalls(location?.location_id);
   const { data: statuses } = useGetStatuses();
