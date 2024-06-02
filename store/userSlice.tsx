@@ -5,7 +5,7 @@ import { SignUpDto } from "../dto/signupDto";
 import { SignInDto } from "../dto/signinDto";
 import * as SecureStore from "expo-secure-store";
 import { Location } from "../types/Location";
-
+import getUserFromSecureStorage from "../utils/getUserFromSecureStorage";
 const baseUrl = process.env.baseURL;
 
 export interface UserState {
@@ -43,20 +43,15 @@ export const signIn = createAsyncThunk(
     try {
       const response = await axios.post(`${baseUrl}/auth/login`, signInDto);
       await SecureStore.setItemAsync("user", JSON.stringify(response.data));
-      const loadedUser = await SecureStore.getItemAsync("user");
-      const parsedUser = loadedUser ? JSON.parse(loadedUser) : null;
-      return parsedUser;
+      return getUserFromSecureStorage();
     } catch (error: any) {
-      console.log("signin thunk error message", error.message);
-      console.log("signin thunk error res data", error.response.data);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
 
 export const loadUser = createAsyncThunk("user/loadUser", async () => {
-  const user = await SecureStore.getItemAsync("user");
-  return user ? JSON.parse(user) : null;
+  return getUserFromSecureStorage();
 });
 
 export const logout = createAsyncThunk("user/logout", async (_, thunkAPI) => {
@@ -160,12 +155,12 @@ export const userSlice = createSlice({
         state.token = action.payload;
         state.isSignedIn = true;
       }),
-      // builder.addCase(loadUser.rejected, (state) => {
-      //   state.user = null;
-      //   state.favoriteLocations = null;
-      //   state.token = "";
-      //   state.isSignedIn = false;
-      // }),
+      builder.addCase(loadUser.rejected, (state) => {
+        state.user = null;
+        state.favoriteLocations = null;
+        state.token = "";
+        state.isSignedIn = false;
+      }),
       builder.addCase(logout.fulfilled, (state) => {
         state.user = null;
         state.favoriteLocations = null;
@@ -179,16 +174,16 @@ export const userSlice = createSlice({
       state.favoriteLocations = null;
     });
     builder.addCase(addFavoriteLocation.fulfilled, (state, action) => {
-      console.log("addFavoriteLocation action.payload", action.payload);
+      state.favoriteLocations = action.payload;
     });
     builder.addCase(addFavoriteLocation.rejected, (state, action) => {
-      console.log("addFavoriteLocation error", action.payload);
+      state.favoriteLocations = null;
     });
     builder.addCase(removeFavoriteLocation.fulfilled, (state, action) => {
-      console.log("removeFavoriteLocation action.payload", action.payload);
+      state.favoriteLocations = action.payload;
     });
     builder.addCase(removeFavoriteLocation.rejected, (state, action) => {
-      console.log("removeFavoriteLocation error", action.payload);
+      state.favoriteLocations = null;
     });
   },
 });
