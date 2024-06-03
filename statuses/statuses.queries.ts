@@ -1,5 +1,6 @@
 import { Status } from "../types/Location";
 import axios from "axios";
+import getUserFromSecureStorage from "../utils/getUserFromSecureStorage";
 
 const fetchStatuses = async (): Promise<Status[]> => {
   const baseUrl = process.env.baseURL;
@@ -18,9 +19,18 @@ export const updateHallStatus = async (
 ) => {
   const baseUrl = process.env.baseURL;
   try {
+    const parsedUser = await getUserFromSecureStorage();
+    const token = parsedUser.access_token;
+    const role = parsedUser.role;
     const response = await axios.put(
       `${baseUrl}/statuses/${hall_id}`,
-      newStatusID
+      newStatusID,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          Role: role,
+        },
+      }
     );
     return response.data;
   } catch (error) {
