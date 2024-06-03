@@ -1,10 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { Location } from "../types/Location";
 import axios from "axios";
-import { loadUser } from "./userSlice";
-import { useDispatch } from "react-redux";
-import { AppDispatch } from "./store";
-import * as SecureStore from "expo-secure-store";
 import getUserFromSecureStorage from "../utils/getUserFromSecureStorage";
 
 export interface LocationState {

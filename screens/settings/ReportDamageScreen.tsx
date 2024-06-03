@@ -5,7 +5,6 @@ import {
   Pressable,
   ScrollView,
   FormControl,
-  ButtonGroup,
   Image,
 } from "@gluestack-ui/themed";
 import { CameraView, useCameraPermissions } from "expo-camera";
@@ -13,7 +12,6 @@ import { useEffect, useState } from "react";
 import Layout from "../../components/Layout";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import CustomInput from "../../components/inputs/CustomInput";
-import CustomInputWithIcon from "../../components/inputs/CustomInputWithIcon";
 import NavButton from "../../components/NavButton";
 
 const ReportDamageScreen = () => {

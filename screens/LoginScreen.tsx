@@ -63,7 +63,7 @@ const LoginScreen = ({ navigation }: Props) => {
 
   useEffect(() => {
     dispatch(loadUser());
-  }, [dispatch]);
+  }, []);
 
   return (
     <Layout>
