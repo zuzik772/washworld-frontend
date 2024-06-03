@@ -21,14 +21,12 @@ export const updateHallStatus = async (
   try {
     const parsedUser = await getUserFromSecureStorage();
     const token = parsedUser.access_token;
-    const role = parsedUser.role;
     const response = await axios.put(
       `${baseUrl}/statuses/${hall_id}`,
       newStatusID,
       {
         headers: {
           Authorization: `Bearer ${token}`,
-          Role: role,
         },
       }
     );
