@@ -12,4 +12,20 @@ const fetchStatuses = async (): Promise<Status[]> => {
   }
 };
 
+export const updateHallStatus = async (
+  hall_id: number,
+  newStatusID: Partial<Status>
+) => {
+  const baseUrl = process.env.baseURL;
+  try {
+    const response = await axios.put(
+      `${baseUrl}/statuses/${hall_id}`,
+      newStatusID
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error updating status", error);
+  }
+};
+
 export default fetchStatuses;
